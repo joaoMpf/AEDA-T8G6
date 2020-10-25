@@ -7,12 +7,17 @@ using namespace std;
 
 class Vehicle {
 private:
-    string LicensePlate;
+    string licensePlate;
+    int category;
 
 public:
+    Vehicle(string plate, int cat): licensePlate(plate), category(cat){}
+
+    ~Vehicle();
+
     const string &getLicensePlate() const;
 
-    void setLicensePlate(const string &licensePlate);
+    int getCategory() const;
 };
 
 

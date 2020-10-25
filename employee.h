@@ -10,17 +10,15 @@ private:
     string name;
     int ss_number;
 public:
-    const string &getName() const;
+    Employee(string n, int ss): name(n), ss_number(ss){};
 
-    void setName(const string &name);
+    ~Employee(){};
+
+    const string &getName() const;
 
     int getSsNumber() const;
 
-    void setSsNumber(int ssNumber);
-
     bool operator==(const Employee &rhs) const;
-
-    bool operator!=(const Employee &rhs) const;
 };
 
 

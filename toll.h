@@ -11,17 +11,17 @@ protected:
     vector<Lane> lanes;
 
 public:
-    const string &getName() const;
+    Toll(string n, string loc, vector<Lane> l):
+        name(n), location(loc), lanes(l){}
 
-    void setName(const string &name);
+    ~Toll(){};
+
+    const string &getName() const;
 
     const string &getLocation() const;
 
-    void setLocation(const string &location);
-
     const vector<Lane> &getLanes() const;
 
-    void setLanes(const vector<Lane> &lanes);
 };
 
 class In : public Toll {
