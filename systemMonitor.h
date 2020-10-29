@@ -5,15 +5,25 @@
 
 using namespace std;
 
-//Main class com Menu
+//Main class
 class SystemMonitor {
 private:
     vector<Toll *> tolls;
 
-public:
+    vector<Vehicle *> vehicles;
+
+
+
     const vector<Toll *> &getTolls() const;
 
     void setTolls(const vector<Toll *> &tolls);
+public:
+
+    void save();
+
+    void showTollsNumbered();
+
+    void showToll(int toll);
 };
 
 
