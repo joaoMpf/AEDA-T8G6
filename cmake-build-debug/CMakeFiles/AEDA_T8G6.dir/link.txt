@@ -1,1 +1,7 @@
+<<<<<<< HEAD
 /usr/bin/c++  -g   CMakeFiles/AEDA_T8G6.dir/main.cpp.o CMakeFiles/AEDA_T8G6.dir/toll.cpp.o CMakeFiles/AEDA_T8G6.dir/lane.cpp.o CMakeFiles/AEDA_T8G6.dir/employee.cpp.o CMakeFiles/AEDA_T8G6.dir/vehicle.cpp.o CMakeFiles/AEDA_T8G6.dir/systemMonitor.cpp.o CMakeFiles/AEDA_T8G6.dir/menu.cpp.o  -o AEDA_T8G6 
+=======
+"C:\Program Files\JetBrains\CLion 2020.2.3\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\AEDA_T8G6.dir/objects.a
+C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\ar.exe cr CMakeFiles\AEDA_T8G6.dir/objects.a @CMakeFiles\AEDA_T8G6.dir\objects1.rsp
+C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE -g   -Wl,--whole-archive CMakeFiles\AEDA_T8G6.dir/objects.a -Wl,--no-whole-archive  -o AEDA_T8G6.exe -Wl,--out-implib,libAEDA_T8G6.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\AEDA_T8G6.dir\linklibs.rsp
+>>>>>>> 5402e6b92627adadeece969f9a1451d964588d26

@@ -1,11 +1,11 @@
 #include "vehicle.h"
 
 const string &Vehicle::getLicensePlate() const {
-    return LicensePlate;
+    return licensePlate;
 }
 
-void Vehicle::setLicensePlate(const string &licensePlate) {
-    LicensePlate = licensePlate;
+int Vehicle::getCategory() const {
+    return category;
 }
 
 vehicleClass Vehicle::getVClass() const {
