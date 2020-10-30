@@ -17,10 +17,11 @@ void Vehicle::setVClass(vehicleClass vClass) {
 }
 
 bool Vehicle::operator==(const Vehicle &rhs) const {
-    return LicensePlate == rhs.LicensePlate &&
+    return licensePlate == rhs.licensePlate &&
            vClass == rhs.vClass;
 }
 
 bool Vehicle::operator!=(const Vehicle &rhs) const {
     return !(rhs == *this);
 }
+

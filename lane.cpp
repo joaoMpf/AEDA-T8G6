@@ -4,9 +4,9 @@ int Lane::getNumCrossings() const {
     return numCrossings;
 }
 
-void Lane::setNumCrossings(int numCrossings) {
+/*void Lane::setNumCrossings(int numCrossings) {
     this->numCrossings = numCrossings;
-}
+}*/
 
 void Lane::addCrossing() {
     this->numCrossings++;

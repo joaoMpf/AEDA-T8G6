@@ -1,5 +1,12 @@
+#include <stdio.h>
+#ifdef _WIN32
+inline int getchar_unlocked() { return _getchar_nolock(); }
+#endif
 #include "menu.h"
 #include <conio.h>
+#include <stdexcept>
+
+
 
 menu::menu() {
     this->systemMonitor = new SystemMonitor;
@@ -15,15 +22,16 @@ void menu::mainMenu() {
     int c;
 
     while (!end) {
+
         cout << "\nMAIN MENU\n"
              << "\nPlease enter number:\n"
-             << "1 - monitor tolls\n"
-             << "2 - pass vehicles through tolls\n"
-             << "3 - info vehicles\n"
-             << "4 - info employees\n"
-             << "0 - save and quit\n";
+             << "1 - Monitor tolls\n"
+             << "2 - Pass vehicles through tolls\n"
+             << "3 - Info vehicles\n"
+             << "4 - Info employees\n"
+             << "0 - Save and quit\n";
 
-        c = getchar_unlocked();
+        c=getchar_unlocked();
 
         switch (c) {
             case monitor_tolls:
@@ -51,13 +59,15 @@ void menu::monitorTolls() {
     bool end = false;
     int c;
 
-    cout << "\nTOLL MENU\n"
-         << "\nPlease enter number:\n"
-         << "\n1 - choose toll\n"
-         << "\n0 - back to main menu\n";
 
     while (!end) {
-        c = getc(stdin);
+
+        c=getchar_unlocked();
+        cout << "\nTOLL MENU\n"
+             << "\nPlease enter number:\n"
+             << "\n1 - Choose toll\n"
+             << "\n0 - Back to main menu\n";
+
         switch (c) {
             case choose_toll_monitor:
                 chooseTollMonitor();
@@ -67,6 +77,7 @@ void menu::monitorTolls() {
                 break;
             default:
                 cout << "\nPlease enter another number\n";
+
         }
     }
 }
@@ -75,6 +86,7 @@ void menu::chooseTollMonitor() {
     bool end = false;
     int c;
 
+
     systemMonitor->showTollsNumbered();
 
     cout << "\nTOLL MENU\n"
@@ -82,14 +94,28 @@ void menu::chooseTollMonitor() {
          << "\n0 - back to main menu\n";
 
     while (!end) {
-        c = getc(stdin);
-        switch (c) {
-            case quit:
-                end = true;
-                break;
-            default:
-                systemMonitor->showToll(c);
-                cout << "\nPlease enter another number\n";
+        cin>>c;
+        if (c==0){
+            end = true;
+            break;
         }
+        else if ((c-1)>=0&&c-1<(systemMonitor->getTolls().size())) {
+            systemMonitor->showToll(c - 1);
+            cout << "\nPlease enter another number\n";
+        }
+        else{
+            cout<<"\nEnter a valid input\n";
+        }
+        cin.clear();
+        cin.ignore(10000, '\n');
+
     }
+}
+
+void menu::passTolls() {
+/*    string licenseP;
+    cout<<"Enter the vehicle's license plate: ";
+    cin>>licenseP;
+
+*/
 }

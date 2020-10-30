@@ -10,15 +10,18 @@ using namespace std;
 class Lane {
 protected:
     int numCrossings;
-
     void setNumCrossings(int numCrossings);
 
 public:
+    Lane(){}
+
     int getNumCrossings() const;
 
     void addCrossing();
 };
+class Exit: public Lane{
 
+};
 class ViaVerde : public Lane {
 
 };

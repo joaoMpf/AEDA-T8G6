@@ -11,3 +11,7 @@ const string &Toll::getLocation() const {
 const vector<Lane> &Toll::getLanes() const {
     return lanes;
 }
+
+const string &Toll::getType() const {
+    return type1;
+}
