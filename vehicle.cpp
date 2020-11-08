@@ -8,17 +8,10 @@ int Vehicle::getCategory() const {
     return category;
 }
 
-vehicleClass Vehicle::getVClass() const {
-    return vClass;
-}
-
-void Vehicle::setVClass(vehicleClass vClass) {
-    Vehicle::vClass = vClass;
-}
 
 bool Vehicle::operator==(const Vehicle &rhs) const {
     return licensePlate == rhs.licensePlate &&
-           vClass == rhs.vClass;
+           category == rhs.category;
 }
 
 bool Vehicle::operator!=(const Vehicle &rhs) const {

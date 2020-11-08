@@ -27,7 +27,7 @@ void menu::mainMenu() {
              << "\nPlease enter number:\n"
              << "1 - Monitor tolls\n"
              << "2 - Pass vehicles through tolls\n"
-             << "3 - Info vehicles\n"
+             << "3 - Info clients\n"
              << "4 - Info employees\n"
              << "0 - Save and quit\n";
 
@@ -112,10 +112,32 @@ void menu::chooseTollMonitor() {
     }
 }
 
-void menu::passTolls() {
-/*    string licenseP;
-    cout<<"Enter the vehicle's license plate: ";
-    cin>>licenseP;
+//FALTA DAR OPÇAO DE MUDAR O FUNCIONARIO DE CADA PORTAGEM
 
-*/
+void menu::passTolls() {
+    bool end = false;
+    int c;
+    systemMonitor->showTollsNumbered();
+    cout << "\nTOLL MENU\n"
+         << "\nPlease enter number of a toll:\n"
+         << "\n0 - back to main menu\n";
+    while (!end) {
+        cin>>c;
+        if (c==0){
+            end = true;
+            break;
+        }
+        else if ((c-1)>=0&&c-1<(systemMonitor->getTolls().size())) {
+            systemMonitor->TollMonitor(c-1); // c-1 é o indice da toll no vetor tolls
+            cout << "\nPlease enter another number\n";
+        }
+        else{
+            cout<<"\nEnter a valid input\n";
+        }
+        cin.clear();
+        cin.ignore(10000, '\n');
+
+    }
+
+
 }

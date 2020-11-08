@@ -12,6 +12,16 @@ const vector<Lane> &Toll::getLanes() const {
     return lanes;
 }
 
-const string &Toll::getType() const {
-    return type1;
+const bool &Toll::getType() const {
+    return type;
+}
+
+void Toll::enterToll(string basicString) {
+    //falta sugerir para que lane vai
+
+}
+
+void Toll::exitToll(string basicString) {
+    //falta sugerir para que lane vai
+
 }

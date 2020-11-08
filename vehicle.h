@@ -5,18 +5,16 @@
 
 using namespace std;
 
-enum vehicleClass {
-    classe1 = 1, classe2 = 2, classe3 = 3, classe4 = 4, classe5 = 5
-};
 
 class Vehicle {
 private:
-    vehicleClass vClass;
     string licensePlate;
     int category;
+    bool viaVerde;
+
 
 public:
-    Vehicle(string plate, int cat): licensePlate(plate), category(cat){
+    Vehicle(string plate, int cat,bool via): licensePlate(plate), category(cat),viaVerde(via){
     }
 
     ~Vehicle(){}
@@ -27,9 +25,6 @@ public:
 
     void setLicensePlate(const string &licensePlate);
 
-    vehicleClass getVClass() const;
-
-    void setVClass(vehicleClass vClass);
 
     bool operator==(const Vehicle &rhs) const;
 

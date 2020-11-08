@@ -9,14 +9,13 @@ class Toll {
 protected:
     string name, location;
     vector<Lane> lanes;
-    bool exit; //SE FOR TRUE É SAIDA SENAO entrada
-    string type1;
+    bool type; //SE FOR TRUE É SAIDA SENAO entrada
+
 
 public:
-    Toll(string n, string loc,bool type, vector<Lane> l):
-        name(n), location(loc),exit(type), lanes(l){
-        if (exit) {type1="Exit";}
-        else type1="Entry";
+    Toll(string n, string loc,bool type1, vector<Lane> l):
+        name(n), location(loc),type(type1), lanes(l){
+
     }
 
     ~Toll(){};
@@ -27,8 +26,11 @@ public:
 
     const vector<Lane> &getLanes() const;
 
-    const string &getType() const;
+    const bool &getType() const;
 
+    void exitToll(string basicString);
+
+    void enterToll(string basicString);
 };
 
 

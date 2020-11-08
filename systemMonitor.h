@@ -15,9 +15,17 @@ private:
     vector<Toll *> tolls;
     vector<Employee *> employees;
     vector<Client *> clients;
-    vector<Vehicle *> vehicles;
+    vector<Vehicle *> vehiclesCirculating;
 
 public:
+    friend void Toll::enterToll(string basicString);
+
+    friend void Toll::exitToll(string basicString);
+
+    void addVehicle(string licensePlate);
+
+    void removeVehicle(string licensePlate);
+
     void setTolls(const vector<Toll *> &tolls);
 
     int findVehicle(string licensePlate);
@@ -68,6 +76,8 @@ public:
     int findClient(const Client* &client);
 
     void sortClients();
+
+    void TollMonitor(int TollNumber);
 
 };
 
