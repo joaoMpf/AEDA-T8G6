@@ -1,61 +1,39 @@
 #ifndef AEDA_T8G6_SYSTEMMONITOR_H
 #define AEDA_T8G6_SYSTEMMONITOR_H
 
+#include "highway.h"
 #include "toll.h"
 #include "client.h"
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 //Main class
 class SystemMonitor {
 private:
-    vector<Toll *> tolls;
+    vector<Highway* > highways;
     vector<Employee *> employees;
     vector<Client *> clients;
-    vector<Vehicle *> vehiclesCirculating;
+    vector<Vehicle *> vehicles;
 
 public:
-    friend void Toll::enterToll(string basicString);
-
-    friend void Toll::exitToll(string basicString);
-
-    void addVehicle(string licensePlate);
-
-    void removeVehicle(string licensePlate);
-
-    void setTolls(const vector<Toll *> &tolls);
-
     int findVehicle(string licensePlate);
 
-    void load();
+    //void load();
 
     void save();
 
-    void showTollsNumbered();
-
-    void showToll(int toll);
-
     SystemMonitor(){
-        load();
+        //load();
     };
-
 
     ~SystemMonitor(){
 
     };
 
-    const vector<Toll *> &getTolls() const;
-
-    bool addToll(const Toll* &toll);
-
-    bool removeToll(const Toll* &toll); //Definir operator == em Toll
-
-    int findToll(const Toll* &toll);
-
-    void sortTolls();
 
     const vector<Employee *> &getEmployees() const;
 
@@ -77,8 +55,19 @@ public:
 
     void sortClients();
 
-    void TollMonitor(int TollNumber);
+    void startTrip(Vehicle* vehicle, Toll* toll, Time* time);
 
+    void endTrip(Vehicle* vehicle, Toll* toll, Time* time);
+
+    void printHighwaysNumbered();
+
+    Highway* getHighwayAt(int i);
+
+    Vehicle* getVehicle(string licensePlate);
+
+    void addVehicle(Vehicle* vehicle);
+
+    void addHighway(Highway* highway);
 };
 
 

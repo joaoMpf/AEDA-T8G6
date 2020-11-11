@@ -12,7 +12,15 @@ private:
 
     void mainMenu();
 
-    void monitorTolls();
+    void monitorEmployee();
+
+    void operateToll();
+
+    void operateEntryToll();
+
+    void operateExitToll();
+
+/*    void monitorTolls();
 
     void chooseTollMonitor();
 
@@ -20,14 +28,21 @@ private:
 
     void infoVehicles();
 
-    void infoEmployees();
+    void infoEmployees();*/
 
 public:
     menu();
 };
 
 enum main_menu {
-    quit= '0', monitor_tolls, pass_tolls, info_vehicles, info_employees
+    quit= '0', employee, manager
+};
+enum employee_menu {
+    back= '0', operate
+};
+
+enum operate_toll {
+    entry_toll = '1', exit_toll
 };
 
 enum monitor_tolls_menu {

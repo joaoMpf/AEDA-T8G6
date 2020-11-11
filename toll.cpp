@@ -8,20 +8,15 @@ const string &Toll::getLocation() const {
     return location;
 }
 
-const vector<Lane> &Toll::getLanes() const {
+const vector<Lane*> &Toll::getLanes() const {
     return lanes;
 }
 
-const bool &Toll::getType() const {
-    return type;
+const string &Toll::getType() const {
+    return type1;
 }
 
-void Toll::enterToll(string basicString) {
-    //falta sugerir para que lane vai
-
+int Toll::getCode() const {
+    return code;
 }
 
-void Toll::exitToll(string basicString) {
-    //falta sugerir para que lane vai
-
-}

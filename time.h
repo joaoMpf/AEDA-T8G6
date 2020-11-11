@@ -6,12 +6,17 @@ class Time {
 private:
     int hour, minute, second;
 public:
+    Time(int h, int m, int s): hour(h), minute(m), second(s){};
+
     int getHour() const;
 
     int getMinute() const;
 
     int getSecond() const;
 
+    void setTime(int h, int m, int s);
+
+    Time& operator=(const Time &rhs);
 };
 
 

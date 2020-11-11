@@ -1,26 +1,6 @@
 #include "systemMonitor.h"
 
 
-const vector<Toll *> &SystemMonitor::getTolls() const {
-    return tolls;
-}
-
-bool SystemMonitor::addToll(const Toll *&toll) {
-    return false;
-}
-
-bool SystemMonitor::removeToll(const Toll *&toll) {
-    return false;
-}
-
-int SystemMonitor::findToll(const Toll *&toll) {
-    return 0;
-}
-
-void SystemMonitor::sortTolls() {
-
-}
-
 const vector<Employee *> &SystemMonitor::getEmployees() const {
     return employees;
 }
@@ -65,14 +45,15 @@ void SystemMonitor::save() {
 
 }
 
-void SystemMonitor::showTollsNumbered() {
+/*void SystemMonitor::showTollsNumbered() {
     for (int i=0;i<tolls.size();i++){
         cout<<i+1<<") "<<tolls[i]->getName()<<" - "
         <<tolls[i]->getLocation()<<" - "<<
         tolls[i]->getType()<<endl;
     }
-}
+}*/
 
+/*
 void SystemMonitor::showToll(int toll) {
 
     cout << "Name: " << tolls[toll]->getName() << endl
@@ -82,7 +63,8 @@ void SystemMonitor::showToll(int toll) {
 
 }
 
-
+*/
+/*
 void SystemMonitor::load() { //provavelmente vai ter de ser
     //alterado mas já fica estruturado
 
@@ -92,19 +74,17 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
     //matricula2 categoria
     //...
     //matriculax categoria
-    //load vehiclesCirculating into vector
-    ifstream vehiclefs("vehiclesCirculating.txt");
+    //load vehicles into vector
+    ifstream vehiclefs("vehicles.txt");
     string licensePlate;
     int category;
 
     if (vehiclefs.is_open()) {
         while (!vehiclefs.eof()) {
             vehiclefs >> licensePlate >> category;
-            vehiclesCirculating.push_back(new Vehicle(licensePlate, category));
+            vehicles.push_back(new Vehicle(licensePlate, category));
         }
-        vehiclefs.close();
-    } else throw invalid_argument("Not able to open vehiclesCirculating file");
-
+    } else throw invalid_argument("Not able to open vehicles file");
     //load employees into vector
     //exemplo ficheiro empregado:
     //nome1 numeroDeSS
@@ -119,7 +99,6 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
             employeesfs >> eName >> ssNumber;
             employees.push_back(new Employee(eName, ssNumber));
         }
-        employeesfs.close();
     } else throw invalid_argument("Not able to open employees file");
     //load tolls into vector
     //exemplo ficheiro portagens:
@@ -134,57 +113,85 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
 
     if (tollfs.is_open()) {
         while (!tollfs.eof()) {
-            vector<Lane> lanes;
+            vector<Lane*> lanes;
             tollfs >> name >> location >> type >> numLanes;
             for (int i = 0; i < numLanes; i++) {
                 Lane e;
-                lanes.push_back(e);
+                lanes.push_back(&e);
             }
             tolls.push_back(new Toll(name, location, type, lanes));
-
         }
-        tollfs.close();
     } else throw invalid_argument("Not able to open tolls file");
 }
 
 int SystemMonitor::findVehicle(string licensePlate) {
-    for (int i=0; i < vehiclesCirculating.size(); i++){
-        if(vehiclesCirculating[i]->getLicensePlate() == licensePlate){
+    for (int i=0;i<vehicles.size();i++){
+        if(vehicles[i]->getLicensePlate()==licensePlate){
             return i;
         }
     }
     return -1;
+}*/
+/*
+
+void SystemMonitor::load() {
+    ifstream vehiclefs("vehicles.txt");
+    string licensePlate;
+    int category;
+
+    if (vehiclefs.is_open()) {
+        while (!vehiclefs.eof()) {
+            vehiclefs >> licensePlate >> category;
+            vehicles.push_back(new Vehicle(licensePlate, category));
+        }
+        vehiclefs.close();
+    }
+
+    ifstream highwaysfs("highways.txt");
+
+
+
+
 }
+*/
 
 const vector<Client *> &SystemMonitor::getClients() const {
     return clients;
 }
 
-void SystemMonitor::TollMonitor(int TollNumber) {
-    string licensePlate;
+void SystemMonitor::startTrip(Vehicle *vehicle, Toll *toll, Time* time) {
+    vehicle->startTrip(toll, time);
+}
 
-    while(1){
-        cout << "\nTOLL MENU\n"
-             << "\nEnter vehicle's license plate:\n"
-             << "\n0 - back to main menu\n";
-        cin>>licensePlate;
-        if(licensePlate=="0"){
-            return;
-        }
+void SystemMonitor::endTrip(Vehicle *vehicle, Toll *toll, Time* time) {
+    vehicle->endTrip(toll, time);
+}
 
-        if (tolls[TollNumber]->getType()==true){//Saida
-
-            tolls[TollNumber]->exitToll(licensePlate);
-            removeVehicle(licensePlate);
-        }
-        else{
-
-            tolls[TollNumber]->enterToll(licensePlate);
-            addVehicle(licensePlate);
-        }
+void SystemMonitor::printHighwaysNumbered() {
+    vector<Highway*>::const_iterator it; int i = 1;
+    for(it = highways.begin(); it!= highways.end(); it++){
+        cout << i << ": " << (*it)->getName() << endl;
+        i++;
     }
 }
 
-void SystemMonitor::addVehicle() {
+Highway * SystemMonitor::getHighwayAt(int i) {
+    return highways[i];
+}
 
+Vehicle * SystemMonitor::getVehicle(string licensePlate) {
+    vector<Vehicle*>::const_iterator it;
+    for(it = vehicles.begin(); it!= vehicles.end(); it++){
+        if((*it)->getLicensePlate() == licensePlate)
+            return *it;
+    }
+    return NULL;
+}
+
+void SystemMonitor::addVehicle(Vehicle * vehicle) {
+    vehicles.push_back(vehicle);
+}
+
+void SystemMonitor::addHighway(Highway * highway) {
+    highways.push_back(highway);
 }
