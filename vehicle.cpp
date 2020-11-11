@@ -26,17 +26,36 @@ bool Vehicle::operator!=(const Vehicle &rhs) const {
 }
 
 void Vehicle::startTrip(Toll* toll, Time *time) {
+    if(trips.size()>0&&trips[trips.size()-1]->isFinished()==false){
+        cout<<"VEHICLE IS ALREADY IN A TRIP. "
+              <<"VEHICLE MUST PASS THROUGH AN EXIT TOLL "
+              <<"BEFORE ENTERING AGAIN\n";
+        return;
+    }
     trips.push_back(new Trip(toll, time));
+
 }
 
 void Vehicle::endTrip(Toll *toll, Time *time) {
-    trips[trips.size()]->setEnd(toll);
-    trips[trips.size()]->setEndTime(time);
+    if(trips.size()==0||(trips.size()>0&&trips[trips.size()-1]->isFinished())) {
+        cout<<"VEHICLE NEVER ENTERED OR ALREADY EXITED.\n";
+        return;
+    }
+    trips[trips.size()-1]->setEnd(toll);
+    trips[trips.size()-1]->setEndTime(time);
 }
 
 void Vehicle::printTrips() {
     vector<Trip*>::const_iterator it;
     for(it=trips.begin(); it!=trips.end(); it++){
-        cout << "Trip Info:\n" << "Started at:" << (*it)->getBegin()->getName();
+        cout << "Trip Info:\n"
+        << "Started at: " <<
+        (*it)->getBeginTime()->getHour()<<":"<<
+        (*it)->getBeginTime()->getMinute()<<":"
+        <<(*it)->getBeginTime()->getSecond()<<endl
+        <<"Ended at: "<<
+        (*it)->getEndTime()->getHour()<<":"<<
+        (*it)->getEndTime()->getMinute()<<":"
+        <<(*it)->getEndTime()->getSecond()<<endl;
     }
 }

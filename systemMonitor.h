@@ -68,6 +68,10 @@ public:
     void addVehicle(Vehicle* vehicle);
 
     void addHighway(Highway* highway);
+
+    string licensePlateInput();
+
+    Vehicle * firstTimeClient(string licensePlate);
 };
 
 

@@ -43,7 +43,7 @@ void menu::mainMenu() {
                 monitorEmployee();
                 break;
             case manager:
-//                passTolls();
+                monitorManager();
                 break;
             case quit:
                 end = true;
@@ -119,20 +119,69 @@ void menu::operateEntryToll(){
     string licensePlate; Vehicle* vehicle;
 
     while(1){
-        cout << "\nENTER LICENSE PLATE\n(OR 0 TO EXIT)\n";
-        cin >> licensePlate;
-        if (licensePlate == "0")
-            break;
+        licensePlate=systemMonitor->licensePlateInput(); //controla o input
+        if (licensePlate=="0") break;
         vehicle = systemMonitor->getVehicle(licensePlate);
-        systemMonitor->startTrip(vehicle, toll, new Time(0,0,0));
+        systemMonitor->startTrip(vehicle, toll, new Time);
         vehicle->printTrips();
     }
 }
 
 void menu::operateExitToll() {
+    systemMonitor->printHighwaysNumbered();
+    cout << "CHOOSE HIGHWAY\n"; int highwayNum;
+    cin >> highwayNum; cin.ignore(1000, '\n'); cin.clear();
+    Highway* highway = systemMonitor->getHighwayAt(highwayNum - 1);
+
+    highway->printTollsNumbered();
+    cout << "CHOOSE TOLL\n"; int tollNum;
+    cin >> tollNum; cin.ignore(1000, '\n'); cin.clear();
+    Toll* toll = highway->getTollAt(tollNum - 1 );
+
+    string licensePlate; Vehicle* vehicle;
+
+    while(1) {
+        licensePlate=systemMonitor->licensePlateInput(); //controla o input
+        if (licensePlate=="0") break;
+        vehicle = systemMonitor->getVehicle(licensePlate);
+        systemMonitor->endTrip(vehicle,toll,new Time);
+        vehicle->printTrips();
+    }
     return;
 }
 
+void menu::monitorManager(){
+    bool end = false;
+    int c;
+
+    while (!end) {
+        cout << "\nMANAGER MENU\n"
+             << "\nPlease enter number:\n"
+             << "1 - MANAGE HIGHWAYS\n"
+             << "2 - MANAGE EMPLOYEES\n"
+             << "3 - MANAGE CLIENTS\n"
+             << "0 - GO BACK\n";
+
+        c=getchar_unlocked();
+
+        switch (c) {
+            case 1:
+                //manageHighways();
+                break;
+            case 2:
+                //manageEmployees()
+                break;
+            case 3:
+                //manageClients()
+                break;
+            case back:
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
+
+}
 /*
 
 void menu::monitorTolls() {

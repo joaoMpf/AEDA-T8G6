@@ -14,6 +14,8 @@ private:
 
     void monitorEmployee();
 
+    void monitorManager();
+
     void operateToll();
 
     void operateEntryToll();
@@ -32,6 +34,7 @@ private:
 
 public:
     menu();
+
 };
 
 enum main_menu {

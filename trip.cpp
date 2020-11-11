@@ -6,6 +6,7 @@
 
 void Trip::setEnd(Toll *toll) {
     end = toll;
+    finished=true;
 }
 
 void Trip::setEndTime(Time *time) {
@@ -14,4 +15,20 @@ void Trip::setEndTime(Time *time) {
 
 Toll *Trip::getBegin() const {
     return begin;
+}
+
+Time *Trip::getBeginTime() const{
+    return beginTime;
+}
+
+Toll *Trip::getEnd() const {
+    return end;
+}
+
+bool Trip::isFinished() {
+    return finished;
+}
+
+Time *Trip::getEndTime() const {
+    return endTime;
 }

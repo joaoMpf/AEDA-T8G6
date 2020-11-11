@@ -17,15 +17,25 @@ private:
     Toll* end;
     Time* beginTime;
     Time* endTime;
+    bool finished=false;
 public:
     Trip(Toll* beg, Time* begTime): begin(beg), beginTime(begTime),
     endTime(new Time(0,0,0)), end(NULL){}
 
     void setEnd(Toll* toll);
 
+    bool isFinished();
+
     void setEndTime(Time* time);
 
     Toll *getBegin() const;
+
+    Toll *getEnd() const;
+
+    Time *getBeginTime() const;
+
+    Time *getEndTime() const;
+
 };
 
 

@@ -161,6 +161,7 @@ const vector<Client *> &SystemMonitor::getClients() const {
 
 void SystemMonitor::startTrip(Vehicle *vehicle, Toll *toll, Time* time) {
     vehicle->startTrip(toll, time);
+
 }
 
 void SystemMonitor::endTrip(Vehicle *vehicle, Toll *toll, Time* time) {
@@ -179,13 +180,54 @@ Highway * SystemMonitor::getHighwayAt(int i) {
     return highways[i];
 }
 
+string SystemMonitor::licensePlateInput(){
+    string licensePlate;
+    cout << "\nENTER LICENSE PLATE "
+            "(LICENSE PLATE FORMAT SHOULD BE XX-XX-XX)"
+            "\n(OR 0 TO EXIT)\n";
+    while(1) {
+
+        cin >> licensePlate;
+        for (int i=0;i<licensePlate.size();i++) licensePlate[i]=toupper(licensePlate[i]);
+        if (licensePlate=="0") return "0";
+        if (licensePlate.length()==8&&licensePlate[2]=='-'&&licensePlate[5]=='-'){
+            break;
+        }
+        cin.ignore(1000, '\n'); cin.clear();
+        cout<<"ENTER A VALID LICENSE PLACE\n(LICENSE PLATE FORMAT SHOULD BE XX-XX-XX)\n";
+    }
+    return licensePlate;
+}
+
 Vehicle * SystemMonitor::getVehicle(string licensePlate) {
     vector<Vehicle*>::const_iterator it;
     for(it = vehicles.begin(); it!= vehicles.end(); it++){
         if((*it)->getLicensePlate() == licensePlate)
             return *it;
     }
-    return NULL;
+    return firstTimeClient(licensePlate);
+
+}
+Vehicle * SystemMonitor::firstTimeClient(string licensePlate){
+    int category;
+    cout<<"\nVEHICLE IS NOT IN THE SYSTEM. PLEASE ENTER VEHICLE CATEGORY\n";
+    while(1){
+        cin.ignore(1000, '\n'); cin.clear();
+        cin>>category;
+        if (category>0&&category<6){
+            break;
+        }
+        cout<<"\nENTER A VALID CATEGORY. CATEGORY MUST BE A NUMBER BETWEEN 1 AND 5\n";
+    }
+
+    addVehicle(new Vehicle(licensePlate,category));
+    vector<Vehicle*>::const_iterator it;
+    for(it = vehicles.begin(); it!= vehicles.end(); it++){
+        if((*it)->getLicensePlate() == licensePlate)
+            return *it;
+    }
+
+
 }
 
 void SystemMonitor::addVehicle(Vehicle * vehicle) {
