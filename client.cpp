@@ -1,13 +1,30 @@
-#include "Client.h"
+#include "client.h"
 
 const string &Client::getName() const {
     return name;
 }
 
-int Client::getId() const {
-    return id;
+int Client::getNif() const {
+    return nif;
 }
 
-const Vehicle &Client::getVehicle() const {
-    return vehicle;
+bool Client::operator==(const Client &rhs) const {
+    return nif == rhs.nif;
 }
+
+bool Client::operator!=(const Client &rhs) const {
+    return !(rhs == *this);
+}
+
+Client::Client(const string &name, int nif) : name(name), nif(nif) {}
+
+Client::Client(int nif) : nif(nif) {}
+
+const vector<Vehicle *> &Client::getVehicles() const {
+    return vehicles;
+}
+
+void Client::addVehicle(Vehicle *vehicle) {
+    vehicles.push_back(vehicle);
+}
+

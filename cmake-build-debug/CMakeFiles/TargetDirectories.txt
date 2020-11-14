@@ -1,9 +1,3 @@
-<<<<<<< HEAD
 /home/camilinha/Documents/2ano/aeda/AEDA-T8G6/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /home/camilinha/Documents/2ano/aeda/AEDA-T8G6/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/camilinha/Documents/2ano/aeda/AEDA-T8G6/cmake-build-debug/CMakeFiles/AEDA_T8G6.dir
-=======
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/cmake-build-debug/CMakeFiles/AEDA_T8G6.dir
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/cmake-build-debug/CMakeFiles/rebuild_cache.dir
->>>>>>> 5402e6b92627adadeece969f9a1451d964588d26
+/home/camilinha/Documents/2ano/aeda/AEDA-T8G6/cmake-build-debug/CMakeFiles/Portagens.dir

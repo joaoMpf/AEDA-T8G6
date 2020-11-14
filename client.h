@@ -7,15 +7,24 @@
 class Client {
 private:
     string name;
-    int id;
-    Vehicle vehicle;
+    int nif;
+    vector<Vehicle *> vehicles;
 public:
+    Client(const string &name, int nif);
+
+    Client(int nif);
+
     const string &getName() const;
 
-    int getId() const;
+    int getNif() const;
 
-    const Vehicle &getVehicle() const;
+    const vector<Vehicle *> &getVehicles() const;
 
+    bool operator==(const Client &rhs) const;
+
+    bool operator!=(const Client &rhs) const;
+
+    void addVehicle(Vehicle *vehicle);
 };
 
 

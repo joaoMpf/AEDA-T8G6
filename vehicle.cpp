@@ -59,3 +59,8 @@ void Vehicle::printTrips() {
         <<(*it)->getEndTime()->getSecond()<<endl;
     }
 }
+
+Vehicle::Vehicle(const string &licensePlate) : licensePlate(licensePlate) {}
+
+Vehicle::Vehicle(const string &licensePlate, int category, bool viaVerde) : licensePlate(licensePlate),
+                                                                            category(category), viaVerde(viaVerde) {}

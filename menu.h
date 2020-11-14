@@ -35,10 +35,14 @@ private:
 public:
     menu();
 
+    void clientManager();
+
+    void manageVehicles(Client *pClient);
+
 };
 
 enum main_menu {
-    quit= '0', employee, manager
+    quit= '0', employee, manager, client
 };
 enum employee_menu {
     back= '0', operate

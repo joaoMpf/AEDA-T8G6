@@ -4,6 +4,7 @@
 #include "highway.h"
 #include "toll.h"
 #include "client.h"
+#include "sequentialSearch.h"
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -20,7 +21,7 @@ private:
     vector<Vehicle *> vehicles;
 
 public:
-    int findVehicle(string licensePlate);
+    int findVehicle(const string& licensePlate);
 
     //void load();
 
@@ -51,7 +52,7 @@ public:
 
     bool removeClient(const Client* &client);
 
-    int findClient(const Client* &client);
+    int findClient(const Client *client);
 
     void sortClients();
 
@@ -72,6 +73,16 @@ public:
     string licensePlateInput();
 
     Vehicle * firstTimeClient(string licensePlate);
+
+    Client *login();
+
+    void addVehicleClient(Client *client);
+
+    string getNewLicensePlate();
+
+    int categoryInput() const;
+
+    bool viaVerdeInput();
 };
 
 

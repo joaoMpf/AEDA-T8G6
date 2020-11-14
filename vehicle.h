@@ -18,13 +18,18 @@ private:
     vehicleClass vClass;
     string licensePlate;
     int category;
-    vector<Trip*> trips;
+    bool viaVerde; //true se tiver via verde
+    vector<Trip *> trips;
 
 public:
-    Vehicle(string plate, int cat): licensePlate(plate), category(cat){
+    Vehicle(const string &licensePlate, int category, bool viaVerde);
+
+    Vehicle(string plate, int cat) : licensePlate(plate), category(cat) {
     }
 
-    ~Vehicle(){}
+    Vehicle(const string &licensePlate);
+
+    ~Vehicle() {}
 
 
     const string &getLicensePlate() const;
@@ -42,12 +47,19 @@ public:
 
     int getCategory() const;
 
-    void startTrip(Toll* toll, Time* time);
+    void startTrip(Toll *toll, Time *time);
 
-    void endTrip(Toll* toll, Time* time);
+    void endTrip(Toll *toll, Time *time);
 
     void printTrips();
 
+};
+
+class CreatingVehicleException {
+public:
+    void showMessage() {
+        cout << "CREATING VEHICLE CANCELED\n";
+    }
 };
 
 

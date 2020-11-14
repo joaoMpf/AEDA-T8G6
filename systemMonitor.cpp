@@ -25,16 +25,28 @@ void SystemMonitor::sortEmployees() {
     return clients;
 }
 */
-bool SystemMonitor::addClient(const Client *&client) {
+
+bool SystemMonitor::addClient(const Client *&client) {//?????????
     return false;
 }
 
-bool SystemMonitor::removeClient(const Client *&client) {
+bool SystemMonitor::removeClient(const Client *&client) {//?????????
     return false;
 }
 
-int SystemMonitor::findClient(const Client *&client) {
-    return 0;
+int SystemMonitor::findVehicle(const string &licensePlate) {
+    int pos;
+    if (!clients.empty())
+        for (int i = 0; i < clients.size(); ++i) {
+            pos = sequentialSearch(clients[i]->getVehicles(), new Vehicle(licensePlate));
+            if (pos != -1)
+                return pos;
+        }
+    return -1;
+}
+
+int SystemMonitor::findClient(const Client *client) {
+    return sequentialSearch(clients, client);
 }
 
 void SystemMonitor::sortClients() {
@@ -159,81 +171,159 @@ const vector<Client *> &SystemMonitor::getClients() const {
     return clients;
 }
 
-void SystemMonitor::startTrip(Vehicle *vehicle, Toll *toll, Time* time) {
+void SystemMonitor::startTrip(Vehicle *vehicle, Toll *toll, Time *time) {
     vehicle->startTrip(toll, time);
 
 }
 
-void SystemMonitor::endTrip(Vehicle *vehicle, Toll *toll, Time* time) {
+void SystemMonitor::endTrip(Vehicle *vehicle, Toll *toll, Time *time) {
     vehicle->endTrip(toll, time);
 }
 
 void SystemMonitor::printHighwaysNumbered() {
-    vector<Highway*>::const_iterator it; int i = 1;
-    for(it = highways.begin(); it!= highways.end(); it++){
+    vector<Highway *>::const_iterator it;
+    int i = 1;
+    for (it = highways.begin(); it != highways.end(); it++) {
         cout << i << ": " << (*it)->getName() << endl;
         i++;
     }
 }
 
-Highway * SystemMonitor::getHighwayAt(int i) {
+Highway *SystemMonitor::getHighwayAt(int i) {
     return highways[i];
 }
 
-string SystemMonitor::licensePlateInput(){
+string SystemMonitor::licensePlateInput() {
     string licensePlate;
     cout << "\nENTER LICENSE PLATE "
             "(LICENSE PLATE FORMAT SHOULD BE XX-XX-XX)"
             "\n(OR 0 TO EXIT)\n";
-    while(1) {
+    while (true) {
 
         cin >> licensePlate;
-        for (int i=0;i<licensePlate.size();i++) licensePlate[i]=toupper(licensePlate[i]);
-        if (licensePlate=="0") return "0";
-        if (licensePlate.length()==8&&licensePlate[2]=='-'&&licensePlate[5]=='-'){
+        for (int i = 0; i < licensePlate.size(); i++) licensePlate[i] = toupper(licensePlate[i]);
+        if (licensePlate == "0") return "0";
+        if (licensePlate.length() == 8 && licensePlate[2] == '-' && licensePlate[5] == '-') {
             break;
         }
-        cin.ignore(1000, '\n'); cin.clear();
-        cout<<"ENTER A VALID LICENSE PLACE\n(LICENSE PLATE FORMAT SHOULD BE XX-XX-XX)\n";
+        cin.ignore(1000, '\n');
+        cin.clear();
+        cout << "ENTER A VALID LICENSE PLACE\n(LICENSE PLATE FORMAT SHOULD BE XX-XX-XX)\n";
     }
     return licensePlate;
 }
 
-Vehicle * SystemMonitor::getVehicle(string licensePlate) {
-    vector<Vehicle*>::const_iterator it;
-    for(it = vehicles.begin(); it!= vehicles.end(); it++){
-        if((*it)->getLicensePlate() == licensePlate)
+Vehicle *SystemMonitor::getVehicle(string licensePlate) {
+    vector<Vehicle *>::const_iterator it;
+    for (it = vehicles.begin(); it != vehicles.end(); it++) {
+        if ((*it)->getLicensePlate() == licensePlate)
             return *it;
     }
     return firstTimeClient(licensePlate);
 
 }
-Vehicle * SystemMonitor::firstTimeClient(string licensePlate){
-    int category;
-    cout<<"\nVEHICLE IS NOT IN THE SYSTEM. PLEASE ENTER VEHICLE CATEGORY\n";
-    while(1){
-        cin.ignore(1000, '\n'); cin.clear();
-        cin>>category;
-        if (category>0&&category<6){
-            break;
-        }
-        cout<<"\nENTER A VALID CATEGORY. CATEGORY MUST BE A NUMBER BETWEEN 1 AND 5\n";
-    }
 
-    addVehicle(new Vehicle(licensePlate,category));
-    vector<Vehicle*>::const_iterator it;
-    for(it = vehicles.begin(); it!= vehicles.end(); it++){
-        if((*it)->getLicensePlate() == licensePlate)
+Vehicle *SystemMonitor::firstTimeClient(string licensePlate) {
+    cout << "\nVEHICLE IS NOT IN THE SYSTEM. PLEASE ENTER VEHICLE CATEGORY\n";
+    int category = categoryInput();
+
+    addVehicle(new Vehicle(licensePlate, category));
+    vector<Vehicle *>::const_iterator it;
+    for (it = vehicles.begin(); it != vehicles.end(); it++) {
+        if ((*it)->getLicensePlate() == licensePlate)
             return *it;
     }
-
-
 }
 
-void SystemMonitor::addVehicle(Vehicle * vehicle) {
+void SystemMonitor::addVehicle(Vehicle *vehicle) {
     vehicles.push_back(vehicle);
 }
 
-void SystemMonitor::addHighway(Highway * highway) {
+void SystemMonitor::addHighway(Highway *highway) {
     highways.push_back(highway);
+}
+
+Client *SystemMonitor::login() {
+    int nif, pos;
+    for (int i = 0; i < 5; ++i) {
+        cout << "Please enter nif:\n";
+        cin >> nif;
+        pos = findClient(new Client(nif));
+        if (pos != -1)
+            return clients[pos];
+    }
+    return nullptr;
+}
+
+void SystemMonitor::addVehicleClient(Client *client) {
+    cout << "Enter \"0\" at anytime to cancel and exit\n";
+
+    string licensePlate;
+    int category;
+    bool viaVerde; //true se tiver via verde
+
+    try {
+        licensePlate = getNewLicensePlate();
+
+        viaVerde = viaVerdeInput();
+    } catch (CreatingVehicleException exception) {
+        exception.showMessage();
+        return;
+    }
+
+    category = categoryInput();
+    if (category == 0) {
+        cout << "operation canceled\n";
+        return;
+    }
+
+    client->addVehicle(new Vehicle(licensePlate,category,viaVerde));
+}
+
+int SystemMonitor::categoryInput() const {
+    int category;
+    while (true) {
+        cin.ignore(1000, '\n');
+        cin.clear();
+        cin >> category;
+        if (category == 0)
+            return 0;
+        if (category > 0 && category < 6)
+            break;
+        cout << "\nENTER A VALID CATEGORY. CATEGORY MUST BE A NUMBER BETWEEN 1 AND 5 (0 TO EXIT)\n";
+    }
+    return category;
+}
+
+string SystemMonitor::getNewLicensePlate() {
+    string licensePlate;
+    while (true) {
+        cout << "Please enter new license plate:\n";
+        licensePlate = licensePlateInput();
+
+        if (licensePlate == "0")
+            throw CreatingVehicleException();
+        else if (findVehicle(licensePlate) == -1)
+            return licensePlate;
+
+        cout << "LICENSE PLATE ALREADY IN USE\n";
+    }
+}
+
+bool SystemMonitor::viaVerdeInput() {
+    int viaVerde;
+    while (true) {
+        cout << "THIS CAR HAS VIA VERDE?\n"
+             << "1 - FALSE (DOES NOT HAVE)\n"
+             << "2 - TRUE (HAS)\n"
+             << "0 - EXIT AND CANCEL\n";
+        cin >> viaVerde;
+
+        if (viaVerde == 0)
+            throw CreatingVehicleException();
+        else if (viaVerde == 1)
+            return false;
+        else if (viaVerde == 2)
+            return true;
+    }
 }

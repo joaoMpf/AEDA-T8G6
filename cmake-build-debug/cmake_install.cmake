@@ -1,16 +1,8 @@
-<<<<<<< HEAD
 # Install script for directory: /home/camilinha/Documents/2ano/aeda/AEDA-T8G6
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX "/usr/local")
-=======
-# Install script for directory: C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6
-
-# Set the install prefix
-if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/AEDA_T8G6")
->>>>>>> 5402e6b92627adadeece969f9a1451d964588d26
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -35,14 +27,11 @@ if(NOT CMAKE_INSTALL_COMPONENT)
   endif()
 endif()
 
-<<<<<<< HEAD
 # Install shared libraries without execute permission?
 if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
   set(CMAKE_INSTALL_SO_NO_EXE "1")
 endif()
 
-=======
->>>>>>> 5402e6b92627adadeece969f9a1451d964588d26
 # Is this installation the result of a crosscompile?
 if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
@@ -56,9 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-<<<<<<< HEAD
 file(WRITE "/home/camilinha/Documents/2ano/aeda/AEDA-T8G6/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
-=======
-file(WRITE "C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
->>>>>>> 5402e6b92627adadeece969f9a1451d964588d26
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
