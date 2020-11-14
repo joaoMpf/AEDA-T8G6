@@ -34,6 +34,7 @@ public:
 
     const string &getLicensePlate() const;
 
+    bool isViaVerde() const;
 
     void setLicensePlate(const string &licensePlate);
 
@@ -55,7 +56,7 @@ public:
 
 };
 
-class CreatingVehicleException {
+class CreatingVehicleException : exception {
 public:
     void showMessage() {
         cout << "CREATING VEHICLE CANCELED\n";

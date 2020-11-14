@@ -64,3 +64,7 @@ Vehicle::Vehicle(const string &licensePlate) : licensePlate(licensePlate) {}
 
 Vehicle::Vehicle(const string &licensePlate, int category, bool viaVerde) : licensePlate(licensePlate),
                                                                             category(category), viaVerde(viaVerde) {}
+
+bool Vehicle::isViaVerde() const {
+    return viaVerde;
+}

@@ -82,7 +82,9 @@ public:
 
     int categoryInput() const;
 
-    bool viaVerdeInput();
+    static bool viaVerdeInput();
+
+    static int getNumberInput();
 };
 
 

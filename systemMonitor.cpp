@@ -206,8 +206,8 @@ string SystemMonitor::licensePlateInput() {
         if (licensePlate.length() == 8 && licensePlate[2] == '-' && licensePlate[5] == '-') {
             break;
         }
-        cin.ignore(1000, '\n');
-        cin.clear();
+//        cin.ignore(1000, '\n');
+//        cin.clear();
         cout << "ENTER A VALID LICENSE PLACE\n(LICENSE PLATE FORMAT SHOULD BE XX-XX-XX)\n";
     }
     return licensePlate;
@@ -224,7 +224,7 @@ Vehicle *SystemMonitor::getVehicle(string licensePlate) {
 }
 
 Vehicle *SystemMonitor::firstTimeClient(string licensePlate) {
-    cout << "\nVEHICLE IS NOT IN THE SYSTEM. PLEASE ENTER VEHICLE CATEGORY\n";
+    cout << "\nVEHICLE IS NOT IN THE SYSTEM\n";
     int category = categoryInput();
 
     addVehicle(new Vehicle(licensePlate, category));
@@ -263,34 +263,33 @@ void SystemMonitor::addVehicleClient(Client *client) {
     bool viaVerde; //true se tiver via verde
 
     try {
-        licensePlate = getNewLicensePlate();
+        category = categoryInput();
+        if (category == 0)
+            throw CreatingVehicleException();
 
         viaVerde = viaVerdeInput();
+
+        licensePlate = getNewLicensePlate();
+
     } catch (CreatingVehicleException exception) {
         exception.showMessage();
         return;
     }
 
-    category = categoryInput();
-    if (category == 0) {
-        cout << "operation canceled\n";
-        return;
-    }
 
-    client->addVehicle(new Vehicle(licensePlate,category,viaVerde));
+    client->addVehicle(new Vehicle(licensePlate, category, viaVerde));
 }
 
 int SystemMonitor::categoryInput() const {
     int category;
     while (true) {
-        cin.ignore(1000, '\n');
-        cin.clear();
-        cin >> category;
-        if (category == 0)
+        cout << "\nPLEASE ENTER A VALID VEHICLE CATEGORY. CATEGORY MUST BE A NUMBER BETWEEN 1 AND 5 (0 TO EXIT)\n";
+        category = getNumberInput();
+
+        if (category == '0')
             return 0;
-        if (category > 0 && category < 6)
+        if (category > '0' && category < '6')
             break;
-        cout << "\nENTER A VALID CATEGORY. CATEGORY MUST BE A NUMBER BETWEEN 1 AND 5 (0 TO EXIT)\n";
     }
     return category;
 }
@@ -317,13 +316,24 @@ bool SystemMonitor::viaVerdeInput() {
              << "1 - FALSE (DOES NOT HAVE)\n"
              << "2 - TRUE (HAS)\n"
              << "0 - EXIT AND CANCEL\n";
-        cin >> viaVerde;
 
-        if (viaVerde == 0)
-            throw CreatingVehicleException();
-        else if (viaVerde == 1)
-            return false;
-        else if (viaVerde == 2)
-            return true;
+        viaVerde = SystemMonitor::getNumberInput();
+
+        switch (viaVerde) {
+            case '0':
+                throw CreatingVehicleException();
+            case '1':
+                return false;
+            case '2':
+                return true;
+            default:
+                break;
+        }
     }
+}
+
+int SystemMonitor::getNumberInput() {
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.clear();
+    return getchar_unlocked();
 }

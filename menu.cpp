@@ -27,6 +27,7 @@ menu::menu() {
 
 void menu::mainMenu() {
     int c;
+    bool firstLoop = true;
 
     while (true) {
 
@@ -37,7 +38,14 @@ void menu::mainMenu() {
              << "3 - CLIENT\n"
              << "0 - Save and quit\n";
 
+        if(!firstLoop)
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        cin.clear();
         c = getchar_unlocked();
+
+        firstLoop = false;
+
 
         switch (c) {
             case employee:
@@ -66,7 +74,7 @@ void menu::monitorEmployee() {
              << "1 - OPERATE TOLL\n"
              << "0 - GO BACK\n";
 
-        c = getchar_unlocked();
+        c = SystemMonitor::getNumberInput();
 
         switch (c) {
             case employee:
@@ -89,7 +97,7 @@ void menu::operateToll() {
              << "2 - EXIT TOLL\n"
              << "0 - GO BACK\n";
 
-        c = getchar_unlocked();
+        c = this->systemMonitor->getNumberInput();
 
         switch (c) {
             case entry_toll:
@@ -175,16 +183,16 @@ void menu::monitorManager() {
              << "3 - MANAGE CLIENTS\n"
              << "0 - GO BACK\n";
 
-        c = getchar_unlocked();
+        c = SystemMonitor::getNumberInput();
 
         switch (c) {
-            case 1:
+            case '1':
                 //manageHighways();
                 break;
-            case 2:
+            case '2':
                 //manageEmployees()
                 break;
-            case 3:
+            case '3':
                 //manageClients()
                 break;
             case back:
@@ -196,9 +204,12 @@ void menu::monitorManager() {
 }
 
 void menu::clientManager() {
-    Client *client = this->systemMonitor->login();
+//    Client *client = this->systemMonitor->login();
+    Client *client = new Client("dred", 123456789);
     if (client == nullptr)
         return;
+
+    cout << "WELCOME " << client->getName() << endl;
 
     int c;
 
@@ -210,13 +221,13 @@ void menu::clientManager() {
              //             << "3 - MANAGE INFO\n"
              << "0 - GO BACK\n";
 
-        c = getchar_unlocked();
+        c = SystemMonitor::getNumberInput();
 
         switch (c) {
-            case 1:
+            case '1':
                 manageVehicles(client);
                 break;
-            case 2:
+            case '2':
                 //manageCosts()
                 break;
             case back:
@@ -239,19 +250,19 @@ void menu::manageVehicles(Client *client) {
              << "4 - UPDATE VEHICLES\n"
              << "0 - GO BACK\n";
 
-        c = getchar_unlocked();
+        c = SystemMonitor::getNumberInput();
 
         switch (c) {
-            case 1:
+            case '1':
                 this->systemMonitor->addVehicleClient(client);
                 break;
-            case 2:
+            case '2':
                 //removeVehicles();
                 break;
-            case 3:
+            case '3':
                 //viewVehicles();
                 break;
-            case 4:
+            case '4':
                 //updateVehicles();
                 break;
             case back:
@@ -263,61 +274,60 @@ void menu::manageVehicles(Client *client) {
 }
 
 /*
-
 void menu::monitorTolls() {
-    bool end = false;
-    int c;
+   bool end = false;
+   int c;
 
-    while (!end) {
+   while (!end) {
 
-        c=getchar_unlocked();
-        cout << "\nTOLL MENU\n"
-             << "\nPlease enter number:\n"
-             << "\n1 - Choose toll\n"
-             << "\n0 - Back to main menu\n";
+       c=getchar_unlocked();
+       cout << "\nTOLL MENU\n"
+            << "\nPlease enter number:\n"
+            << "\n1 - Choose toll\n"
+            << "\n0 - Back to main menu\n";
 
-        switch (c) {
-            case choose_toll_monitor:
-                chooseTollMonitor();
-                break;
-            case quit:
-                end = true;
-                break;
-            default:
-                cout << "\nPlease enter another number\n";
+       switch (c) {
+           case choose_toll_monitor:
+               chooseTollMonitor();
+               break;
+           case quit:
+               end = true;
+               break;
+           default:
+               cout << "\nPlease enter another number\n";
 
-        }
-    }
+       }
+   }
 }
 
 void menu::chooseTollMonitor() {
-    bool end = false;
-    int c;
+   bool end = false;
+   int c;
 
 
-    systemMonitor->showTollsNumbered();
+   systemMonitor->showTollsNumbered();
 
-    cout << "\nTOLL MENU\n"
-         << "\nPlease enter number of a toll:\n"
-         << "\n0 - back to main menu\n";
+   cout << "\nTOLL MENU\n"
+        << "\nPlease enter number of a toll:\n"
+        << "\n0 - back to main menu\n";
 
-    while (!end) {
-        cin>>c;
-        if (c==0){
-            end = true;
-            break;
-        }
-        else if ((c-1)>=0&&c-1<(systemMonitor->getTolls().size())) {
-            systemMonitor->showToll(c - 1);
-            cout << "\nPlease enter another number\n";
-        }
-        else{
-            cout<<"\nEnter a valid input\n";
-        }
-        cin.clear();
-        cin.ignore(10000, '\n');
+   while (!end) {
+       cin>>c;
+       if (c==0){
+           end = true;
+           break;
+       }
+       else if ((c-1)>=0&&c-1<(systemMonitor->getTolls().size())) {
+           systemMonitor->showToll(c - 1);
+           cout << "\nPlease enter another number\n";
+       }
+       else{
+           cout<<"\nEnter a valid input\n";
+       }
+       cin.clear();
+       cin.ignore(10000, '\n');
 
-    }
+   }
 }
 
 void menu::passTolls() {
