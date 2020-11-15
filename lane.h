@@ -2,6 +2,7 @@
 #define AEDA_T8G6_LANE_H
 
 #include "employee.h"
+#include "sequentialSearch.h"
 #include <vector>
 #include <iostream>
 

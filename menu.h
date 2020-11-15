@@ -16,11 +16,11 @@ private:
 
     void monitorManager();
 
-    void operateToll();
+    void operateToll(Client *client);
 
-    void operateEntryToll();
+    void operateEntryToll(Client *client);
 
-    void operateExitToll();
+    void operateExitToll(Client *client);
 
 /*    void monitorTolls();
 
@@ -37,8 +37,9 @@ public:
 
     void clientManager();
 
-    void manageVehicles(Client *pClient);
+    void manageVehicles(Client *client);
 
+    void operatePassToll(Client *client, bool entry);
 };
 
 enum main_menu {

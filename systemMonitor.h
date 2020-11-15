@@ -4,7 +4,6 @@
 #include "highway.h"
 #include "toll.h"
 #include "client.h"
-#include "sequentialSearch.h"
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -18,10 +17,10 @@ private:
     vector<Highway* > highways;
     vector<Employee *> employees;
     vector<Client *> clients;
-    vector<Vehicle *> vehicles;
+    vector<Vehicle *> circulatingVehicles;
 
 public:
-    int findVehicle(const string& licensePlate);
+    Vehicle *findVehicleClients(const string& licensePlate);
 
     //void load();
 
@@ -95,12 +94,21 @@ public:
     string getName() const;
 
     int getNif();
+
+    int findCirculatingVehicle(const string &licensePlate);
 };
 
 class ConfirmationExitException : exception {
 public:
     static void showMessage() {
         cout << "OPERATION CANCELED\n";
+    }
+};
+
+class VehicleInCirculationException : exception {
+public:
+    static void showMessage() {
+        cout << "Vehicle is already in circulation!\n";
     }
 };
 

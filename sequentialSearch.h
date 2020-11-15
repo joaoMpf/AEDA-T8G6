@@ -2,11 +2,13 @@
 #define PORTAGENS_SEQUENTIALSEARCH_H
 
 #include <vector>
+
 using namespace std;
 
-template <class Comparable>
-int sequentialSearch(const vector<Comparable *> &v, const Comparable *x)
-{
+template<class Comparable>
+int sequentialSearch(const vector<Comparable *> &v, const Comparable *x) {
+    if (v.empty())
+        return -1;
     for (unsigned int i = 0; i < v.size(); i++)
         if (*v[i] == *x)
             return i;   // encontrou

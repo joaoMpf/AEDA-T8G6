@@ -34,15 +34,19 @@ bool SystemMonitor::removeClient(const Client *&client) {//?????????
     return false;
 }
 
-int SystemMonitor::findVehicle(const string &licensePlate) {
+Vehicle *SystemMonitor::findVehicleClients(const string &licensePlate) {
     int pos;
     if (!clients.empty())
         for (int i = 0; i < clients.size(); ++i) {
             pos = sequentialSearch(clients[i]->getVehicles(), new Vehicle(licensePlate));
             if (pos != -1)
-                return pos;
+                return clients[i]->getVehicles()[pos];
         }
-    return -1;
+    return nullptr;
+}
+
+int SystemMonitor::findCirculatingVehicle(const string &licensePlate) {
+    return sequentialSearch(circulatingVehicles, new Vehicle(licensePlate));
 }
 
 int SystemMonitor::findClient(const Client *client) {
@@ -86,17 +90,17 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
     //matricula2 categoria
     //...
     //matriculax categoria
-    //load vehicles into vector
-    ifstream vehiclefs("vehicles.txt");
+    //load circulatingVehicles into vector
+    ifstream vehiclefs("circulatingVehicles.txt");
     string licensePlate;
     int category;
 
     if (vehiclefs.is_open()) {
         while (!vehiclefs.eof()) {
             vehiclefs >> licensePlate >> category;
-            vehicles.push_back(new Vehicle(licensePlate, category));
+            circulatingVehicles.push_back(new Vehicle(licensePlate, category));
         }
-    } else throw invalid_argument("Not able to open vehicles file");
+    } else throw invalid_argument("Not able to open circulatingVehicles file");
     //load employees into vector
     //exemplo ficheiro empregado:
     //nome1 numeroDeSS
@@ -136,9 +140,9 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
     } else throw invalid_argument("Not able to open tolls file");
 }
 
-int SystemMonitor::findVehicle(string licensePlate) {
-    for (int i=0;i<vehicles.size();i++){
-        if(vehicles[i]->getLicensePlate()==licensePlate){
+int SystemMonitor::findVehicleClients(string licensePlate) {
+    for (int i=0;i<circulatingVehicles.size();i++){
+        if(circulatingVehicles[i]->getLicensePlate()==licensePlate){
             return i;
         }
     }
@@ -147,14 +151,14 @@ int SystemMonitor::findVehicle(string licensePlate) {
 /*
 
 void SystemMonitor::load() {
-    ifstream vehiclefs("vehicles.txt");
+    ifstream vehiclefs("circulatingVehicles.txt");
     string licensePlate;
     int category;
 
     if (vehiclefs.is_open()) {
         while (!vehiclefs.eof()) {
             vehiclefs >> licensePlate >> category;
-            vehicles.push_back(new Vehicle(licensePlate, category));
+            circulatingVehicles.push_back(new Vehicle(licensePlate, category));
         }
         vehiclefs.close();
     }
@@ -204,22 +208,23 @@ string SystemMonitor::licensePlateInput() {
         for (int i = 0; i < licensePlate.size(); i++) licensePlate[i] = toupper(licensePlate[i]);
         if (licensePlate == "0") return "0";
         if (licensePlate.length() == 8 && licensePlate[2] == '-' && licensePlate[5] == '-') {
-            break;
+            return licensePlate;
         }
 
         cout << "ENTER A VALID LICENSE PLACE\n(LICENSE PLATE FORMAT SHOULD BE XX-XX-XX)\n";
     }
-    return licensePlate;
 }
 
 Vehicle *SystemMonitor::getVehicle(const string &licensePlate) {
-    vector<Vehicle *>::const_iterator it;
-    for (it = vehicles.begin(); it != vehicles.end(); it++) {
-        if ((*it)->getLicensePlate() == licensePlate)
-            return *it;
-    }
-    return firstTimeClient(licensePlate);
+    Vehicle *vehicle;
 
+    if (findCirculatingVehicle(licensePlate) != -1)
+        throw VehicleInCirculationException();
+    vehicle = findVehicleClients(licensePlate);
+    if (vehicle != nullptr)
+        return vehicle;
+
+    return firstTimeClient(licensePlate);
 }
 
 Vehicle *SystemMonitor::firstTimeClient(const string &licensePlate) {
@@ -228,14 +233,12 @@ Vehicle *SystemMonitor::firstTimeClient(const string &licensePlate) {
 
     addVehicle(new Vehicle(licensePlate, category));
     vector<Vehicle *>::const_iterator it;
-    for (it = vehicles.begin(); it != vehicles.end(); it++) {
-        if ((*it)->getLicensePlate() == licensePlate)
-            return *it;
-    }
+    if (findCirculatingVehicle(licensePlate) != -1)
+        throw VehicleInCirculationException();
 }
 
 void SystemMonitor::addVehicle(Vehicle *vehicle) {
-    vehicles.push_back(vehicle);
+    circulatingVehicles.push_back(vehicle);
 }
 
 void SystemMonitor::addHighway(Highway *highway) {
@@ -262,6 +265,7 @@ Client *SystemMonitor::login() {
         }
     }
 
+    cout << "TOO MANY TRIES\n";
     return nullptr;
 }
 
@@ -310,7 +314,7 @@ string SystemMonitor::getNewLicensePlate() {
 
         if (licensePlate == "0")
             throw CreatingVehicleException();
-        else if (findVehicle(licensePlate) == -1)
+        else if (findVehicleClients(licensePlate) == nullptr)
             return licensePlate;
 
         cout << "LICENSE PLATE ALREADY IN USE\n";

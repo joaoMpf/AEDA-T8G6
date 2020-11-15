@@ -2,7 +2,6 @@
 #define AEDA_T8G6_VEHICLE_H
 
 #include <string>
-
 #include <vector>
 #include "trip.h"
 #include "toll.h"

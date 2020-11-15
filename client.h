@@ -10,7 +10,7 @@ private:
     int nif;
     vector<Vehicle *> vehicles;
 public:
-    Client(const string &name, int nif);
+    Client(string name, int nif);
 
     Client(int nif);
 
@@ -19,6 +19,8 @@ public:
     int getNif() const;
 
     const vector<Vehicle *> &getVehicles() const;
+
+    Vehicle *getVehicle(string &licensePlate);
 
     bool operator==(const Client &rhs) const;
 

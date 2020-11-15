@@ -38,7 +38,7 @@ void menu::mainMenu() {
              << "3 - CLIENT\n"
              << "0 - Save and quit\n";
 
-        if(!firstLoop)
+        if (!firstLoop)
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         cin.clear();
@@ -69,100 +69,19 @@ void menu::monitorEmployee() {
     while (true) {
         cout << "\nEMPLOYEE MENU\n"
              << "\nPlease enter number:\n"
-             << "1 - OPERATE TOLL\n"
+             //             << "1 - OPERATE TOLL\n"
              << "0 - GO BACK\n";
 
 
         switch (SystemMonitor::getNumberInput()) {
             case employee:
-                operateToll();
+//                operateToll();
                 break;
             case back:
                 return;
             default:
                 cout << "\nPlease enter another number\n";
         }
-    }
-}
-
-void menu::operateToll() {
-    while (true) {
-        cout << "\nOPERATE TOLL\n"
-             << "\nPlease enter number:\n"
-             << "1 - ENTRY TOLL\n"
-             << "2 - EXIT TOLL\n"
-             << "0 - GO BACK\n";
-
-        switch (SystemMonitor::getNumberInput()) {
-            case entry_toll:
-                operateEntryToll();
-                break;
-            case exit_toll:
-                operateExitToll();
-                break;
-            case back:
-                return;
-            default:
-                cout << "\nPlease enter another number\n";
-        }
-    }
-}
-
-void menu::operateEntryToll() {
-    systemMonitor->printHighwaysNumbered();
-    cout << "CHOOSE HIGHWAY\n";
-    int highwayNum;
-    cin >> highwayNum;
-    cin.ignore(1000, '\n');
-    cin.clear();
-    Highway *highway = systemMonitor->getHighwayAt(highwayNum - 1);
-
-    highway->printTollsNumbered();
-    cout << "CHOOSE TOLL\n";
-    int tollNum;
-    cin >> tollNum;
-    cin.ignore(1000, '\n');
-    cin.clear();
-    Toll *toll = highway->getTollAt(tollNum - 1);
-
-    string licensePlate;
-    Vehicle *vehicle;
-
-    while (true) {
-        licensePlate = systemMonitor->licensePlateInput(); //controla o input
-        if (licensePlate == "0") return;
-        vehicle = systemMonitor->getVehicle(licensePlate);
-        systemMonitor->startTrip(vehicle, toll, new Time);
-        vehicle->printTrips();
-    }
-}
-
-void menu::operateExitToll() {
-    systemMonitor->printHighwaysNumbered();
-    cout << "CHOOSE HIGHWAY\n";
-    int highwayNum;
-    cin >> highwayNum;
-    cin.ignore(1000, '\n');
-    cin.clear();
-    Highway *highway = systemMonitor->getHighwayAt(highwayNum - 1);
-
-    highway->printTollsNumbered();
-    cout << "CHOOSE TOLL\n";
-    int tollNum;
-    cin >> tollNum;
-    cin.ignore(1000, '\n');
-    cin.clear();
-    Toll *toll = highway->getTollAt(tollNum - 1);
-
-    string licensePlate;
-    Vehicle *vehicle;
-
-    while (true) {
-        licensePlate = systemMonitor->licensePlateInput(); //controla o input
-        if (licensePlate == "0") return;
-        vehicle = systemMonitor->getVehicle(licensePlate);
-        systemMonitor->endTrip(vehicle, toll, new Time);
-        vehicle->printTrips();
     }
 }
 
@@ -204,6 +123,7 @@ void menu::clientManager() {
              << "\nPlease enter number:\n"
              << "1 - MANAGE VEHICLES\n"
              << "2 - MANAGE COSTS\n"
+             << "3 - ENTER TOLLS\n"
              //             << "3 - MANAGE INFO\n"
              << "0 - GO BACK\n";
 
@@ -213,6 +133,9 @@ void menu::clientManager() {
                 break;
             case '2':
                 //manageCosts()
+                break;
+            case '3':
+                operateToll(client);
                 break;
             case back:
                 return;
@@ -252,6 +175,68 @@ void menu::manageVehicles(Client *client) {
         }
     }
 }
+
+void menu::operateToll(Client *client) {
+    while (true) {
+        cout << "\nOPERATE TOLL\n"
+             << "\nPlease enter number:\n"
+             << "1 - ENTRY TOLL\n"
+             << "2 - EXIT TOLL\n"
+             << "0 - GO BACK\n";
+
+        switch (SystemMonitor::getNumberInput()) {
+            case entry_toll:
+                operatePassToll(client, true);
+                break;
+            case exit_toll:
+                operatePassToll(client, false);
+                break;
+            case back:
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
+}
+
+void menu::operatePassToll(Client *client, bool entry) {
+    systemMonitor->printHighwaysNumbered();
+    cout << "CHOOSE HIGHWAY\n";
+    int highwayNum;
+    cin >> highwayNum;
+    cin.ignore(1000, '\n');
+    cin.clear();
+    Highway *highway = systemMonitor->getHighwayAt(highwayNum - 1);
+
+    highway->printTollsNumbered();
+    cout << "CHOOSE TOLL\n";
+    int tollNum;
+    cin >> tollNum;
+    cin.ignore(1000, '\n');
+    cin.clear();
+    Toll *toll = highway->getTollAt(tollNum - 1);
+
+    string licensePlate;
+    Vehicle *vehicle;
+
+    while (true) {
+        licensePlate = SystemMonitor::licensePlateInput(); //controla o input
+        if (licensePlate == "0") return;
+        vehicle = client->getVehicle(licensePlate);
+        if (vehicle == nullptr) {
+            cout << "YOU DO NOT HAVE THIS VEHICLE REGISTERED, PLEASE ADD VEHICLE AND TRY AGAIN LATER\n";
+            continue;
+        }
+        if (entry)
+            SystemMonitor::startTrip(vehicle, toll, new Time);
+        else
+            SystemMonitor::endTrip(vehicle, toll, new Time);
+
+        vehicle->printTrips();
+    }
+}
+
+
 
 /*
 void menu::monitorTolls() {
@@ -313,7 +298,7 @@ void menu::chooseTollMonitor() {
 void menu::passTolls() {
 */
 /*    string licenseP;
-    cout<<"Enter the vehicles's license plate: ";
+    cout<<"Enter the circulatingVehicles's license plate: ";
     cin>>licenseP;
 
 *//*
