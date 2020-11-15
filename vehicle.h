@@ -58,7 +58,7 @@ public:
 
 class CreatingVehicleException : exception {
 public:
-    void showMessage() {
+    static void showMessage() {
         cout << "CREATING VEHICLE CANCELED\n";
     }
 };

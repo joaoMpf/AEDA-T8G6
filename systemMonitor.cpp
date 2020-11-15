@@ -206,14 +206,13 @@ string SystemMonitor::licensePlateInput() {
         if (licensePlate.length() == 8 && licensePlate[2] == '-' && licensePlate[5] == '-') {
             break;
         }
-//        cin.ignore(1000, '\n');
-//        cin.clear();
+
         cout << "ENTER A VALID LICENSE PLACE\n(LICENSE PLATE FORMAT SHOULD BE XX-XX-XX)\n";
     }
     return licensePlate;
 }
 
-Vehicle *SystemMonitor::getVehicle(string licensePlate) {
+Vehicle *SystemMonitor::getVehicle(const string &licensePlate) {
     vector<Vehicle *>::const_iterator it;
     for (it = vehicles.begin(); it != vehicles.end(); it++) {
         if ((*it)->getLicensePlate() == licensePlate)
@@ -223,7 +222,7 @@ Vehicle *SystemMonitor::getVehicle(string licensePlate) {
 
 }
 
-Vehicle *SystemMonitor::firstTimeClient(string licensePlate) {
+Vehicle *SystemMonitor::firstTimeClient(const string &licensePlate) {
     cout << "\nVEHICLE IS NOT IN THE SYSTEM\n";
     int category = categoryInput();
 
@@ -245,18 +244,29 @@ void SystemMonitor::addHighway(Highway *highway) {
 
 Client *SystemMonitor::login() {
     int nif, pos;
+
     for (int i = 0; i < 5; ++i) {
-        cout << "Please enter nif:\n";
+        cout << "Please enter nif: (enter 0 if new client)\n";
         cin >> nif;
-        pos = findClient(new Client(nif));
-        if (pos != -1)
-            return clients[pos];
+        if (nif == 0)
+            return createNewClient();
+        try {
+            if (confirmation()) {
+                pos = findClient(new Client(nif));
+                if (pos != -1)
+                    return clients[pos];
+            }
+        } catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return nullptr;
+        }
     }
+
     return nullptr;
 }
 
 void SystemMonitor::addVehicleClient(Client *client) {
-    cout << "Enter \"0\" at anytime to cancel and exit\n";
+    cout << "Enter 0 to cancel and exit\n";
 
     string licensePlate;
     int category;
@@ -271,11 +281,10 @@ void SystemMonitor::addVehicleClient(Client *client) {
 
         licensePlate = getNewLicensePlate();
 
-    } catch (CreatingVehicleException exception) {
+    } catch (CreatingVehicleException &exception) {
         exception.showMessage();
         return;
     }
-
 
     client->addVehicle(new Vehicle(licensePlate, category, viaVerde));
 }
@@ -289,9 +298,8 @@ int SystemMonitor::categoryInput() const {
         if (category == '0')
             return 0;
         if (category > '0' && category < '6')
-            break;
+            return category;
     }
-    return category;
 }
 
 string SystemMonitor::getNewLicensePlate() {
@@ -336,4 +344,77 @@ int SystemMonitor::getNumberInput() {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     cin.clear();
     return getchar_unlocked();
+}
+
+Client *SystemMonitor::createNewClient() {
+    Client *client;
+    string name;
+    int nif;
+
+    try {
+        name = getName();
+        nif = getNif();
+    }
+    catch (ConfirmationExitException &exception) {
+        exception.showMessage();
+    }
+
+    client = new Client(name, nif);
+    clients.push_back(client);
+
+    return client;
+}
+
+int SystemMonitor::getNif() {
+    int nif;
+
+    while (true) {
+        cout << "ENTER NIF\n";
+        cin >> nif;
+        if (confirmation() && countDigit(nif) == 9 && findClient(new Client(nif)) == -1)
+            break;
+    }
+
+    return nif;
+}
+
+string SystemMonitor::getName() const {
+    string name;
+
+    while (true) {
+        cout << "ENTER USERNAME\n";
+        cin >> name;
+        if (confirmation())
+            break;
+    }
+
+    return name;
+}
+
+bool SystemMonitor::confirmation() {
+    cout << "ENTER:\n"
+         << "1 - CONFIRM\n"
+         << "2 - ENTER AGAIN\n"
+         << "0 - EXIT\n";
+
+    switch (getNumberInput()) {
+        case '1':
+            return true;
+        case '2':
+            return false;
+        case '0':
+            throw ConfirmationExitException();
+        default:
+            break;
+    }
+}
+
+int SystemMonitor::countDigit(int n) {
+    int count = 0;
+    while (n != 0) {
+        n = n / 10;
+        ++count;
+    }
+    return count;
+
 }

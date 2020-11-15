@@ -56,23 +56,23 @@ public:
 
     void sortClients();
 
-    void startTrip(Vehicle* vehicle, Toll* toll, Time* time);
+    static void startTrip(Vehicle* vehicle, Toll* toll, Time* time);
 
-    void endTrip(Vehicle* vehicle, Toll* toll, Time* time);
+    static void endTrip(Vehicle* vehicle, Toll* toll, Time* time);
 
     void printHighwaysNumbered();
 
     Highway* getHighwayAt(int i);
 
-    Vehicle* getVehicle(string licensePlate);
+    Vehicle* getVehicle(const string& licensePlate);
 
     void addVehicle(Vehicle* vehicle);
 
     void addHighway(Highway* highway);
 
-    string licensePlateInput();
+    static string licensePlateInput();
 
-    Vehicle * firstTimeClient(string licensePlate);
+    Vehicle * firstTimeClient(const string& licensePlate);
 
     Client *login();
 
@@ -85,8 +85,23 @@ public:
     static bool viaVerdeInput();
 
     static int getNumberInput();
+
+    Client *createNewClient();
+
+    static int countDigit(int num);
+
+    static bool confirmation() ;
+
+    string getName() const;
+
+    int getNif();
 };
 
-
+class ConfirmationExitException : exception {
+public:
+    static void showMessage() {
+        cout << "OPERATION CANCELED\n";
+    }
+};
 
 #endif //AEDA_T8G6_SYSTEMMONITOR_H

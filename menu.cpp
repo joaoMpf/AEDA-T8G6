@@ -66,17 +66,14 @@ void menu::mainMenu() {
 }
 
 void menu::monitorEmployee() {
-    int c;
-
     while (true) {
         cout << "\nEMPLOYEE MENU\n"
              << "\nPlease enter number:\n"
              << "1 - OPERATE TOLL\n"
              << "0 - GO BACK\n";
 
-        c = SystemMonitor::getNumberInput();
 
-        switch (c) {
+        switch (SystemMonitor::getNumberInput()) {
             case employee:
                 operateToll();
                 break;
@@ -89,7 +86,6 @@ void menu::monitorEmployee() {
 }
 
 void menu::operateToll() {
-    int c;
     while (true) {
         cout << "\nOPERATE TOLL\n"
              << "\nPlease enter number:\n"
@@ -97,9 +93,7 @@ void menu::operateToll() {
              << "2 - EXIT TOLL\n"
              << "0 - GO BACK\n";
 
-        c = this->systemMonitor->getNumberInput();
-
-        switch (c) {
+        switch (SystemMonitor::getNumberInput()) {
             case entry_toll:
                 operateEntryToll();
                 break;
@@ -173,8 +167,6 @@ void menu::operateExitToll() {
 }
 
 void menu::monitorManager() {
-    int c;
-
     while (true) {
         cout << "\nMANAGER MENU\n"
              << "\nPlease enter number:\n"
@@ -183,9 +175,7 @@ void menu::monitorManager() {
              << "3 - MANAGE CLIENTS\n"
              << "0 - GO BACK\n";
 
-        c = SystemMonitor::getNumberInput();
-
-        switch (c) {
+        switch (SystemMonitor::getNumberInput()) {
             case '1':
                 //manageHighways();
                 break;
@@ -204,15 +194,11 @@ void menu::monitorManager() {
 }
 
 void menu::clientManager() {
-//    Client *client = this->systemMonitor->login();
-    Client *client = new Client("dred", 123456789);
+    Client *client = this->systemMonitor->login();
     if (client == nullptr)
         return;
 
     cout << "WELCOME " << client->getName() << endl;
-
-    int c;
-
     while (true) {
         cout << "\nCLIENT MENU\n"
              << "\nPlease enter number:\n"
@@ -221,9 +207,7 @@ void menu::clientManager() {
              //             << "3 - MANAGE INFO\n"
              << "0 - GO BACK\n";
 
-        c = SystemMonitor::getNumberInput();
-
-        switch (c) {
+        switch (SystemMonitor::getNumberInput()) {
             case '1':
                 manageVehicles(client);
                 break;
@@ -239,8 +223,6 @@ void menu::clientManager() {
 }
 
 void menu::manageVehicles(Client *client) {
-    int c;
-
     while (true) {
         cout << "\nVehicles MENU\n"
              << "\nPlease enter number:\n"
@@ -250,9 +232,7 @@ void menu::manageVehicles(Client *client) {
              << "4 - UPDATE VEHICLES\n"
              << "0 - GO BACK\n";
 
-        c = SystemMonitor::getNumberInput();
-
-        switch (c) {
+        switch (SystemMonitor::getNumberInput()) {
             case '1':
                 this->systemMonitor->addVehicleClient(client);
                 break;
