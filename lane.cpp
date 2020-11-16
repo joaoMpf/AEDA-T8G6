@@ -19,7 +19,7 @@ Lane::Lane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : 
                                                                                 vehicleQueue(vehicleQueue) {}
 
 bool Lane::operator<(const Lane &rhs) const {
-    return numCrossings < numCrossings;
+    return numCrossings < rhs.numCrossings;
 }
 
 bool Lane::operator>(const Lane &rhs) const {
