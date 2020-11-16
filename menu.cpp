@@ -15,8 +15,8 @@ menu::menu() {
     systemMonitor->addVehicle(new Vehicle("XX-AA-00", 1));
     Highway highway("A4");
     vector<Lane *> lanes;
-    highway.addToll(new Toll("A", "Custóias", 0, lanes));
-    highway.addToll(new Toll("B", "Matosinhos", 1, lanes));
+    highway.addToll(new InToll("A", "Custóias", lanes));
+    highway.addToll(new OutToll("B", "Matosinhos", lanes));
     systemMonitor->addHighway(&highway);
     mainMenu();
 
@@ -199,7 +199,7 @@ void menu::operateToll(Client *client) {
     }
 }
 
-void menu::operatePassToll(Client *client, bool entry) {
+void menu::operatePassToll(Client *client, bool exit) {
     systemMonitor->printHighwaysNumbered();
     cout << "CHOOSE HIGHWAY\n";
     int highwayNum;
@@ -216,6 +216,11 @@ void menu::operatePassToll(Client *client, bool entry) {
     cin.clear();
     Toll *toll = highway->getTollAt(tollNum - 1);
 
+    if (toll->getLanes().empty()) {
+        cout << "TOLL EMPTY\n";
+        return;
+    }
+
     string licensePlate;
     Vehicle *vehicle;
 
@@ -227,10 +232,31 @@ void menu::operatePassToll(Client *client, bool entry) {
             cout << "YOU DO NOT HAVE THIS VEHICLE REGISTERED, PLEASE ADD VEHICLE AND TRY AGAIN LATER\n";
             continue;
         }
-        if (entry)
-            SystemMonitor::startTrip(vehicle, toll, new Time);
-        else
-            SystemMonitor::endTrip(vehicle, toll, new Time);
+
+        Lane *lane = toll->getRecommendedLane(vehicle->isViaVerde());
+
+        if (lane == nullptr) {
+            if (vehicle->isViaVerde())
+                cout << "NO VIA VERDE LANE\n";
+            else
+                cout << "NO NORMAL LANE\n";
+
+            continue;
+        }
+
+        if (!exit) {
+            lane->addVehicle(vehicle->getLicensePlate(), 0.0);
+            if (vehicle->isViaVerde())
+                vehicle->startTrip(toll, new Time);
+        } else {
+            int price = 0; //FALTA CALCULAR PREÇO
+            lane->addVehicle(vehicle->getLicensePlate(), price);
+            if (vehicle->isViaVerde())
+                vehicle->endTrip(toll, new Time);
+        }
+
+        if (vehicle->isViaVerde())
+            vehicle->startTrip(toll, new Time);
 
         vehicle->printTrips();
     }

@@ -177,7 +177,6 @@ const vector<Client *> &SystemMonitor::getClients() const {
 
 void SystemMonitor::startTrip(Vehicle *vehicle, Toll *toll, Time *time) {
     vehicle->startTrip(toll, time);
-
 }
 
 void SystemMonitor::endTrip(Vehicle *vehicle, Toll *toll, Time *time) {
@@ -215,27 +214,27 @@ string SystemMonitor::licensePlateInput() {
     }
 }
 
-Vehicle *SystemMonitor::getVehicle(const string &licensePlate) {
-    Vehicle *vehicle;
-
-    if (findCirculatingVehicle(licensePlate) != -1)
-        throw VehicleInCirculationException();
-    vehicle = findVehicleClients(licensePlate);
-    if (vehicle != nullptr)
-        return vehicle;
-
-    return firstTimeClient(licensePlate);
-}
-
-Vehicle *SystemMonitor::firstTimeClient(const string &licensePlate) {
-    cout << "\nVEHICLE IS NOT IN THE SYSTEM\n";
-    int category = categoryInput();
-
-    addVehicle(new Vehicle(licensePlate, category));
-    vector<Vehicle *>::const_iterator it;
-    if (findCirculatingVehicle(licensePlate) != -1)
-        throw VehicleInCirculationException();
-}
+//Vehicle *SystemMonitor::getVehicle(const string &licensePlate) {
+//    Vehicle *vehicle;
+//
+//    if (findCirculatingVehicle(licensePlate) != -1)
+//        throw VehicleInCirculationException();
+//    vehicle = findVehicleClients(licensePlate);
+//    if (vehicle != nullptr)
+//        return vehicle;
+//
+//    return firstTimeClient(licensePlate);
+//}
+//
+//Vehicle *SystemMonitor::firstTimeClient(const string &licensePlate) {
+//    cout << "\nVEHICLE IS NOT IN THE SYSTEM\n";
+//    int category = categoryInput();
+//
+//    addVehicle(new Vehicle(licensePlate, category));
+//
+//    if (findCirculatingVehicle(licensePlate) != -1)
+//        throw VehicleInCirculationException();
+//}
 
 void SystemMonitor::addVehicle(Vehicle *vehicle) {
     circulatingVehicles.push_back(vehicle);
@@ -360,7 +359,8 @@ Client *SystemMonitor::createNewClient() {
         nif = getNif();
     }
     catch (ConfirmationExitException &exception) {
-        exception.showMessage();
+        ConfirmationExitException::showMessage();
+        return nullptr;
     }
 
     client = new Client(name, nif);
@@ -382,7 +382,7 @@ int SystemMonitor::getNif() {
     return nif;
 }
 
-string SystemMonitor::getName() const {
+string SystemMonitor::getName() {
     string name;
 
     while (true) {
@@ -396,20 +396,22 @@ string SystemMonitor::getName() const {
 }
 
 bool SystemMonitor::confirmation() {
-    cout << "ENTER:\n"
-         << "1 - CONFIRM\n"
-         << "2 - ENTER AGAIN\n"
-         << "0 - EXIT\n";
+    while (true) {
+        cout << "ENTER:\n"
+             << "1 - CONFIRM\n"
+             << "2 - ENTER AGAIN\n"
+             << "0 - EXIT\n";
 
-    switch (getNumberInput()) {
-        case '1':
-            return true;
-        case '2':
-            return false;
-        case '0':
-            throw ConfirmationExitException();
-        default:
-            break;
+        switch (getNumberInput()) {
+            case '1':
+                return true;
+            case '2':
+                return false;
+            case '0':
+                throw ConfirmationExitException();
+            default:
+                break;
+        }
     }
 }
 

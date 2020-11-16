@@ -32,16 +32,18 @@ void Vehicle::startTrip(Toll *toll, Time *time) {
         return;
     }
     trips.push_back(new Trip(toll, time));
-
 }
 
-void Vehicle::endTrip(Toll *toll, Time *time) {
+double Vehicle::endTrip(Toll *toll, Time *time) {
     if ((!trips.empty() && trips[trips.size() - 1]->isFinished())) {
         cout << "VEHICLE NEVER ENTERED OR ALREADY EXITED.\n";
-        return;
+        return -1;
     }
     trips[trips.size() - 1]->setEnd(toll);
     trips[trips.size() - 1]->setEndTime(time);
+
+    double price = 5.0;
+    return price;
 }
 
 void Vehicle::printTrips() {

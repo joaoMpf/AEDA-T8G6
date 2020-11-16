@@ -1,6 +1,7 @@
 #ifndef AEDA_T8G6_TOLL_H
 #define AEDA_T8G6_TOLL_H
 
+#include <utility>
 #include <vector>
 #include <iostream>
 #include "lane.h"
@@ -10,39 +11,47 @@ using namespace std;
 class Toll {
 protected:
     string name, location;
-    int code;
-    vector<Lane*> lanes;
-    bool exit; //SE FOR TRUE É SAIDA SENAO entrada
-    string type1;
+//    int code;
+    vector<Lane *> lanes;
 
 public:
-    Toll(string n, string loc,bool type, vector<Lane*> l):
-        name(n), location(loc),exit(type), lanes(l){
-        if (exit) {type1="Exit";}
-        else type1="Entry";
-    }
+    Toll(string n, string loc, vector<Lane *> l) :
+            name(std::move(n)), location(std::move(loc)), lanes(std::move(l)) {}
 
-    ~Toll(){};
+    ~Toll() {};
 
     const string &getName() const;
 
     const string &getLocation() const;
 
-    const vector<Lane*> &getLanes() const;
+    const vector<Lane *> &getLanes() const;
 
-    const string &getType() const;
+    virtual bool isExitToll() const { return false; }
 
-    int getCode() const;
+    Lane *getRecommendedLane(bool isViaVerde);
 
+    vector<Lane *> getTypeLanes(bool isViaVerde);
+
+    vector<Lane *> getViaVerdeLanes();
+
+    vector<Lane *> getNormalLanes();
 };
 
 
-class In : public Toll {
+class InToll : public Toll {
+public:
+    InToll(const string &n, const string &loc, const vector<Lane *> &l);
 
+public:
+    bool isExitToll() const override;
 };
 
-class Out : public Toll {
+class OutToll : public Toll {
+public:
+    OutToll(const string &n, const string &loc, const vector<Lane *> &l);
 
+private:
+    bool isExitToll() const override;
 };
 
 

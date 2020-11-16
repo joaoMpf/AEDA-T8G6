@@ -39,7 +39,7 @@ public:
 
     void manageVehicles(Client *client);
 
-    void operatePassToll(Client *client, bool entry);
+    void operatePassToll(Client *client, bool exit);
 };
 
 enum main_menu {

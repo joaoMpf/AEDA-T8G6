@@ -2,7 +2,6 @@
 #define AEDA_T8G6_SYSTEMMONITOR_H
 
 #include "highway.h"
-#include "toll.h"
 #include "client.h"
 #include <string>
 #include <fstream>
@@ -91,7 +90,7 @@ public:
 
     static bool confirmation() ;
 
-    string getName() const;
+    static string getName() ;
 
     int getNif();
 

@@ -49,7 +49,7 @@ public:
 
     void startTrip(Toll *toll, Time *time);
 
-    void endTrip(Toll *toll, Time *time);
+    double endTrip(Toll *toll, Time *time);
 
     void printTrips();
 
