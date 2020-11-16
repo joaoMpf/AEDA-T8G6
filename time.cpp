@@ -1,4 +1,5 @@
 #include "time.h"
+#include <sstream>
 
 int Time::getHour() const {
     return hour;
@@ -18,4 +19,11 @@ void Time::setTime(int h, int m, int s) {
 
 Time & Time::operator=(const Time &rhs) {
     setTime(rhs.getHour(), rhs.getMinute(), rhs.getSecond()); return *this;
+}
+
+string Time::getDate() const {
+    stringstream ss;
+
+    ss<<day<<"/"<<month<<"/"<<year;
+    return ss.str();
 }

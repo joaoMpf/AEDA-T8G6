@@ -14,7 +14,6 @@ enum vehicleClass {
 
 class Vehicle {
 private:
-    vehicleClass vClass;
     string licensePlate;
     int category;
     bool viaVerde; //true se tiver via verde
@@ -30,16 +29,17 @@ public:
 
     ~Vehicle() {}
 
+    void addPayment(double price);
+
+    vector<Trip *> getTrips();
 
     const string &getLicensePlate() const;
 
-    bool isViaVerde() const;
+    bool isViaVerde () const;
+
+    void changeViaVerde();
 
     void setLicensePlate(const string &licensePlate);
-
-    vehicleClass getVClass() const;
-
-    void setVClass(vehicleClass vClass);
 
     bool operator==(const Vehicle &rhs) const;
 
@@ -52,6 +52,8 @@ public:
     double endTrip(Toll *toll, Time *time);
 
     void printTrips();
+
+    void printInfo();
 
 };
 

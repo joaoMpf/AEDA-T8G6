@@ -22,7 +22,7 @@ Client::Client(string name, int nif) : name(std::move(name)), nif(nif) {}
 
 Client::Client(int nif) : nif(nif) {}
 
-const vector<Vehicle *> &Client::getVehicles() const {
+vector<Vehicle *> &Client::getVehicles() {
     return vehicles;
 }
 
@@ -36,5 +36,39 @@ Vehicle *Client::getVehicle(string &licensePlate) {
         return nullptr;
 
     return vehicles[pos];
+}
+
+void Client::removeVehicle(Vehicle *vehicle) {
+    int pos=sequentialSearch(vehicles,vehicle);
+    vehicles.erase(vehicles.begin()+pos);
+}
+
+void Client::printVehicles(){
+    if(!vehicles.empty()) {
+        cout<<"YOUR VEHICLES: ";
+        for(int i=0;i<vehicles.size();i++){
+            cout<<endl<<i+1<<": ";
+            vehicles[i]->printInfo();
+        }
+        cout<<endl<<endl;
+    }
+    else{
+        cout<<"NO VEHICLES TO SHOW"<<endl;
+    }
+}
+
+void Client::changeName(string newName) {
+    name=newName;
+}
+
+void Client::changeNIF(int newNif) {
+    nif=newNif;
+}
+
+void Client::printInfo() {
+    cout<<"NAME: "<<name<<endl;
+    cout<<"NIF: "<<nif<<endl;
+    cout<<"NUMBER OF VEHICLES: "<<vehicles.size()<<endl<<endl;
+
 }
 

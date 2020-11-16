@@ -32,3 +32,11 @@ bool Trip::isFinished() {
 Time *Trip::getEndTime() const {
     return endTime;
 }
+
+void Trip::setPrice(double price) {
+    pricepaid=price;
+}
+
+double Trip::getPrice() const {
+    return pricepaid;
+}

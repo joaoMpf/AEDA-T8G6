@@ -18,13 +18,18 @@ private:
     Time* beginTime;
     Time* endTime;
     bool finished=false;
+    double pricepaid;
 public:
     Trip(Toll* beg, Time* begTime): begin(beg), beginTime(begTime),
     endTime(new Time(0,0,0)), end(NULL){}
 
     void setEnd(Toll* toll);
 
+    void setPrice(double price);
+
     bool isFinished();
+
+    double getPrice() const;
 
     void setEndTime(Time* time);
 

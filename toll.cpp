@@ -1,4 +1,5 @@
 #include "toll.h"
+#include <algorithm>
 
 const string &Toll::getName() const {
     return name;

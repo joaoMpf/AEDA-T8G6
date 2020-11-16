@@ -40,6 +40,11 @@ public:
     void manageVehicles(Client *client);
 
     void operatePassToll(Client *client, bool exit);
+
+    void manageCosts(Client *pClient);
+
+    void manageInfo(Client *client);
+
 };
 
 enum main_menu {

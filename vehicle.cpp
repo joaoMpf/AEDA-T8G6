@@ -8,14 +8,6 @@ int Vehicle::getCategory() const {
     return category;
 }
 
-vehicleClass Vehicle::getVClass() const {
-    return vClass;
-}
-
-void Vehicle::setVClass(vehicleClass vClass) {
-    Vehicle::vClass = vClass;
-}
-
 bool Vehicle::operator==(const Vehicle &rhs) const {
     return licensePlate == rhs.licensePlate;
 }
@@ -47,17 +39,21 @@ double Vehicle::endTrip(Toll *toll, Time *time) {
 }
 
 void Vehicle::printTrips() {
-    vector<Trip *>::const_iterator it;
-    for (it = trips.begin(); it != trips.end(); it++) {
-        cout << "Trip Info:\n"
-             << "Started at: " <<
-             (*it)->getBeginTime()->getHour() << ":" <<
-             (*it)->getBeginTime()->getMinute() << ":"
-             << (*it)->getBeginTime()->getSecond() << endl
-             << "Ended at: " <<
-             (*it)->getEndTime()->getHour() << ":" <<
-             (*it)->getEndTime()->getMinute() << ":"
-             << (*it)->getEndTime()->getSecond() << endl;
+    if(!trips.empty()) {
+        for (auto x:trips) {
+            cout << "Trip Info:\n"
+                 << "Started at: " <<
+                 x->getBeginTime()->getHour() << ":" <<
+                 x->getBeginTime()->getMinute() << ":"
+                 << x->getBeginTime()->getSecond() << endl
+                 << "Ended at: " <<
+                 x->getEndTime()->getHour() << ":" <<
+                 x->getEndTime()->getMinute() << ":"
+                 << x->getEndTime()->getSecond() << endl;
+        }
+    }
+    else{
+        cout<<"NO TRIPS TO SHOW"<<endl<<endl;
     }
 }
 
@@ -66,6 +62,32 @@ Vehicle::Vehicle(const string &licensePlate) : licensePlate(licensePlate) {}
 Vehicle::Vehicle(const string &licensePlate, int category, bool viaVerde) : licensePlate(licensePlate),
                                                                             category(category), viaVerde(viaVerde) {}
 
-bool Vehicle::isViaVerde() const {
+bool Vehicle::isViaVerde() const{
     return viaVerde;
 }
+
+void Vehicle::printInfo() {
+    cout<<"LICENSE PLATE: "<<licensePlate<<endl;
+    cout<<"CATEGORY: "<<category<<endl;
+    cout<<"VIA VERDE: ";
+    if(viaVerde){
+        cout<<"YES"<<endl;
+    }
+    else{
+        cout<<"NO"<<endl;
+    }
+
+}
+
+void Vehicle::addPayment(double price) {
+    trips[trips.size()-1]->setPrice(price);
+}
+
+void Vehicle::changeViaVerde() {
+    viaVerde=!viaVerde;
+}
+
+vector<Trip *> Vehicle::getTrips() {
+    return trips;
+}
+

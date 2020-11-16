@@ -14,8 +14,8 @@ private:
 public:
     Highway(string n): name(n){}
     const string &getName() const;
-    void printTollsNumbered();
-    Toll* getTollAt(int i);
+    void printTollsNumbered(bool exit);
+    Toll* getTollAt(int i,bool exit);
     void addToll(Toll* toll);
 
 };

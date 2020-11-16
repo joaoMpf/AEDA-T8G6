@@ -40,13 +40,13 @@ public:
 
     bool removeEmployee(const Employee* &employee); //Definir operator == em Employee
 
-    int findEmployee(const Employee* &employee);
+    int findEmployee(const Employee* cemployee);
 
     void sortEmployees();
 
     const vector<Client *> &getClients() const;
 
-    bool addClient(const Client* &client);
+    void addClient(Client* client);
 
     bool removeClient(const Client* &client);
 
@@ -65,6 +65,14 @@ public:
     Vehicle* getVehicle(const string& licensePlate);
 
     void addVehicle(Vehicle* vehicle);
+
+    void removeVehicle(Client *client);
+
+    void viewVehicles(Client *client);
+
+    void showCosts(Client *client);
+
+    void updateVehicles(Client *client);
 
     void addHighway(Highway* highway);
 
@@ -95,6 +103,16 @@ public:
     int getNif();
 
     int findCirculatingVehicle(const string &licensePlate);
+
+    Employee *loginEmployee();
+
+    void printVehiclesListed(Client *client);
+
+    void changeName(Client *client);
+
+    void changeNIF(Client *client);
+
+    Lane *findEmployeeLane(Employee *pEmployee);
 };
 
 class ConfirmationExitException : exception {

@@ -11,16 +11,19 @@ inline int getchar_unlocked() { return _getchar_nolock(); }
 
 menu::menu() {
     this->systemMonitor = new SystemMonitor;
-    systemMonitor->addVehicle(new Vehicle("AA-AA-AA", 1));
-    systemMonitor->addVehicle(new Vehicle("XX-AA-00", 1));
     Highway highway("A4");
     vector<Lane *> lanes;
+    queue<pair<string, double>> queue1;
+    lanes.push_back(new Lane(3,queue1));
+    lanes.push_back(new ViaVerdeLane);
     highway.addToll(new InToll("A", "Custóias", lanes));
     highway.addToll(new OutToll("B", "Matosinhos", lanes));
     systemMonitor->addHighway(&highway);
+    Client client1("Joao",123123123);
+    Vehicle vehicle1("XX-XX-XX",1,true);
+    client1.addVehicle(&vehicle1);
+    systemMonitor->addClient(&client1);
     mainMenu();
-
-
     systemMonitor->save();
     free(systemMonitor);
 }
@@ -66,16 +69,19 @@ void menu::mainMenu() {
 }
 
 void menu::monitorEmployee() {
+    Employee *employee = this->systemMonitor->loginEmployee();
+    if (employee == nullptr)
+        return;
     while (true) {
-        cout << "\nEMPLOYEE MENU\n"
-             << "\nPlease enter number:\n"
-             //             << "1 - OPERATE TOLL\n"
+        cout << "\nEMPLOYEE MENU\n";
+        cout << "\nPlease enter number:\n"
+             << "1 - OPERATE TOLL\n"
              << "0 - GO BACK\n";
 
 
         switch (SystemMonitor::getNumberInput()) {
-            case employee:
-//                operateToll();
+            case 1:
+//               employeeMenu();
                 break;
             case back:
                 return;
@@ -91,7 +97,7 @@ void menu::monitorManager() {
              << "\nPlease enter number:\n"
              << "1 - MANAGE HIGHWAYS\n"
              << "2 - MANAGE EMPLOYEES\n"
-             << "3 - MANAGE CLIENTS\n"
+             //<< "3 - MANAGE CLIENTS\n"
              << "0 - GO BACK\n";
 
         switch (SystemMonitor::getNumberInput()) {
@@ -123,8 +129,8 @@ void menu::clientManager() {
              << "\nPlease enter number:\n"
              << "1 - MANAGE VEHICLES\n"
              << "2 - MANAGE COSTS\n"
-             << "3 - ENTER TOLLS\n"
-             //             << "3 - MANAGE INFO\n"
+             << "3 - PASS TOLLS\n"
+             << "4 - MANAGE INFO\n"
              << "0 - GO BACK\n";
 
         switch (SystemMonitor::getNumberInput()) {
@@ -132,11 +138,13 @@ void menu::clientManager() {
                 manageVehicles(client);
                 break;
             case '2':
-                //manageCosts()
+                manageCosts(client);
                 break;
             case '3':
                 operateToll(client);
                 break;
+            case '4':
+                manageInfo(client);
             case back:
                 return;
             default:
@@ -160,13 +168,13 @@ void menu::manageVehicles(Client *client) {
                 this->systemMonitor->addVehicleClient(client);
                 break;
             case '2':
-                //removeVehicles();
+                this->systemMonitor->removeVehicle(client);
                 break;
             case '3':
-                //viewVehicles();
+                this->systemMonitor->viewVehicles(client);
                 break;
             case '4':
-                //updateVehicles();
+                this->systemMonitor->updateVehicles(client);
                 break;
             case back:
                 return;
@@ -186,10 +194,10 @@ void menu::operateToll(Client *client) {
 
         switch (SystemMonitor::getNumberInput()) {
             case entry_toll:
-                operatePassToll(client, true);
+                operatePassToll(client, false);
                 break;
             case exit_toll:
-                operatePassToll(client, false);
+                operatePassToll(client, true);
                 break;
             case back:
                 return;
@@ -208,14 +216,13 @@ void menu::operatePassToll(Client *client, bool exit) {
     cin.clear();
     Highway *highway = systemMonitor->getHighwayAt(highwayNum - 1);
 
-    highway->printTollsNumbered();
+    highway->printTollsNumbered(exit);
     cout << "CHOOSE TOLL\n";
     int tollNum;
     cin >> tollNum;
     cin.ignore(1000, '\n');
     cin.clear();
-    Toll *toll = highway->getTollAt(tollNum - 1);
-
+    Toll *toll = highway->getTollAt(tollNum,exit);
     if (toll->getLanes().empty()) {
         cout << "TOLL EMPTY\n";
         return;
@@ -232,7 +239,6 @@ void menu::operatePassToll(Client *client, bool exit) {
             cout << "YOU DO NOT HAVE THIS VEHICLE REGISTERED, PLEASE ADD VEHICLE AND TRY AGAIN LATER\n";
             continue;
         }
-
         Lane *lane = toll->getRecommendedLane(vehicle->isViaVerde());
 
         if (lane == nullptr) {
@@ -243,24 +249,59 @@ void menu::operatePassToll(Client *client, bool exit) {
 
             continue;
         }
-
         if (!exit) {
             lane->addVehicle(vehicle->getLicensePlate(), 0.0);
             vehicle->startTrip(toll, new Time);
+            return;
         } else {
             int price = 0; //FALTA CALCULAR PREÇO
-            lane->addVehicle(vehicle->getLicensePlate(), price);
-            if (vehicle->isViaVerde())
+            vehicle->addPayment(price);
+            if (vehicle->isViaVerde()){
                 vehicle->endTrip(toll, new Time);
+                return;
+            }
+            lane->addVehicle(vehicle->getLicensePlate(), price);
+            return;
+
         }
 
-        if (vehicle->isViaVerde())
-            vehicle->startTrip(toll, new Time);
-
-        vehicle->printTrips();
     }
 }
 
+void menu::manageCosts(Client *client) {
+    while(true){
+        systemMonitor->showCosts(client);
+
+        cout<<"ENTER 0 TO GO BACK"<<endl;
+        if(SystemMonitor::getNumberInput()=='0'){
+            return;
+        }
+    }
+
+}
+
+void menu::manageInfo(Client *client){
+    while(true){
+        cout << "\nCLIENT INFO:\n\n";
+        client->printInfo();
+        cout<< "\nPlease enter number:\n"
+             << "1 - CHANGE NAME\n"
+             << "2 - CHANGE NIF\n"
+             << "0 - GO BACK\n";
+        switch (SystemMonitor::getNumberInput()) {
+            case '1':
+                systemMonitor->changeName(client);
+                break;
+            case '2':
+                systemMonitor->changeNIF(client);
+                break;
+            case back:
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
+}
 
 
 /*

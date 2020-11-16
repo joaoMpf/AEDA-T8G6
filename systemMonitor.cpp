@@ -1,5 +1,7 @@
 #include "systemMonitor.h"
-
+#ifdef _WIN32
+inline int getchar_unlocked() { return _getchar_nolock(); }
+#endif
 
 const vector<Employee *> &SystemMonitor::getEmployees() const {
     return employees;
@@ -13,8 +15,8 @@ bool SystemMonitor::removeEmployee(const Employee *&employee) {
     return false;
 }
 
-int SystemMonitor::findEmployee(const Employee *&employee) {
-    return 0;
+int SystemMonitor::findEmployee(const Employee *employee) {
+    return sequentialSearch(employees,employee);
 }
 
 void SystemMonitor::sortEmployees() {
@@ -26,8 +28,8 @@ void SystemMonitor::sortEmployees() {
 }
 */
 
-bool SystemMonitor::addClient(const Client *&client) {//?????????
-    return false;
+void SystemMonitor::addClient(Client *client) {//?????????
+    clients.push_back(client);
 }
 
 bool SystemMonitor::removeClient(const Client *&client) {//?????????
@@ -52,6 +54,7 @@ int SystemMonitor::findCirculatingVehicle(const string &licensePlate) {
 int SystemMonitor::findClient(const Client *client) {
     return sequentialSearch(clients, client);
 }
+
 
 void SystemMonitor::sortClients() {
 
@@ -268,6 +271,27 @@ Client *SystemMonitor::login() {
     return nullptr;
 }
 
+Employee *SystemMonitor::loginEmployee(){
+    int nif,pos;
+    string name;
+    for (int i = 0; i < 5; ++i) {
+        name = getName();
+        nif = getNif();
+        try {
+            if (confirmation()) {
+                pos = findEmployee(new Employee(name, nif));
+                if (pos != -1)
+                    return employees[pos];
+            }
+        } catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return nullptr;
+        }
+    }
+    cout << "TOO MANY TRIES\n";
+    return nullptr;
+}
+
 void SystemMonitor::addVehicleClient(Client *client) {
     cout << "Enter 0 to cancel and exit\n";
 
@@ -423,4 +447,123 @@ int SystemMonitor::countDigit(int n) {
     }
     return count;
 
+}
+
+void SystemMonitor::removeVehicle(Client *client) {
+    Vehicle *vehicle;
+    string licensePlate;
+    while(true) {
+        licensePlate = licensePlateInput();
+        if (licensePlate == "0") return;
+        vehicle = client->getVehicle(licensePlate);
+        if (vehicle == nullptr) {
+            cout << "YOU DO NOT HAVE THIS VEHICLE REGISTERED\n";
+            continue;
+        }
+        client->removeVehicle(vehicle);
+        return;
+    }
+}
+
+void SystemMonitor::viewVehicles(Client *client) {
+
+    vector <Vehicle*>::iterator it;
+    it=client->getVehicles().begin();
+
+    while(true){
+        client->printVehicles();
+        cout<<"SELECT A VEHICLE TO VIEW ITS TRIPS (OR 0 TO GO BACK)"<<endl;
+        switch(char c=getNumberInput()){
+            case '0':
+                return;
+            default:
+                if(isdigit(c)){
+                    cout<<endl;
+                    (*(it+atoi(&c)-1))->printTrips();
+                    cout<<endl<<endl;
+                    break;
+                }
+                else{
+                    cout<<endl<<"NOT A VALID INPUT"<<endl<<endl;
+                }
+        }
+
+    }
+    return;
+
+}
+
+void SystemMonitor::updateVehicles(Client *client) {
+    vector <Vehicle*> vehicles=client->getVehicles();
+    bool viaverde;
+    while(true){
+        cout<<"WHICH VEHICLE DO YOU WANT TO UPDATE THE VIA-VERDE'S STATUS:"<<endl;
+        client->printVehicles();
+        cout<<"ENTER A NUMBER (OR PRESS 0 TO RETURN) ";
+        switch(char c=getNumberInput()){
+            case '0':
+                return;
+            default:
+                if(isdigit(c)){
+
+                    viaverde=(*vehicles.begin()+(atoi(&c)-1))->isViaVerde();
+                    if(viaverde) {
+                        cout<<endl<<"DO YOU WISH TO REMOVE THIS VEHICLE'S VIA VERDE? (PRESS Y/N FOR YES OR NO)";
+                    }
+                    else{
+                        cout<<endl<<"DO YOU WISH TO ADD VIA VERDE TO THIS VEHICLE? (PRESS Y/N FOR YES OR NO)";
+                    }
+                    if(toupper(getNumberInput())=='Y'){
+                        (*vehicles.begin()+(atoi(&c)-1))->changeViaVerde();
+                        cout<<endl<<endl<<"DONE"<<endl<<endl;
+                        return;
+                    }
+                    else{
+                        cout<<endl<<endl<<"NO CHANGE WAS DONE"<<endl<<endl;
+                        return;
+                    }
+                }
+                else{
+                    cout<<endl<<"NOT A VALID INPUT"<<endl<<endl;
+                }
+                break;
+        }
+    }
+}
+
+void SystemMonitor::showCosts(Client *client) {
+    if(!(client->getVehicles().empty())) {
+        for (auto x:(client->getVehicles())) {
+            cout << "VEHICLE " << (x)->getLicensePlate() << endl << endl;
+            if (!x->getTrips().empty()) {
+                for (auto y:(x->getTrips())) {
+                    cout << "FROM: " << (y)->getBegin()->getLocation() << endl;
+                    cout << "TO: " << (y)->getEnd()->getLocation() << endl;
+                    cout << "WHEN: " << (y)->getEndTime()->getDate() << endl;
+                    cout << "PRICE PAID: " << (y)->getPrice() << endl;
+                }
+            }
+            else{
+                cout<<"NO TRIPS TO SHOW"<<endl<<endl;
+            }
+        }
+    }
+    else cout<<"NO VEHICLES TO SHOW"<<endl<<endl;
+
+}
+
+void SystemMonitor::changeNIF(Client *client) {
+    int newNif=getNif();
+    client->changeNIF(newNif);
+
+}
+
+void SystemMonitor::changeName(Client *client) {
+    string newName=getName();
+    client->changeName(newName);
+
+}
+
+Lane *SystemMonitor::findEmployeeLane(Employee *pEmployee) {
+    return nullptr;
 }
