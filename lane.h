@@ -22,7 +22,7 @@ public:
 
     int getNumCrossings() const;
 
-    pair<string, double> addCrossing();
+    pair<string, double> addCrossing(); //Chamar função para tirar próximo veiculo da queue
 
     virtual void addVehicle(string licensePlate, double price);
 
