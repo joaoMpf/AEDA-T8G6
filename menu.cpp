@@ -246,8 +246,7 @@ void menu::operatePassToll(Client *client, bool exit) {
 
         if (!exit) {
             lane->addVehicle(vehicle->getLicensePlate(), 0.0);
-            if (vehicle->isViaVerde())
-                vehicle->startTrip(toll, new Time);
+            vehicle->startTrip(toll, new Time);
         } else {
             int price = 0; //FALTA CALCULAR PREÇO
             lane->addVehicle(vehicle->getLicensePlate(), price);
