@@ -50,6 +50,14 @@ vector<Lane *> Toll::getNormalLanes() {
     return getTypeLanes(false);
 }
 
+int Toll::getPosition() const {
+    return position;
+}
+
+float Toll::getPrice() const {
+    return price;
+}
+
 bool InToll::isExitToll() const {
     return false;
 }
@@ -58,8 +66,8 @@ bool OutToll::isExitToll() const {
     return true;
 }
 
-InToll::InToll(const string &n, const string &loc, const vector<Lane *> &l) : Toll(n, loc, l) {}
+InToll::InToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const float &price) :
+                                                                                Toll(n, loc, l, pos, price) {}
 
-
-OutToll::OutToll(const string &n, const string &loc, const vector<Lane *> &l) : Toll(n, loc, l) {}
-
+OutToll::OutToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const float &price) :
+                                                                                Toll(n, loc, l, pos, price) {}

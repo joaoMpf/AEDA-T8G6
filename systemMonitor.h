@@ -21,7 +21,7 @@ private:
 public:
     Vehicle *findVehicleClients(const string& licensePlate);
 
-    //void load();
+    void load();
 
     void save();
 

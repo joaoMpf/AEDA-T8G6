@@ -1,2 +1,3 @@
-nome1 local 1 3
-nome2 local2 0 4
+highwayName numTolls
+nome1 localização2 1 3 0 0.0
+nome2 localização2 0 4 10 1.60

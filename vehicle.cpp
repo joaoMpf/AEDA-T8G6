@@ -91,3 +91,6 @@ vector<Trip *> Vehicle::getTrips() {
     return trips;
 }
 
+Trip * Vehicle::getLastTrip() {
+    return trips[trips.size()-1];
+}

@@ -16,8 +16,8 @@ menu::menu() {
     queue<pair<string, double>> queue1;
     lanes.push_back(new Lane(3,queue1));
     lanes.push_back(new ViaVerdeLane);
-    highway.addToll(new InToll("A", "Custóias", lanes));
-    highway.addToll(new OutToll("B", "Matosinhos", lanes));
+    highway.addToll(new InToll("A", "Custoias", lanes, 0, 0.0));
+    highway.addToll(new OutToll("B", "Matosinhos", lanes, 10, 2.60));
     systemMonitor->addHighway(&highway);
     Client client1("Joao",123123123);
     Vehicle vehicle1("XX-XX-XX",1,true);
@@ -254,7 +254,8 @@ void menu::operatePassToll(Client *client, bool exit) {
             vehicle->startTrip(toll, new Time);
             return;
         } else {
-            int price = 0; //FALTA CALCULAR PREÇO
+            float price; //FALTA CALCULAR PREÇO
+            price = toll->getPrice() - vehicle->getLastTrip()->getBegin()->getPrice();
             vehicle->addPayment(price);
             if (vehicle->isViaVerde()){
                 vehicle->endTrip(toll, new Time);

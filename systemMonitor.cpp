@@ -83,7 +83,7 @@ void SystemMonitor::showToll(int toll) {
 }
 
 */
-/*
+
 void SystemMonitor::load() { //provavelmente vai ter de ser
     //alterado mas já fica estruturado
 
@@ -121,28 +121,36 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
     } else throw invalid_argument("Not able to open employees file");
     //load tolls into vector
     //exemplo ficheiro portagens:
-    //nome1 localização tipo numeroDeVias
-    //nome2 localização tipo numeroDeVias
+    //highwayName numTolls
+    //nome1 localização tipo numeroDeVias pos price
+    //nome2 localização tipo numeroDeVias pos price
     //...
-    //nomex localização tipo numeroDeVias
+    //nomex localização tipo numeroDeVias pos price
     ifstream tollfs("tolls.txt");
-    string name, location;
+    string name, location, highway_name;
     bool type;
-    int numLanes;
+    int numLanes, numTolls, pos; double price;
 
     if (tollfs.is_open()) {
         while (!tollfs.eof()) {
-            vector<Lane*> lanes;
-            tollfs >> name >> location >> type >> numLanes;
-            for (int i = 0; i < numLanes; i++) {
-                Lane e;
-                lanes.push_back(&e);
+            tollfs >> highway_name >> numTolls;
+            vector<Toll*> tolls;
+            Highway highway(highway_name);
+            while(numTolls > 0) {
+                vector<Lane *> lanes;
+                tollfs >> name >> location >> type >> numLanes >> price;
+                for (int i = 0; i < numLanes; i++) {
+                    Lane e;
+                    lanes.push_back(&e);
+                }
+                highway.addToll(new Toll(name, location, lanes, pos, price));
+                numTolls--;
             }
-            tolls.push_back(new Toll(name, location, type, lanes));
+            highways.push_back(&highway);
         }
     } else throw invalid_argument("Not able to open tolls file");
 }
-
+/*
 int SystemMonitor::findVehicleClients(string licensePlate) {
     for (int i=0;i<circulatingVehicles.size();i++){
         if(circulatingVehicles[i]->getLicensePlate()==licensePlate){
@@ -150,27 +158,6 @@ int SystemMonitor::findVehicleClients(string licensePlate) {
         }
     }
     return -1;
-}*/
-/*
-
-void SystemMonitor::load() {
-    ifstream vehiclefs("circulatingVehicles.txt");
-    string licensePlate;
-    int category;
-
-    if (vehiclefs.is_open()) {
-        while (!vehiclefs.eof()) {
-            vehiclefs >> licensePlate >> category;
-            circulatingVehicles.push_back(new Vehicle(licensePlate, category));
-        }
-        vehiclefs.close();
-    }
-
-    ifstream highwaysfs("highways.txt");
-
-
-
-
 }
 */
 

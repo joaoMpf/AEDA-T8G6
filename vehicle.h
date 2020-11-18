@@ -51,9 +51,12 @@ public:
 
     double endTrip(Toll *toll, Time *time);
 
+    Trip* getLastTrip();
+
     void printTrips();
 
     void printInfo();
+
 
 };
 
