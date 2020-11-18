@@ -72,16 +72,32 @@ void menu::monitorEmployee() {
     Employee *employee = this->systemMonitor->loginEmployee();
     if (employee == nullptr)
         return;
+    Lane* lane=systemMonitor->findEmployeeLane(employee);
+    Toll* toll=systemMonitor->findLaneToll(lane);
+    Highway* highway=systemMonitor->findTollHighway(toll);
     while (true) {
-        cout << "\nEMPLOYEE MENU\n";
-        cout << "\nPlease enter number:\n"
-             << "1 - OPERATE TOLL\n"
-             << "0 - GO BACK\n";
-
+        cout << "\nEMPLOYEE MENU:\n\n"
+        <<"HIGHWAY: " <<highway->getName()<<"\n"
+        <<"TOLL: "<<toll->getName()<<"\n"
+        <<"THERE'S "<<lane->numberVehiclesWaiting()<<" VEHICLES WAITING IN YOUR LANE\n\n";
+        if(lane->numberVehiclesWaiting()>0) {
+            cout << "\nPLEASE ENTER NUMBER:\n"
+                 << "1 - PASS NEXT VEHICLE\n"
+                 << "0 - GO BACK\n\n";
+        }
+        else{
+            cout << "\nPLEASE ENTER NUMBER:\n"
+                 << "NO VEHICLES TO PASS\n"
+                 << "0 - GO BACK\n\n";
+        }
 
         switch (SystemMonitor::getNumberInput()) {
             case 1:
-//               employeeMenu();
+                if(lane->passVehicle()) {
+                    lane->addCrossing();
+                    cout<<"VEHICLE PASSED";
+                }
+                else cout<<"NO VEHICLE'S TO PASS";
                 break;
             case back:
                 return;
@@ -102,7 +118,7 @@ void menu::monitorManager() {
 
         switch (SystemMonitor::getNumberInput()) {
             case '1':
-                //manageHighways();
+                manageHighways();
                 break;
             case '2':
                 //manageEmployees()
@@ -304,72 +320,93 @@ void menu::manageInfo(Client *client){
     }
 }
 
-
-/*
-void menu::monitorTolls() {
-   bool end = false;
-   int c;
-
-   while (!end) {
-
-       c=getchar_unlocked();
-       cout << "\nTOLL MENU\n"
-            << "\nPlease enter number:\n"
-            << "\n1 - Choose toll\n"
-            << "\n0 - Back to main menu\n";
-
-       switch (c) {
-           case choose_toll_monitor:
-               chooseTollMonitor();
-               break;
-           case quit:
-               end = true;
-               break;
-           default:
-               cout << "\nPlease enter another number\n";
-
-       }
-   }
-}
-
-void menu::chooseTollMonitor() {
-   bool end = false;
-   int c;
-
-
-   systemMonitor->showTollsNumbered();
-
-   cout << "\nTOLL MENU\n"
-        << "\nPlease enter number of a toll:\n"
-        << "\n0 - back to main menu\n";
-
-   while (!end) {
-       cin>>c;
-       if (c==0){
-           end = true;
-           break;
-       }
-       else if ((c-1)>=0&&c-1<(systemMonitor->getTolls().size())) {
-           systemMonitor->showToll(c - 1);
-           cout << "\nPlease enter another number\n";
-       }
-       else{
-           cout<<"\nEnter a valid input\n";
-       }
-       cin.clear();
-       cin.ignore(10000, '\n');
-
-   }
-}
-
-void menu::passTolls() {
-*/
-/*    string licenseP;
-    cout<<"Enter the circulatingVehicles's license plate: ";
-    cin>>licenseP;
-
-*//*
+void menu::manageHighways() {
+    while(true){
+        cout << "\nHIGHWAY MANAGER MENU:\n\n";
+        cout<< "\nPlease enter number:\n"
+            << "1 - ADD HIGHWAY\n"
+            << "2 - REMOVE HIGHWAY\n"
+            << "3 - CHANGE EXISTING HIGHWAY(ADD OR REMOVE TOLLS,LANES,ETC)\n" //NOT DONE
+            << "4 - VIEW HIGHWAY LIST\n"
+            << "0 - GO BACK\n";
+        switch (SystemMonitor::getNumberInput()) {
+            case '1':
+                systemMonitor->managerAddHighway();
+                break;
+            case '2':
+                systemMonitor->managerRemoveHighway();
+                break;
+            case '3':
+                 manageExistingHighways();
+            case '4':
+                systemMonitor->managerViewHighways();
+            case back:
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
 
 }
-*/
 
+void menu::manageExistingHighways() {
+    if(systemMonitor->getHighways().size()==0){
+        cout<<"NO HIGHWAYS TO MANAGE"<<endl;
+        return;
+    }
+    Highway* highway=systemMonitor->getHighwayAt((systemMonitor->selectHighway()));
+    while(true){
+        cout << "\nHIGHWAY MANAGER MENU:\n\n";
+        cout<< "\nPlease enter number:\n"
+            << "1 - ADD TOLL\n"
+            << "2 - REMOVE TOLL\n"
+            << "3 - MANAGE TOLLS\n" //NOT DONE
+            << "4 - VIEW HIGHWAY TOLLS\n"
+            << "0 - GO BACK\n";
+        switch (SystemMonitor::getNumberInput()) {
+            case '1':
+                systemMonitor->managerAddToll(highway);
+                break;
+            case '2':
+                systemMonitor->managerRemoveToll(highway);
+                break;
+            case '3':
+                managerManageToll(highway);
+                break;
+            case '4':
+                systemMonitor->viewHighwayTolls(highway);
+                break;
+            case '0':
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
+}
+
+void menu::managerManageToll(Highway* highway) {
+
+    while(true){
+        cout << "\nTOLL MANAGER MENU:\n\n";
+        cout<< "\nPlease enter number:\n"
+            << "1 - ADD NORMAL LANE\n"
+            << "2 - ADD VIA VERDE LANE\n"
+            << "3 - CHANGE LANE EMPLOYEES\n"
+            << "0 - GO BACK\n";
+        switch (SystemMonitor::getNumberInput()) {
+            case '1':
+
+                break;
+            case '2':
+
+                break;
+            case '3':
+
+                break;
+            case '0':
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
+}

@@ -550,7 +550,240 @@ void SystemMonitor::changeName(Client *client) {
     client->changeName(newName);
 
 }
-
 Lane *SystemMonitor::findEmployeeLane(Employee *pEmployee) {
+
+    for(auto h:highways){
+        for(auto t:h->getTolls()){
+            for(auto l:t->getLanes()){
+                if(l->isNormalExitLane()){
+                    if(l->getEmployee()==pEmployee){
+                        return l;
+                    };
+                }
+            }
+        }
+    }
     return nullptr;
+}
+
+Toll *SystemMonitor::findLaneToll(Lane *lane) {
+    for(auto h:highways){
+        for(auto t:h->getTolls()){
+            for(auto l:t->getLanes()){
+                if(l=lane){
+                    return t;
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
+Highway *SystemMonitor::findTollHighway(Toll *toll) {
+    for(auto h:highways){
+        for(auto t:h->getTolls()){
+            if(t=toll) return h;
+        }
+    }
+    return nullptr;
+
+}
+
+void SystemMonitor::managerAddHighway() {
+
+    while(true) {
+
+        cout<<"ENTER HIGHWAY NAME\n";
+        string name;
+        cin>>name;
+        try {
+            if (confirmation()) {
+                addHighway(new Highway(name));
+                cout << "HIGHWAY ADDED! \n"
+                     << "TO CUSTOMIZE IT GO TO THE \"CHANGE EXISTING HIGHWAY\" MENU\n";
+                return;
+            }
+            else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return;
+        }
+    }
+
+}
+
+void SystemMonitor::managerRemoveHighway() {
+    if(highways.size()>0) {
+        printHighwaysNumbered();
+        while(true) {
+            cout << "WHICH HIGHWAY DO YOU WISH TO REMOVE\n";
+            int i;
+            cin >> i;
+            try {
+                if (confirmation()) {
+                    if (i > 0 && i <= highways.size()) {
+                        highways.erase(highways.begin() + (i - 1));
+                    }
+                    cout << "HIGHWAY ERASED SUCCESSFULLY\n";
+                    return;
+                }
+                else continue;
+            }
+            catch (ConfirmationExitException &exception) {
+                ConfirmationExitException::showMessage();
+                return;
+            }
+        }
+    }
+    else{
+        cout<<"NO HIGHWAYS TO DISPLAY";
+        return;
+    }
+
+}
+
+void SystemMonitor::managerViewHighways() {
+    printHighwaysNumbered();
+    while(true){
+        cout<<"PRESS 0 TO LEAVE\n";
+        if(getNumberInput()=='0') return;
+    }
+
+}
+
+
+
+int SystemMonitor::selectHighway() {
+    printHighwaysNumbered();
+    int i;
+    while(true){
+        cout<<"SELECT A HIGHWAY TO MANAGE:\n";
+        cin>>i;
+        if(i>0&&i<=highways.size()){
+            return i-1;
+        }
+        else cout<<"ENTER A VALID NUMBER\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+
+}
+
+void SystemMonitor::managerAddToll(Highway *phighway) {
+
+    string name,location;
+    while(true) {
+        cout<<"ENTER TOLL NAME: \n";
+        cin>>name;
+
+        try {
+            if (confirmation()) {
+                break;
+            }
+            else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return;
+        }
+    }
+    while(true) {
+        cout<<"ENTER TOLL LOCATION: \n";
+        cin>>location;
+
+        try {
+            if (confirmation()) {
+                break;
+            }
+            else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return;
+        }
+    }
+    int position;
+    while(true) {
+        cout<<"ENTER TOLL POSITION : \n";
+        cin>>position;
+
+        try {
+            if (confirmation()) {
+                break;
+            }
+            else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return;
+        }
+    }
+    float price;
+    while(true) {
+        cout<<"ENTER TOLL PRICE : \n";
+        cin>>price;
+
+        try {
+            if (confirmation()) {
+                break;
+            }
+            else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return;
+        }
+    }
+    vector<Lane*> l;
+    phighway->addToll(new Toll(name,location,l,position,price));
+    cout<<"\n\nTOLL ADDED SUCCESSFULLY\n ";
+    return;
+}
+
+
+
+vector<Highway *> SystemMonitor::getHighways() {
+    return highways;
+}
+
+void SystemMonitor::viewHighwayTolls(Highway *phighway) {
+    if(phighway->getTolls().size()==0){
+        cout<<"NO TOLLS TO SHOW\n";
+        return;
+    }
+    phighway->printTollsNumbered();
+    while(true){
+        cout<<"PRESS 0 TO LEAVE\n";
+        if(getNumberInput()=='0') return;
+    }
+}
+
+void SystemMonitor::managerRemoveToll(Highway *phighway) {
+    if(phighway->getTolls().size()>0) {
+        phighway->printTollsNumbered();
+        while(true) {
+            cout << "WHICH HIGHWAY DO YOU WISH TO REMOVE\n";
+            int i;
+            cin >> i;
+            try {
+                if (confirmation()) {
+                    if (i > 0 && i <= phighway->getTolls().size()) {
+                        phighway->eraseTollAt(i-1);
+                    }
+                    cout << "TOLL ERASED SUCCESSFULLY\n";
+                    return;
+                }
+                else continue;
+            }
+            catch (ConfirmationExitException &exception) {
+                ConfirmationExitException::showMessage();
+                return;
+            }
+        }
+    }
+    else{
+        cout<<"NO TOLLS TO DISPLAY";
+        return;
+    }
 }

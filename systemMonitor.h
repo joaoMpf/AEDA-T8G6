@@ -33,6 +33,7 @@ public:
 
     };
 
+    vector<Highway* > getHighways();
 
     const vector<Employee *> &getEmployees() const;
 
@@ -112,7 +113,31 @@ public:
 
     void changeNIF(Client *client);
 
+
     Lane *findEmployeeLane(Employee *pEmployee);
+
+    Toll *findLaneToll(Lane *lane);
+
+    Highway *findTollHighway(Toll *toll);
+
+
+    void managerAddHighway();
+
+    void managerRemoveHighway();
+
+    void managerViewHighways();
+
+    void manageExistingHighways();
+
+    int selectHighway();
+
+    void managerAddToll(Highway *phighway);
+
+    void managerManageToll(Highway *phighway);
+
+    void viewHighwayTolls(Highway *phighway);
+
+    void managerRemoveToll(Highway *phighway);
 };
 
 class ConfirmationExitException : exception {

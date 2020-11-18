@@ -51,3 +51,17 @@ void Highway::printTollsNumbered(bool exit) {
 void Highway::addToll(Toll * toll) {
     tolls.push_back(toll);
 }
+
+vector<Toll *> &Highway::getTolls() {
+    return tolls;
+}
+
+void Highway::printTollsNumbered() {
+    vector<Toll*>::const_iterator it; int i = 1;
+    for(it = tolls.begin(); it!= tolls.end(); it++) {
+        cout << i << ": " << (*it)->getName() << endl;
+        i++;
+
+    }
+
+}

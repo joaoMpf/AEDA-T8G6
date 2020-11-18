@@ -45,6 +45,11 @@ public:
 
     void manageInfo(Client *client);
 
+    void manageHighways();
+
+    void manageExistingHighways();
+
+    void managerManageToll(Highway* highway);
 };
 
 enum main_menu {

@@ -22,6 +22,7 @@ public:
             name(std::move(n)), location(std::move(loc)), lanes(std::move(l)),
             position(std::move(pos)), price(pri){};
 
+
     ~Toll(){};
 
     const string &getName() const;

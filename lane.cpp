@@ -34,6 +34,14 @@ bool Lane::operator>=(const Lane &rhs) const {
     return !(*this < rhs);
 }
 
+bool Lane::passVehicle() {
+    if(vehicleQueue.size()>0) {
+        vehicleQueue.pop();
+        return true;
+    }
+    return false;
+}
+
 
 void NormalExitLane::setEmployee(Employee *employee1) {
     this->employee = employee1;

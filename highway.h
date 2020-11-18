@@ -14,10 +14,12 @@ private:
 public:
     Highway(string n): name(n){}
     const string &getName() const;
+    void printTollsNumbered();
     void printTollsNumbered(bool exit);
     Toll* getTollAt(int i,bool exit);
     void addToll(Toll* toll);
-
+    vector<Toll*> &getTolls();
+    void eraseTollAt(int i){tolls.erase(tolls.begin()+i);}
 };
 
 

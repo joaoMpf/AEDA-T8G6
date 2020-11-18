@@ -2,7 +2,6 @@
 #define AEDA_T8G6_LANE_H
 
 #include "employee.h"
-//#include "client.h"
 #include "sequentialSearch.h"
 #include <vector>
 #include <iostream>
@@ -22,11 +21,19 @@ public:
 
     int getNumCrossings() const;
 
+    bool passVehicle();
+
     pair<string, double> addCrossing(); //Chamar função para tirar próximo veiculo da queue
 
     virtual void addVehicle(string licensePlate, double price);
 
     virtual bool isViaVerde() const { return false; }
+
+    virtual bool isNormalExitLane() const {return false;}
+
+    virtual Employee *getEmployee() const {return nullptr;}
+
+    int numberVehiclesWaiting(){ return vehicleQueue.size();}
 
     bool operator<(const Lane &rhs) const;
 
@@ -40,7 +47,6 @@ public:
 class NormalLane : public Lane {
 public:
     NormalLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
-
     bool isViaVerde() const override { return false; }
 };
 
@@ -54,7 +60,7 @@ private:
 public:
     NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
-
+    bool isNormalExitLane() const override {return true;}
     Employee *getEmployee() const;
 
     void ChangeEmployee(Employee *employee);

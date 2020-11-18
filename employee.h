@@ -3,13 +3,13 @@
 
 #include <string>
 
-
 using namespace std;
 
 class Employee {
 private:
     string name;
     int ss_number;
+
 public:
     Employee(string n, int ss): name(n), ss_number(ss){};
 
