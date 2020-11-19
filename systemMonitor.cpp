@@ -309,23 +309,19 @@ Client *SystemMonitor::login() {
 }
 
 Employee *SystemMonitor::loginEmployee() {
-    int nif, pos;
-    string name;
-    for (int i = 0; i < 5; ++i) {
-        name = getName();
-        nif = getNif();
-        try {
-            if (confirmation()) {
-                pos = findEmployee(new Employee(name, nif));
-                if (pos != -1)
-                    return employees[pos];
-            }
-        } catch (ConfirmationExitException &exception) {
-            ConfirmationExitException::showMessage();
-            return nullptr;
-        }
+    int ss, pos;
+
+    while(true){
+        cout<<"ENTER EMPLOYEE SS NUMBER: \n";
+        cin>>ss;
+        if(countDigit(ss)==9) break;
+        else if(ss==0) return nullptr;
+        cout<<"NOT A VALID LOGIN NUMBER. TRY AGAIN OR PRESS 0 TO RETURN\n";
     }
-    cout << "TOO MANY TRIES\n";
+    pos = findEmployee(new Employee("Joao", ss));
+
+    if (pos != -1) return employees[pos];
+
     return nullptr;
 }
 
@@ -1050,6 +1046,7 @@ void SystemMonitor::changeEmployeeLane() {
         cin.clear();
         cin.ignore(10000, '\n');
     }
+
     if (employee->isWorking()) {
         cout << "THIS EMPLOYEE IS ALREADY WORKING IN A LANE DO YOU WANT TO MOVE HIM?\n"
                 "(PRESS Y/N FOR YES OR NO)\n";
@@ -1069,10 +1066,14 @@ void SystemMonitor::changeEmployeeLane() {
             cin.ignore(10000, '\n');
             cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
         }
-    } else {
+    }
+
+    else {
+
         if (lane->getEmployee() != nullptr) {
             lane->getEmployee()->changeWorkStatus();
         }
+
         lane->setEmployee(employee);
         return;
     }

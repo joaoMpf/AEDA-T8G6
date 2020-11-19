@@ -49,9 +49,9 @@ public:
 
     virtual void addVehicle(string licensePlate, double price);
 
-    virtual bool isViaVerde() const { return false; }
+    bool isViaVerde() const { return false; }
 
-    virtual bool isNormalExitLane() const {return false;}
+    bool isNormalExitLane() {return false;}
 
     virtual Employee *getEmployee() const {return nullptr;}
 
@@ -74,7 +74,7 @@ public:
 class NormalLane : public Lane {
 public:
     NormalLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
-    bool isViaVerde() const override { return false; }
+
 };
 
 ///Child of NormalLane
@@ -88,7 +88,7 @@ private:
 public:
     NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
-    bool isNormalExitLane() const override {return true;}
+    bool isNormalExitLane()  {return true;}
     Employee *getEmployee() const;
 
     void ChangeEmployee(Employee *employee);
@@ -100,8 +100,7 @@ public:
 class ViaVerdeLane : public Lane {
 public:
     void addVehicle(string licensePlate, double price);
-
-    bool isViaVerde() const override { return true; }
+    bool isViaVerde() const { return true; }
 };
 
 #endif //AEDA_T8G6_LANE_H
