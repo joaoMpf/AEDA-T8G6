@@ -12,5 +12,9 @@ bool Employee::operator==(const Employee &rhs) const {
     return ss_number == rhs.ss_number;
 }
 
+bool Employee::isWorking() {
+    return working;
+}
+
 
 

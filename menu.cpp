@@ -111,8 +111,7 @@ void menu::monitorManager() {
         cout << "\nMANAGER MENU\n"
              << "\nPlease enter number:\n"
              << "1 - MANAGE HIGHWAYS\n"
-             << "2 - MANAGE EMPLOYEES\n"
-             //<< "3 - MANAGE CLIENTS\n"
+             << "2 - MANAGE EMPLOYEES\n"//FALTA ESTE
              << "0 - GO BACK\n";
 
         switch (SystemMonitor::getNumberInput()) {
@@ -121,9 +120,6 @@ void menu::monitorManager() {
                 break;
             case '2':
                 //manageEmployees()
-                break;
-            case '3':
-                //manageClients()
                 break;
             case back:
                 return;
@@ -325,7 +321,7 @@ void menu::manageHighways() {
         cout<< "\nPlease enter number:\n"
             << "1 - ADD HIGHWAY\n"
             << "2 - REMOVE HIGHWAY\n"
-            << "3 - CHANGE EXISTING HIGHWAY(ADD OR REMOVE TOLLS,LANES,ETC)\n" //NOT DONE
+            << "3 - CHANGE EXISTING HIGHWAY(ADD OR REMOVE TOLLS,LANES,ETC)\n"
             << "4 - VIEW HIGHWAY LIST\n"
             << "0 - GO BACK\n";
         switch (SystemMonitor::getNumberInput()) {
@@ -384,25 +380,34 @@ void menu::manageExistingHighways() {
 }
 
 void menu::managerManageToll(Highway* highway) {
-
+    Toll *toll=systemMonitor->selectToll(highway);
     while(true){
         cout << "\nTOLL MANAGER MENU:\n\n";
         cout<< "\nPlease enter number:\n"
             << "1 - ADD NORMAL LANE\n"
             << "2 - ADD VIA VERDE LANE\n"
             << "3 - CHANGE LANE EMPLOYEES\n"
+            << "4 - REMOVE LANE\n"
+            << "5 - VIEW LANES\n"
             << "0 - GO BACK\n";
         switch (SystemMonitor::getNumberInput()) {
             case '1':
-
+                systemMonitor->managerAddLane(toll,false);
                 break;
             case '2':
-
+                systemMonitor->managerAddLane(toll,true);
                 break;
             case '3':
-
+                systemMonitor->changeLaneEmployee(toll);
+                break;
+            case '4':
+                systemMonitor->removeLane(toll);
+                break;
+            case '5':
+                systemMonitor->viewLanes(toll);
                 break;
             case '0':
+
                 return;
             default:
                 cout << "\nPlease enter another number\n";

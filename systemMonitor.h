@@ -138,6 +138,20 @@ public:
     void viewHighwayTolls(Highway *phighway);
 
     void managerRemoveToll(Highway *phighway);
+
+    Toll* selectToll(Highway *pHighway);
+
+    void managerAddLane(Toll *pToll,bool viaVerde);
+
+    void printEmployeesNumbered();
+
+    Employee *selectEmployee();
+
+    void viewLanes(Toll *pToll);
+
+    void removeLane(Toll *pToll);
+
+    void changeLaneEmployee(Toll *pToll);
 };
 
 class ConfirmationExitException : exception {

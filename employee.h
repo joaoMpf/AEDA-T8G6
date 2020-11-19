@@ -9,6 +9,7 @@ class Employee {
 private:
     string name;
     int ss_number;
+    bool working; //IF EMPLOYEE IS WORKING IN A LANE, VALUE TRUE
 
 public:
     Employee(string n, int ss): name(n), ss_number(ss){};
@@ -20,6 +21,11 @@ public:
     int getSsNumber() const;
 
     bool operator==(const Employee &rhs) const;
+
+    bool isWorking();
+
+    void changeWorkStatus(){working=!working;};
+
 };
 
 

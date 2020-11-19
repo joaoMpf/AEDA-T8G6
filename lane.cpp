@@ -43,6 +43,8 @@ bool Lane::passVehicle() {
 }
 
 
+
+
 void NormalExitLane::setEmployee(Employee *employee1) {
     this->employee = employee1;
 }
