@@ -50,7 +50,7 @@ public:
 
     void addClient(Client* client);
 
-    bool removeClient(const Client* &client);
+    bool removeClient(const Client* client);
 
     int findClient(const Client *client);
 

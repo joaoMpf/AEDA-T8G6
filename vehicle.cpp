@@ -39,7 +39,7 @@ double Vehicle::endTrip(Toll *toll, Time *time) {
 }
 
 void Vehicle::printTrips() {
-    if(!trips.empty()) {
+    if (!trips.empty()) {
         for (auto x:trips) {
             cout << "Trip Info:\n"
                  << "Started at: " <<
@@ -51,9 +51,8 @@ void Vehicle::printTrips() {
                  x->getEndTime()->getMinute() << ":"
                  << x->getEndTime()->getSecond() << endl;
         }
-    }
-    else{
-        cout<<"NO TRIPS TO SHOW"<<endl<<endl;
+    } else {
+        cout << "NO TRIPS TO SHOW" << endl << endl;
     }
 }
 
@@ -62,35 +61,39 @@ Vehicle::Vehicle(const string &licensePlate) : licensePlate(licensePlate) {}
 Vehicle::Vehicle(const string &licensePlate, int category, bool viaVerde) : licensePlate(licensePlate),
                                                                             category(category), viaVerde(viaVerde) {}
 
-bool Vehicle::isViaVerde() const{
+bool Vehicle::isViaVerde() const {
     return viaVerde;
 }
 
 void Vehicle::printInfo() {
-    cout<<"LICENSE PLATE: "<<licensePlate<<endl;
-    cout<<"CATEGORY: "<<category<<endl;
-    cout<<"VIA VERDE: ";
-    if(viaVerde){
-        cout<<"YES"<<endl;
-    }
-    else{
-        cout<<"NO"<<endl;
+    cout << "LICENSE PLATE: " << licensePlate << endl;
+    cout << "CATEGORY: " << category << endl;
+    cout << "VIA VERDE: ";
+    if (viaVerde) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
     }
 
 }
 
 void Vehicle::addPayment(double price) {
-    trips[trips.size()-1]->setPrice(price);
+    trips[trips.size() - 1]->setPrice(price);
 }
 
 void Vehicle::changeViaVerde() {
-    viaVerde=!viaVerde;
+    viaVerde = !viaVerde;
 }
 
 vector<Trip *> Vehicle::getTrips() {
     return trips;
 }
 
-Trip * Vehicle::getLastTrip() {
-    return trips[trips.size()-1];
+Trip *Vehicle::getLastTrip() {
+    return trips[trips.size() - 1];
+}
+
+ostream &operator<<(ostream &os, const Vehicle &vehicle) {
+    os << vehicle.licensePlate << " " << vehicle.category << " " << vehicle.viaVerde;
+    return os;
 }

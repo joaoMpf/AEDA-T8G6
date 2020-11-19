@@ -2,6 +2,7 @@
 #define AEDA_T8G6_CLIENT_H
 
 
+#include <ostream>
 #include "vehicle.h"
 
 class Client {
@@ -40,6 +41,8 @@ public:
     void changeNIF(int nif);
 
     void printInfo();
+
+    friend ostream &operator<<(ostream &os, const Client &client);
 };
 
 

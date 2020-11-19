@@ -24,16 +24,11 @@ void SystemMonitor::sortEmployees() {
 
 }
 
-/*const vector<Client *> &SystemMonitor::getClients() const {
-    return clients;
-}
-*/
-
 void SystemMonitor::addClient(Client *client) {//?????????
     clients.push_back(client);
 }
 
-bool SystemMonitor::removeClient(const Client *&client) {//?????????
+bool SystemMonitor::removeClient(const Client *client) {//?????????
     return false;
 }
 
@@ -74,29 +69,33 @@ void SystemMonitor::save() {
 //            vehicles.push_back(vehicle);
 //        }
 //    } else throw invalid_argument("Not able to open vehicles file");
+    string vehiclesFileName = "vehicles.txt";
+    string employeesFileName = "employees.txt";
+    string clientsFileName = "clients.txt";
+    string tollsFileName = "tolls.txt";
 
 
-}
-
-/*void SystemMonitor::showTollsNumbered() {
-    for (int i=0;i<tolls.size();i++){
-        cout<<i+1<<") "<<tolls[i]->getName()<<" - "
-        <<tolls[i]->getLocation()<<" - "<<
-        tolls[i]->getType()<<endl;
+    ofstream vehiclefs(vehiclesFileName);
+    for (auto &vehicle : vehicles) {
+        vehiclefs << vehicle << endl;
     }
-}*/
 
-/*
-void SystemMonitor::showToll(int toll) {
+    ofstream employeefs(employeesFileName);
+    for (auto &employee : employees) {
+        employeefs << employee << endl;
+    }
 
-    cout << "Name: " << tolls[toll]->getName() << endl
-         << "Location: " << tolls[toll]->getLocation() << endl
-         << "Type: " << tolls[toll]->getType() << endl
-         << "Number of lanes: " << tolls[toll]->getLanes().size() << " lanes" << endl;
+    ofstream clientsfs(clientsFileName);
+    for (auto &client : clients) {
+        clientsfs << client << endl;
+    }
+
+    ofstream tollfs(tollsFileName);
+    for (int i = 0; i < highways.size(); ++i) {
+        tollfs << highways[i] << endl;
+    }
 
 }
-
-*/
 
 void SystemMonitor::load() {
     string vehiclesFileName = "vehicles.txt";
@@ -118,12 +117,12 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
 //...
 //nomex localização tipo numeroDeVias pos price
     ifstream tollfs(tollsFileName);
-    string name, location, highway_name;
-    bool type;
-    int numLanes, numTolls, pos;
-    double price;
 
     if (tollfs.is_open()) {
+        string name, location, highway_name;
+        bool type;
+        int numLanes, numTolls, pos;
+        double price;
         while (!tollfs.eof()) {
             tollfs >> highway_name >> numTolls;
             Highway *highway = new Highway(highway_name);
@@ -1015,5 +1014,3 @@ void SystemMonitor::changeLaneEmployee(Toll *pToll) {
     }
 
 }
-
-

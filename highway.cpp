@@ -65,3 +65,11 @@ void Highway::printTollsNumbered() {
     }
 
 }
+
+ostream &operator<<(ostream &os, const Highway &highway) {
+    os << highway.name << " " << highway.tolls.size() << endl;
+    for (auto toll : highway.tolls) {
+        os << toll << endl;
+    }
+    return os;
+}

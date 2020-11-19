@@ -16,5 +16,10 @@ bool Employee::isWorking() {
     return working;
 }
 
+ostream &operator<<(ostream &os, const Employee &employee) {
+    os << employee.name << " " << employee.ss_number;
+    return os;
+}
+
 
 

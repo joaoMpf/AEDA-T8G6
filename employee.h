@@ -2,6 +2,7 @@
 #define AEDA_T8G6_EMPLOYEE_H
 
 #include <string>
+#include <ostream>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ public:
 
     void changeWorkStatus(){working=!working;};
 
+    friend ostream &operator<<(ostream &os, const Employee &employee);
 };
 
 

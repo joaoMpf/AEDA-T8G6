@@ -48,6 +48,8 @@ public:
     void addLane(Lane *lane);
 
     void removeLaneAt(int i);
+
+    friend ostream &operator<<(ostream &os, const Toll &toll);
 };
 
 

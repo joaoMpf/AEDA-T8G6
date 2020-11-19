@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
 #include "trip.h"
 #include "toll.h"
 
@@ -57,6 +58,8 @@ public:
     void printTrips();
 
     void printInfo();
+
+    friend ostream &operator<<(ostream &os, const Vehicle &vehicle);
 };
 
 class CreatingVehicleException : exception {

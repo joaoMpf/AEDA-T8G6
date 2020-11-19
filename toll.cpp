@@ -69,6 +69,12 @@ void Toll::removeLaneAt(int i) {
 
 }
 
+ostream &operator<<(ostream &os, const Toll &toll) {
+    os << "name: " << toll.name << " location: " << toll.location << " lanes: " << toll.lanes << " position: "
+       << toll.position << " price: " << toll.price;
+    return os;
+}
+
 bool InToll::isExitToll() const {
     return false;
 }
