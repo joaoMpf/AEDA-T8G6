@@ -44,6 +44,10 @@ public:
     int getPosition() const;
 
     float getPrice() const;
+
+    void addLane(Lane *lane);
+
+    void removeLaneAt(int i);
 };
 
 

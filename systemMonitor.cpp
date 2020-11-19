@@ -787,3 +787,187 @@ void SystemMonitor::managerRemoveToll(Highway *phighway) {
         return;
     }
 }
+
+Toll* SystemMonitor::selectToll(Highway *pHighway) {
+    pHighway->printTollsNumbered();
+    int i;
+    while(true){
+        cout<<"SELECT A TOLL TO MANAGE:\n";
+        cin>>i;
+        if(i>0&&i<=pHighway->getTolls().size()){
+            return pHighway->getTolls()[i-1];
+        }
+        else cout<<"ENTER A VALID NUMBER\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+}
+
+void SystemMonitor::managerAddLane(Toll *pToll,bool viaVerde) {
+    if (viaVerde) pToll->addLane(new ViaVerdeLane );
+    else {
+        if (pToll->isExitToll()){
+            while(true) {
+                cout << "DO YOU WANT TO ADD AN EMPLOYEE TO THIS LANE NOW?\n"
+                        "YOU CAN DO IT LATER AT THE EMPLOYEE MENU (PRESS Y/N FOR YES OR NO)\n";
+                char ans;
+                while(true) {
+                    cin >> ans;
+                    if (toupper(ans) == 'Y') {
+                        Employee *employee = selectEmployee();
+                        if (employee->isWorking()) {
+                            cout << "THIS EMPLOYEE IS ALREADY WORKING IN A LANE DO YOU WANT TO MOVE HIM?\n";
+                            while (true) {
+
+                                cin >> ans;
+                                if (toupper(ans) == 'Y') {
+                                    Lane *oldLane = findEmployeeLane(employee);
+                                    oldLane->setEmployee(nullptr);
+                                    queue<pair<string, double>> vehicleQueue;
+                                    vector<Employee *> lastEmployees;
+                                    pToll->addLane(new NormalExitLane(0, vehicleQueue, employee, lastEmployees));
+                                    return;
+                                } else if (toupper(ans) == 'N') {
+                                    cout
+                                            << "LANE WAS CREATED. YOU CAN ALWAYS ADD AN EMPLOYER LATER IN THE EMPLOYEE MENU.\n";
+                                    queue<pair<string, double>> vehicleQueue;
+                                    vector<Employee *> lastEmployees;
+                                    pToll->addLane(new NormalExitLane(0, vehicleQueue, nullptr, lastEmployees));
+                                    return;
+                                }
+                                else if(ans=='0') return;
+                                cin.clear();
+                                cin.ignore(10000, '\n');
+                                cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
+                            }
+
+
+                        } else {
+                            queue<pair<string, double>> vehicleQueue;
+                            vector<Employee *> lastEmployees;
+                            pToll->addLane(new NormalExitLane(0, vehicleQueue, employee, lastEmployees));
+                            return;
+                        }
+                    } else if(toupper(ans) == 'N') {
+                        cout<< "LANE WAS CREATED. YOU CAN ALWAYS ADD AN EMPLOYER LATER IN THE EMPLOYEE MENU.\n";
+                        queue<pair<string, double>> vehicleQueue;
+                        vector<Employee *> lastEmployees;
+                        pToll->addLane(new NormalExitLane(0, vehicleQueue, nullptr, lastEmployees));
+                        return;
+                    }
+                    else if(ans=='0'){
+                        return;
+                    }
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
+                }
+            }
+
+        }
+    }
+}
+
+void SystemMonitor::printEmployeesNumbered() {
+    vector<Employee*>::const_iterator it; int i = 1;
+    for(it = employees.begin(); it!= employees.end(); it++) {
+        cout << i << ": " << (*it)->getName()<<endl;
+        if ((*it)->isWorking()) cout<<"WORKING"<<endl<<endl;
+        else cout<<"NOT WORKING"<<endl<<endl;
+        i++;
+    }
+}
+
+Employee *SystemMonitor::selectEmployee() {
+    printEmployeesNumbered();
+    int i;
+    while(true){
+        cout<<"SELECT AN EMPLOYEE:\n";
+        cin>>i;
+        if(i>0&&i<=employees.size()){
+            return employees[i-1];
+        }
+        else cout<<"ENTER A VALID NUMBER\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+}
+
+void SystemMonitor::viewLanes(Toll *pToll) {
+    vector<Lane*>::const_iterator it; int i = 1;
+    for(it = pToll->getLanes().begin(); it!= pToll->getLanes().end(); it++) {
+        cout << "LANE "<<i << ":\n";
+        cout <<"VIA VERDE: ";
+        if ((*it)->isViaVerde()){
+            cout<<"YES\n\n";
+        }
+        else cout<<"NO\n\n";
+        i++;
+    }
+}
+
+void SystemMonitor::removeLane(Toll *pToll) {
+    viewLanes(pToll);
+    int i;
+    while(true){
+        cout<<"SELECT A LANE TO ERASE:\n";
+        cin>>i;
+        if(i>0&&i<=pToll->getLanes().size()){
+            pToll->removeLaneAt(i-1);
+            return;
+        }
+        else cout<<"ENTER A VALID NUMBER\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+}
+
+void SystemMonitor::changeLaneEmployee(Toll *pToll) {
+    viewLanes(pToll);
+    Lane* lane;
+    int i;
+    while(true){
+        cout<<"SELECT A LANE:\n";
+        cin>>i;
+        if(i>0&&i<=pToll->getLanes().size()){
+            lane=pToll->getLanes()[i-1];
+            break;
+        }
+        else cout<<"ENTER A VALID NUMBER\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+
+    Employee* employee=selectEmployee();
+    if (employee->isWorking()) {
+        cout << "THIS EMPLOYEE IS ALREADY WORKING IN A LANE DO YOU WANT TO MOVE HIM?\n"
+                "(PRESS Y/N FOR YES OR NO)\n";
+        char ans;
+        while (true) {
+            cin >> ans;
+            if (toupper(ans) == 'Y') {
+                Lane *oldLane = findEmployeeLane(employee);
+                oldLane->setEmployee(nullptr);
+                if(lane->getEmployee()!= nullptr){
+                    lane->getEmployee()->changeWorkStatus();
+                }
+                lane->setEmployee(employee);
+                return;
+            } else if (toupper(ans) == 'N') return;
+            else if (ans == '0') return;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
+        }
+    }
+    else{
+        if(lane->getEmployee()!= nullptr){
+            lane->getEmployee()->changeWorkStatus();
+        }
+        lane->setEmployee(employee);
+        return;
+    }
+
+}
+
+

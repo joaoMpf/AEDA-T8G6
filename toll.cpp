@@ -58,6 +58,17 @@ float Toll::getPrice() const {
     return price;
 }
 
+void Toll::addLane(Lane* lane) {
+    lanes.push_back(lane);
+}
+
+void Toll::removeLaneAt(int i) {
+
+    lanes.erase(lanes.begin()+i);
+    return;
+
+}
+
 bool InToll::isExitToll() const {
     return false;
 }

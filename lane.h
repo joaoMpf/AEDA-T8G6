@@ -35,6 +35,8 @@ public:
 
     int numberVehiclesWaiting(){ return vehicleQueue.size();}
 
+    virtual void setEmployee(Employee *employee){};
+
     bool operator<(const Lane &rhs) const;
 
     bool operator>(const Lane &rhs) const;
