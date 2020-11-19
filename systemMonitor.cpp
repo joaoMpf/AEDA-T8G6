@@ -79,8 +79,8 @@ void SystemMonitor::save() {
     }
 
     ofstream tollfs(tollsFileName);
-    for (int i = 0; i < highways.size(); ++i) {
-        tollfs << highways[i] << endl;
+    for (auto & highway : highways) {
+        tollfs << highway << endl;
     }
 
 }
@@ -765,7 +765,7 @@ void SystemMonitor::managerAddToll(Highway *phighway) {
             return;
         }
     }
-    float price;
+    double price;
     while (true) {
         cout << "ENTER TOLL PRICE : \n";
         cin >> price;

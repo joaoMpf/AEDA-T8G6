@@ -54,7 +54,7 @@ int Toll::getPosition() const {
     return position;
 }
 
-float Toll::getPrice() const {
+double Toll::getPrice() const {
     return price;
 }
 
@@ -63,10 +63,7 @@ void Toll::addLane(Lane *lane) {
 }
 
 void Toll::removeLaneAt(int i) {
-
     lanes.erase(lanes.begin() + i);
-    return;
-
 }
 
 ostream &operator<<(ostream &os, const Toll &toll) {
@@ -83,8 +80,8 @@ bool OutToll::isExitToll() const {
     return true;
 }
 
-InToll::InToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const float &price) :
+InToll::InToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const double &price) :
         Toll(n, loc, l, pos, price) {}
 
-OutToll::OutToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const float &price) :
+OutToll::OutToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const double &price) :
         Toll(n, loc, l, pos, price) {}

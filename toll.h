@@ -15,10 +15,10 @@ protected:
 //    int code;
     vector<Lane *> lanes;
     int position; // this is the position within the highway ex: position = 0km, or 15km, etc
-    float price; //price corresponds to the distance between this toll and the previous one
+    double price; //price corresponds to the distance between this toll and the previous one
 
 public:
-    Toll(string n, string loc, vector<Lane *> l, int pos, float pri) :
+    Toll(string n, string loc, vector<Lane *> l, int pos, double pri) :
             name(std::move(n)), location(std::move(loc)), lanes(std::move(l)),
             position(std::move(pos)), price(pri){};
 
@@ -43,7 +43,7 @@ public:
 
     int getPosition() const;
 
-    float getPrice() const;
+    double getPrice() const;
 
     void addLane(Lane *lane);
 
@@ -55,7 +55,7 @@ public:
 
 class InToll : public Toll {
 public:
-    InToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const float &price);
+    InToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const double &price);
 
 public:
     bool isExitToll() const override;
@@ -63,7 +63,7 @@ public:
 
 class OutToll : public Toll {
 public:
-    OutToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const float &price);
+    OutToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const double &price);
 
 private:
     bool isExitToll() const override;

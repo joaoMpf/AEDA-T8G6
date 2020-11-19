@@ -1,7 +1,3 @@
-//
-// Created by Pedro Figueiredo on 11/11/2020.
-//
-
 #include "highway.h"
 
 const string &Highway::getName() const {

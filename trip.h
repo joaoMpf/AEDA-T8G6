@@ -1,7 +1,3 @@
-//
-// Created by Pedro Figueiredo on 10/11/2020.
-//
-
 #ifndef AEDA_T8G6_TRIP_H
 #define AEDA_T8G6_TRIP_H
 
