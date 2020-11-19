@@ -71,9 +71,18 @@ void menu::monitorEmployee() {
     Employee *employee = this->systemMonitor->loginEmployee();
     if (employee == nullptr)
         return;
+
     Lane *lane = systemMonitor->findEmployeeLane(employee);
+    if(lane==nullptr){
+        cout<<"EMPLOYEE DOESN'T WORK AT ANY LANE";
+        return;
+
+    }
+
     Toll *toll = systemMonitor->findLaneToll(lane);
+
     Highway *highway = systemMonitor->findTollHighway(toll);
+
     while (true) {
         cout << "\nEMPLOYEE MENU:\n\n"
              << "HIGHWAY: " << highway->getName() << "\n"
