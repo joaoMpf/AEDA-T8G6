@@ -117,7 +117,7 @@ void menu::monitorManager() {
                 manageHighways();
                 break;
             case '2':
-                //manageEmployees()
+                manageEmployees();
                 break;
             case back:
                 return;
@@ -422,6 +422,36 @@ void menu::managerManageToll(Highway *highway) {
                 break;
             case '5':
                 systemMonitor->viewLanes(toll);
+                break;
+            case '0':
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
+}
+
+void menu::manageEmployees() {
+    while (true) {
+        cout << "\nEMPLOYEE MANAGE MENU:\n\n";
+        cout << "\nPlease enter number:\n"
+             << "1 - ADD EMPLOYEE\n"
+             << "2 - REMOVE EMPLOYEE\n"
+             << "3 - CHANGE EMPLOYEE'S WORK LANE\n"
+             << "4 - VIEW EMPLOYEE LIST\n"
+             << "0 - GO BACK\n";
+        switch (SystemMonitor::getNumberInput()) {
+            case '1':
+                systemMonitor->managerAddEmployee();
+                break;
+            case '2':
+                systemMonitor->managerRemoveEmployee();
+                break;
+            case '3':
+                systemMonitor->changeEmployeeLane();
+                break;
+            case '4':
+                systemMonitor->viewEmployees();
                 break;
             case '0':
                 return;

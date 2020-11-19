@@ -54,6 +54,8 @@ public:
     Highway *getHighway();
 
     Toll *getTollInput(bool exit, Highway *highway) const;
+
+    void manageEmployees();
 };
 
 enum main_menu {

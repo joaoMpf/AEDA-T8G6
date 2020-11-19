@@ -161,6 +161,14 @@ public:
     void loadClients(const string &clientsFileName);
 
     void loadTolls(const string &tollsFileName);
+
+    void managerAddEmployee();
+
+    void managerRemoveEmployee();
+
+    void changeEmployeeLane();
+
+    void viewEmployees();
 };
 
 class ConfirmationExitException : exception {

@@ -1,5 +1,0 @@
-highwayName1 2
-nome1 localizacao1 3 0 0.0
-nome2 localizacao2 4 10 1.60
-highwayName2 1
-nome3 localizacao3 5 0 0.0

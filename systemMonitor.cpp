@@ -445,6 +445,7 @@ int SystemMonitor::getNif() {
     while (true) {
         cout << "ENTER NIF\n";
         cin >> nif;
+        cin >> nif;
         if (confirmation() && countDigit(nif) == 9 && findClient(new Client(nif)) == -1)
             break;
     }
@@ -1004,4 +1005,96 @@ void SystemMonitor::changeLaneEmployee(Toll *pToll) {
         return;
     }
 
+}
+
+void SystemMonitor::managerAddEmployee() {
+    while (true) {
+
+        cout << "ENTER EMPLOYEE NAME\n";
+        string name;
+        cin >> name;
+        try {
+            if (confirmation()) {
+                cout << "ENTER EMPLOYEE SS NUMBER (9 DIGITS):\n";
+                int ss;
+                while (true) {
+                    cout << "ENTER SS\n";
+                    cin >> ss;
+                    if (confirmation() && countDigit(ss) == 9 && findEmployee(new Employee(name,ss)) == -1) {
+                        employees.push_back(new Employee(name, ss));
+                        return;
+                    }
+
+                }
+
+            } else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return;
+        }
+    }
+
+}
+
+void SystemMonitor::managerRemoveEmployee() {
+    Employee *employee = selectEmployee();
+    if (int i=findEmployee(employee)!=-1){
+        employees.erase(employees.begin()+i);
+    }
+    return;
+}
+
+void SystemMonitor::changeEmployeeLane() {
+    Employee *employee = selectEmployee();
+    Highway *highway=highways[selectHighway()];
+    Toll *pToll=selectToll(highway);
+    viewLanes(pToll);
+    Lane *lane;
+    int i;
+    while (true) {
+        cout << "SELECT A LANE:\n";
+        cin >> i;
+        if (i > 0 && i <= pToll->getLanes().size()) {
+            lane = pToll->getLanes()[i - 1];
+            break;
+        } else cout << "ENTER A VALID NUMBER\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+    if (employee->isWorking()) {
+        cout << "THIS EMPLOYEE IS ALREADY WORKING IN A LANE DO YOU WANT TO MOVE HIM?\n"
+                "(PRESS Y/N FOR YES OR NO)\n";
+        char ans;
+        while (true) {
+            cin >> ans;
+            if (toupper(ans) == 'Y') {
+                Lane *oldLane = findEmployeeLane(employee);
+                oldLane->setEmployee(nullptr);
+                if (lane->getEmployee() != nullptr) {
+                    lane->getEmployee()->changeWorkStatus();
+                }
+                lane->setEmployee(employee);
+                return;
+            } else if (toupper(ans) == 'N') return;
+            else if (ans == '0') return;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
+        }
+    } else {
+        if (lane->getEmployee() != nullptr) {
+            lane->getEmployee()->changeWorkStatus();
+        }
+        lane->setEmployee(employee);
+        return;
+    }
+}
+
+void SystemMonitor::viewEmployees() {
+    printEmployeesNumbered();
+    while (true) {
+        cout << "PRESS 0 TO LEAVE\n";
+        if (getNumberInput() == '0') return;
+    }
 }
