@@ -97,7 +97,9 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
 //exemplo ficheiro portagens:
 //highwayName numTolls
 //tipo nome1 localização numeroDeVias pos price
+//numPassagens veiculo preco veiculo preco ...
 //tipo nome2 localização numeroDeVias pos price
+//numPassagens veiculo preco
 //...
 //tipo nomex localização numeroDeVias pos price
     ifstream tollfs(tollsFileName);
@@ -113,8 +115,9 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                 vector<Lane *> lanes;
                 tollfs >> type >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
-                    Lane e;
-                    lanes.push_back(&e);
+                    Lane *e = new Lane();
+                    tollfs >> *e;
+                    lanes.push_back(e);
                 }
                 if (type)//type = true -> is exit toll
                     highway->addToll(new OutToll(name, location, lanes, pos, price));
