@@ -57,18 +57,6 @@ void SystemMonitor::sortClients() {
 }
 
 void SystemMonitor::save() {
-//
-//    ofstream vehiclefs("vehicles.txt");
-//
-//    if (vehiclefs.is_open()) {
-//        while (!vehiclefs.eof()) {
-//            vehiclefs <<  << <<;
-//            vehiclefs >> licensePlate >> category >> viaVerde;
-//            Vehicle* vehicle = new Vehicle(licensePlate, category);
-//            if(viaVerde) vehicle->changeViaVerde();
-//            vehicles.push_back(vehicle);
-//        }
-//    } else throw invalid_argument("Not able to open vehicles file");
     string vehiclesFileName = "vehicles.txt";
     string employeesFileName = "employees.txt";
     string clientsFileName = "clients.txt";
@@ -112,10 +100,10 @@ void SystemMonitor::load() {
 void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into vector
 //exemplo ficheiro portagens:
 //highwayName numTolls
-//nome1 localização tipo numeroDeVias pos price
-//nome2 localização tipo numeroDeVias pos price
+//tipo nome1 localização numeroDeVias pos price
+//tipo nome2 localização numeroDeVias pos price
 //...
-//nomex localização tipo numeroDeVias pos price
+//tipo nomex localização numeroDeVias pos price
     ifstream tollfs(tollsFileName);
 
     if (tollfs.is_open()) {
@@ -128,12 +116,15 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
             Highway *highway = new Highway(highway_name);
             while (numTolls > 0) {
                 vector<Lane *> lanes;
-                tollfs >> name >> location >> numLanes >> pos >> price;
+                tollfs >> type >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
                     Lane e;
                     lanes.push_back(&e);
                 }
-                highway->addToll(new Toll(name, location, lanes, pos, price));
+                if (type)//type = true -> is exit toll
+                    highway->addToll(new OutToll(name, location, lanes, pos, price));
+                else
+                    highway->addToll(new InToll(name, location, lanes, pos, price));
                 numTolls--;
             }
             highways.push_back(highway);
