@@ -17,7 +17,7 @@ private:
     vector<Highway* > highways;
     vector<Employee *> employees;
     vector<Client *> clients;
-    vector<Vehicle *> circulatingVehicles;
+    vector<Vehicle *> vehicles;
 
 public:
     Vehicle *findVehicleClients(const string& licensePlate);
@@ -104,7 +104,7 @@ public:
 
     int getNif();
 
-    int findCirculatingVehicle(const string &licensePlate);
+    int findVehicle(const string &licensePlate);
 
     Employee *loginEmployee();
 
@@ -153,6 +153,14 @@ public:
     void removeLane(Toll *pToll);
 
     void changeLaneEmployee(Toll *pToll);
+
+    void loadVehicles(const string &vehiclesFileName);
+
+    void loadEmployees(const string &employeesFileName);
+
+    void loadClients(const string &clientsFileName);
+
+    void loadTolls(const string &tollsFileName);
 };
 
 class ConfirmationExitException : exception {

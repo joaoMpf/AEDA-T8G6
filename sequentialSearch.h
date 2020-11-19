@@ -7,11 +7,10 @@ using namespace std;
 
 template<class Comparable>
 int sequentialSearch(const vector<Comparable *> &v, const Comparable *x) {
-    if (v.empty())
-        return -1;
-    for (unsigned int i = 0; i < v.size(); i++)
-        if (*v[i] == *x)
-            return i;   // encontrou
+    if (!v.empty())
+        for (unsigned int i = 0; i < v.size(); i++)
+            if (*v[i] == *x)
+                return i;   // encontrou
     return -1;     // não encontrou
 }
 

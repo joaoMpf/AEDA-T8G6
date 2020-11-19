@@ -57,8 +57,6 @@ public:
     void printTrips();
 
     void printInfo();
-
-
 };
 
 class CreatingVehicleException : exception {
