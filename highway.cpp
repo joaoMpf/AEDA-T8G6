@@ -8,29 +8,29 @@ const string &Highway::getName() const {
     return name;
 }
 
-Toll * Highway::getTollAt(int i, bool exit) {
-    int cnt=0;
-    vector<Toll*>::iterator it;
-    if(exit) {
-        for (it = tolls.begin(); it != tolls.end(); it++) {
-            if ((*it)->isExitToll()) {
-                cnt++;
+Toll *Highway::getTollAt(int i, bool exit) {
+    int cnt = 0;
+    vector<Toll *>::iterator it;
+    if (!tolls.empty())
+        if (exit) {
+            for (it = tolls.begin(); it != tolls.end(); it++) {
+                if ((*it)->isExitToll()) {
+                    cnt++;
+                }
+                if (cnt == i) {
+                    return *it;
+                }
             }
-            if (cnt==i){
-                return *it;
+        } else if (!exit) {
+            for (it = tolls.begin(); it != tolls.end(); it++) {
+                if (!((*it)->isExitToll())) {
+                    cnt++;
+                }
+                if (cnt == i) {
+                    return *it;
+                }
             }
         }
-    }
-    else if(!exit) {
-        for (it = tolls.begin(); it != tolls.end(); it++) {
-            if (!((*it)->isExitToll())) {
-                cnt++;
-            }
-            if (cnt == i) {
-                return *it;
-            }
-        }
-    }
     return nullptr;
 }
 

@@ -35,7 +35,7 @@ bool Lane::operator>=(const Lane &rhs) const {
 }
 
 bool Lane::passVehicle() {
-    if(vehicleQueue.size()>0) {
+    if(!vehicleQueue.empty()) {
         vehicleQueue.pop();
         return true;
     }

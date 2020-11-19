@@ -219,6 +219,8 @@ void SystemMonitor::printHighwaysNumbered() {
 }
 
 Highway *SystemMonitor::getHighwayAt(int i) {
+    if(highways.empty() || i < 0 || i > highways.size())
+        return nullptr;
     return highways[i];
 }
 

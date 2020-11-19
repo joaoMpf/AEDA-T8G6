@@ -49,14 +49,18 @@ public:
 
     void manageExistingHighways();
 
-    void managerManageToll(Highway* highway);
+    void managerManageToll(Highway *highway);
+
+    Highway *getHighway();
+
+    Toll *getTollInput(bool exit, Highway *highway) const;
 };
 
 enum main_menu {
-    quit= '0', employee, manager, client
+    quit = '0', employee, manager, client
 };
 enum employee_menu {
-    back= '0', operate
+    back = '0', operate
 };
 
 enum operate_toll {
@@ -66,7 +70,6 @@ enum operate_toll {
 enum monitor_tolls_menu {
     choose_toll_monitor = '1'
 };
-
 
 
 #endif //AEDA_T8G6_MENU_H

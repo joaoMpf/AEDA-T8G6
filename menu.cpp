@@ -219,21 +219,19 @@ void menu::operateToll(Client *client) {
 }
 
 void menu::operatePassToll(Client *client, bool exit) {
-    systemMonitor->printHighwaysNumbered();
-    cout << "CHOOSE HIGHWAY\n";
-    int highwayNum;
-    cin >> highwayNum;
-    cin.ignore(1000, '\n');
-    cin.clear();
-    Highway *highway = systemMonitor->getHighwayAt(highwayNum - 1);
+    Highway *highway = getHighway();
+    if (highway == nullptr) {
+        cout << "INVALID HIGHWAY\n";
+        return;
+    }
 
     highway->printTollsNumbered(exit);
-    cout << "CHOOSE TOLL\n";
-    int tollNum;
-    cin >> tollNum;
-    cin.ignore(1000, '\n');
-    cin.clear();
-    Toll *toll = highway->getTollAt(tollNum,exit);
+    Toll *toll = getTollInput(exit, highway);
+    if (toll == nullptr) {
+        cout << "INVALID TOLL\n";
+        return;
+    }
+
     if (toll->getLanes().empty()) {
         cout << "TOLL EMPTY\n";
         return;
@@ -265,7 +263,7 @@ void menu::operatePassToll(Client *client, bool exit) {
             vehicle->startTrip(toll, new Time);
             return;
         } else {
-            float price; //FALTA CALCULAR PREÇO
+            float price; //CALCULAR PREÇO
             price = toll->getPrice() - vehicle->getLastTrip()->getBegin()->getPrice();
             vehicle->addPayment(price);
             if (vehicle->isViaVerde()){
@@ -278,6 +276,27 @@ void menu::operatePassToll(Client *client, bool exit) {
         }
 
     }
+}
+
+Toll *menu::getTollInput(bool exit, Highway *highway) const {
+    cout << "CHOOSE TOLL\n";
+    int tollNum;
+    cin >> tollNum;
+    cin.ignore(1000, '\n');
+    cin.clear();
+    Toll *toll = highway->getTollAt(tollNum,exit);
+    return toll;
+}
+
+Highway *menu::getHighway() {
+    systemMonitor->printHighwaysNumbered();
+    cout << "CHOOSE HIGHWAY\n";
+    int highwayNum;
+    cin >> highwayNum;
+    cin.ignore(1000, '\n');
+    cin.clear();
+    Highway *highway = systemMonitor->getHighwayAt(highwayNum - 1);
+    return highway;
 }
 
 void menu::manageCosts(Client *client) {
