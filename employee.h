@@ -12,7 +12,9 @@ private:
     bool working; //IF EMPLOYEE IS WORKING IN A LANE, VALUE TRUE
 
 public:
-    Employee(string n, int ss): name(n), ss_number(ss){};
+    Employee(string n, int ss): name(n), ss_number(ss){
+        working = false;
+    };
 
     ~Employee(){};
 

@@ -3,6 +3,7 @@
 
 #include "highway.h"
 #include "client.h"
+#include "toll.h"
 #include <string>
 #include <fstream>
 #include <iostream>

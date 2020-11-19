@@ -128,11 +128,13 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
     //nomex numeroDeSS
     ifstream employeesfs("employees.txt");
     string eName;
-    int ssNumber;
+    int ssNumber; bool working;
     if (employeesfs.is_open()) {
         while (!employeesfs.eof()) {
-            employeesfs >> eName >> ssNumber; employeesfs.ignore('\n');
-            employees.push_back(new Employee(eName, ssNumber));
+            employeesfs >> eName >> ssNumber >> working; employeesfs.ignore('\n');
+            Employee* employee = new Employee(eName, ssNumber);
+            if (working) employee->changeWorkStatus();
+            employees.push_back(employee);
         }
     } else throw invalid_argument("Not able to open employees file");
 
@@ -148,12 +150,12 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
     int nif, numVehicles;
     if (clientsfs.is_open()) {
         while (!clientsfs.eof()) {
-            clientsfs >> cName >> nif >> numVehicles; clientsfs.ignore('\n');
+            clientsfs >> cName >> nif >> numVehicles; //clientsfs.ignore('\n');
             Client* client = new Client(cName, nif);
             while(numVehicles)
             {
                 clientsfs >> licensePlate;
-                client->addVehicle(findVehicleClients(licensePlate));
+                client->addVehicle(getVehicle(licensePlate));
                 numVehicles--;
             }
             clients.push_back(client);
@@ -179,7 +181,7 @@ void SystemMonitor::load() { //provavelmente vai ter de ser
             Highway* highway = new Highway(highway_name);
             while(numTolls > 0) {
                 vector<Lane *> lanes;
-                tollfs >> name >> location >> numLanes >> price >> price;
+                tollfs >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
                     Lane e;
                     lanes.push_back(&e);
@@ -238,6 +240,14 @@ string SystemMonitor::licensePlateInput() {
     }
 }
 
+Vehicle * SystemMonitor::getVehicle(const string &licensePlate) {
+    vector<Vehicle*>::const_iterator it;
+    for(it = circulatingVehicles.begin(); it!= circulatingVehicles.end(); it++)
+        if((*it)->getLicensePlate() == licensePlate)
+            return *it;
+    return NULL;
+}
+
 //Vehicle *SystemMonitor::getVehicle(const string &licensePlate) {
 //    Vehicle *vehicle;
 //
@@ -264,9 +274,12 @@ void SystemMonitor::addVehicle(Vehicle *vehicle) {
     circulatingVehicles.push_back(vehicle);
 }
 
+
+
 void SystemMonitor::addHighway(Highway *highway) {
     highways.push_back(highway);
 }
+
 
 Client *SystemMonitor::login() {
     int nif, pos;
