@@ -63,26 +63,22 @@ void SystemMonitor::save() {
     string tollsFileName = "tolls.txt";
 
 
-    ofstream vehiclefs(vehiclesFileName);
-    for (auto &vehicle : vehicles) {
-        vehiclefs << vehicle << endl;
-    }
+    saveVectorToFile(vehiclesFileName, vehicles);
+    saveVectorToFile(employeesFileName, employees);
+    saveVectorToFile(clientsFileName, clients);
+    saveVectorToFile(tollsFileName, highways);
+}
 
-    ofstream employeefs(employeesFileName);
-    for (auto &employee : employees) {
-        employeefs << employee << endl;
-    }
-
-    ofstream clientsfs(clientsFileName);
-    for (auto &client : clients) {
-        clientsfs << client << endl;
-    }
-
-    ofstream tollfs(tollsFileName);
-    for (auto & highway : highways) {
-        tollfs << highway << endl;
-    }
-
+template<class T>
+void SystemMonitor::saveVectorToFile(const string &vectorFileName, vector<T *> &vec) const {
+    ofstream file(vectorFileName);
+    if (!vec.empty() && file.is_open())
+        for (int i = 0; i < vec.size(); ++i) {
+            file << *vec[i];
+            if (i != vec.size() - 1)
+                file << endl;
+        }
+    file.close();
 }
 
 void SystemMonitor::load() {
@@ -111,8 +107,7 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
         bool type;
         int numLanes, numTolls, pos;
         double price;
-        while (!tollfs.eof()) {
-            tollfs >> highway_name >> numTolls;
+        while (tollfs >> highway_name >> numTolls) {
             Highway *highway = new Highway(highway_name);
             while (numTolls > 0) {
                 vector<Lane *> lanes;
@@ -145,11 +140,9 @@ void SystemMonitor::loadClients(const string &clientsFileName) {//load employees
         string cName, licensePlate;
         int nif, numVehicles;
 
-        while (!clientsfs.eof()) {
-            clientsfs >> cName >> nif >> numVehicles; //clientsfs.ignore('\n');
+        while (clientsfs >> cName >> nif >> numVehicles) {
             Client *client = new Client(cName, nif);
-            while (numVehicles) {
-                clientsfs >> licensePlate;
+            while (numVehicles > 0 && clientsfs >> licensePlate) {
                 client->addVehicle(getVehicle(licensePlate));
                 numVehicles--;
             }
@@ -161,8 +154,8 @@ void SystemMonitor::loadClients(const string &clientsFileName) {//load employees
 
 void SystemMonitor::loadEmployees(const string &employeesFileName) {//load employees into vector
 //exemplo ficheiro empregado:
-//nome1 numeroDeSS
-//nome2 numeroDeSS
+//nome1 numeroDeSS 1
+//nome2 numeroDeSS 0
 //...
 //nomex numeroDeSS
     ifstream employeesfs(employeesFileName);
@@ -172,9 +165,7 @@ void SystemMonitor::loadEmployees(const string &employeesFileName) {//load emplo
         int ssNumber;
         bool working;
 
-        while (!employeesfs.eof()) {
-            employeesfs >> eName >> ssNumber >> working;
-            employeesfs.ignore('\n');
+        while (employeesfs >> eName >> ssNumber >> working) {
             Employee *employee = new Employee(eName, ssNumber);
             if (working) employee->changeWorkStatus();
             employees.push_back(employee);
@@ -355,7 +346,7 @@ void SystemMonitor::addVehicleClient(Client *client) {
         licensePlate = getNewLicensePlate();
 
     } catch (CreatingVehicleException &exception) {
-        exception.showMessage();
+        CreatingVehicleException::showMessage();
         return;
     }
 
@@ -503,12 +494,11 @@ void SystemMonitor::removeVehicle(Client *client) {
         licensePlate = licensePlateInput();
         if (licensePlate == "0") return;
         vehicle = client->getVehicle(licensePlate);
-        if (vehicle == nullptr) {
-            cout << "YOU DO NOT HAVE THIS VEHICLE REGISTERED\n";
-            continue;
+        if (vehicle != nullptr) {
+            client->removeVehicle(vehicle);
+            return;
         }
-        client->removeVehicle(vehicle);
-        return;
+        cout << "YOU DO NOT HAVE THIS VEHICLE REGISTERED\n";
     }
 }
 
@@ -516,17 +506,17 @@ void SystemMonitor::viewVehicles(Client *client) {
 
     vector<Vehicle *>::iterator it;
     it = client->getVehicles().begin();
-
+    char c;
     while (true) {
         client->printVehicles();
         cout << "SELECT A VEHICLE TO VIEW ITS TRIPS (OR 0 TO GO BACK)" << endl;
-        switch (char c = getNumberInput()) {
+        switch (c = (char) getNumberInput()) {
             case '0':
                 return;
             default:
                 if (isdigit(c)) {
                     cout << endl;
-                    (*(it + atoi(&c) - 1))->printTrips();
+                    (*(it + ((int) c) - 1))->printTrips();
                     cout << endl << endl;
                     break;
                 } else {
@@ -535,8 +525,6 @@ void SystemMonitor::viewVehicles(Client *client) {
         }
 
     }
-    return;
-
 }
 
 void SystemMonitor::updateVehicles(Client *client) {
@@ -625,7 +613,7 @@ Toll *SystemMonitor::findLaneToll(Lane *lane) {
     for (auto h:highways) {
         for (auto t:h->getTolls()) {
             for (auto l:t->getLanes()) {
-                if (l = lane) {
+                if (l == lane) {
                     return t;
                 }
             }
@@ -637,7 +625,7 @@ Toll *SystemMonitor::findLaneToll(Lane *lane) {
 Highway *SystemMonitor::findTollHighway(Toll *toll) {
     for (auto h:highways) {
         for (auto t:h->getTolls()) {
-            if (t = toll) return h;
+            if (t == toll) return h;
         }
     }
     return nullptr;
@@ -793,7 +781,7 @@ vector<Highway *> SystemMonitor::getHighways() {
 }
 
 void SystemMonitor::viewHighwayTolls(Highway *phighway) {
-    if (phighway->getTolls().size() == 0) {
+    if (phighway->getTolls().empty()) {
         cout << "NO TOLLS TO SHOW\n";
         return;
     }
@@ -805,7 +793,7 @@ void SystemMonitor::viewHighwayTolls(Highway *phighway) {
 }
 
 void SystemMonitor::managerRemoveToll(Highway *phighway) {
-    if (phighway->getTolls().size() > 0) {
+    if (!phighway->getTolls().empty()) {
         phighway->printTollsNumbered();
         while (true) {
             cout << "WHICH HIGHWAY DO YOU WISH TO REMOVE\n";
@@ -1020,7 +1008,7 @@ void SystemMonitor::managerAddEmployee() {
                 while (true) {
                     cout << "ENTER SS\n";
                     cin >> ss;
-                    if (confirmation() && countDigit(ss) == 9 && findEmployee(new Employee(name,ss)) == -1) {
+                    if (confirmation() && countDigit(ss) == 9 && findEmployee(new Employee(name, ss)) == -1) {
                         employees.push_back(new Employee(name, ss));
                         return;
                     }
@@ -1039,16 +1027,16 @@ void SystemMonitor::managerAddEmployee() {
 
 void SystemMonitor::managerRemoveEmployee() {
     Employee *employee = selectEmployee();
-    if (int i=findEmployee(employee)!=-1){
-        employees.erase(employees.begin()+i);
+    if (int i = findEmployee(employee) != -1) {
+        employees.erase(employees.begin() + i);
     }
     return;
 }
 
 void SystemMonitor::changeEmployeeLane() {
     Employee *employee = selectEmployee();
-    Highway *highway=highways[selectHighway()];
-    Toll *pToll=selectToll(highway);
+    Highway *highway = highways[selectHighway()];
+    Toll *pToll = selectToll(highway);
     viewLanes(pToll);
     Lane *lane;
     int i;
@@ -1076,8 +1064,7 @@ void SystemMonitor::changeEmployeeLane() {
                 }
                 lane->setEmployee(employee);
                 return;
-            } else if (toupper(ans) == 'N') return;
-            else if (ans == '0') return;
+            } else if ((toupper(ans) == 'N') || (ans == '0')) return;
             cin.clear();
             cin.ignore(10000, '\n');
             cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";

@@ -33,13 +33,13 @@ public:
     ///2: tollName2
     void printTollsNumbered();
 
-    ///Either prints exit tolls or entry Tolls
+    ///Either prints isExit tolls or entry Tolls
     ///
-    /// \param exit indicates which type of Tolls to print
-    ///If exit is true, then the Tolls printed with be exit Tolls
+    /// \param isExit indicates which type of Tolls to print
+    ///If isExit is true, then the Tolls printed with be isExit Tolls
     ///Else they will be entry Tolls
     ///@note The Tolls are printed in the same format as printTollsNumbered()
-    void printTollsNumbered(bool exit);
+    void printTollsNumbered(bool isExit);
 
     ///Returns Toll at the index i of tolls
     ///

@@ -35,14 +35,26 @@ bool Lane::operator>=(const Lane &rhs) const {
 }
 
 bool Lane::passVehicle() {
-    if(!vehicleQueue.empty()) {
+    if (!vehicleQueue.empty()) {
         vehicleQueue.pop();
         return true;
     }
     return false;
 }
 
-
+ostream &operator<<(ostream &os, const Lane &lane) {
+    os << lane.numCrossings << " " << lane.vehicleQueue.size();
+    if(lane.vehicleQueue.empty()) {
+        queue<pair<string, double>> printQueue = lane.vehicleQueue;
+        while (!printQueue.empty()) {
+            os << printQueue.front().first << " " << printQueue.front().second;
+            if (printQueue.size() > 1)
+                os << " ";
+            printQueue.pop();
+        }
+    }
+    return os;
+}
 
 
 void NormalExitLane::setEmployee(Employee *employee1) {

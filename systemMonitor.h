@@ -31,7 +31,7 @@ public:
     };
 
     ~SystemMonitor(){
-
+        save();
     };
 
     vector<Highway* > getHighways();
@@ -169,6 +169,9 @@ public:
     void changeEmployeeLane();
 
     void viewEmployees();
+
+    template<class T>
+    void saveVectorToFile(const string &vectorFileName, vector<T *> &vec) const;
 };
 
 class ConfirmationExitException : exception {

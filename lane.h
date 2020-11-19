@@ -66,6 +66,8 @@ public:
     bool operator<=(const Lane &rhs) const;
 
     bool operator>=(const Lane &rhs) const;
+
+    friend ostream &operator<<(ostream &os, const Lane &lane);
 };
 
 ///Child of Lane
