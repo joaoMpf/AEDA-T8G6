@@ -26,7 +26,7 @@ public:
     void save();
 
     SystemMonitor(){
-        //load();
+        load();
     };
 
     ~SystemMonitor(){

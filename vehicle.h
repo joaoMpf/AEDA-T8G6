@@ -23,6 +23,7 @@ public:
     Vehicle(const string &licensePlate, int category, bool viaVerde);
 
     Vehicle(string plate, int cat) : licensePlate(plate), category(cat) {
+        viaVerde = 0;
     }
 
     Vehicle(const string &licensePlate);

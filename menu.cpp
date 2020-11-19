@@ -90,7 +90,6 @@ void menu::monitorEmployee() {
                  << "NO VEHICLES TO PASS\n"
                  << "0 - GO BACK\n\n";
         }
-
         switch (SystemMonitor::getNumberInput()) {
             case 1:
                 if(lane->passVehicle()) {
