@@ -51,8 +51,11 @@ void Highway::printTollsNumbered() {
 
 ostream &operator<<(ostream &os, const Highway &highway) {
     os << highway.name << " " << highway.tolls.size() << endl;
-    for (auto toll : highway.tolls) {
-        os << *toll << endl;
-    }
+    if (!highway.tolls.empty())
+        for (int i = 0; i < highway.tolls.size(); ++i) {
+            os << *highway.tolls[i];
+            if (i != highway.tolls.size() - 1)
+                os << endl;
+        }
     return os;
 }
