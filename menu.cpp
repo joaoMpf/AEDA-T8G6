@@ -11,24 +11,24 @@ inline int getchar_unlocked() { return _getchar_nolock(); }
 
 menu::menu() {
     this->systemMonitor = new SystemMonitor;
-//    Highway highway("A4");
-//    vector<Lane *> lanes;
-//    queue<pair<string, double>> queue1;
-//    vector<Employee*> lastE;
-//
-//    Employee* employee=new Employee("Maria",123456789);
-//    lastE.push_back(employee);
-//    lanes.push_back(new NormalExitLane(3, queue1,employee,lastE));
-//    lanes.push_back(new ViaVerdeLane);
-//    highway.addToll(new InToll("A", "Custoias", lanes, 0, 0.0));
-//    highway.addToll(new OutToll("B", "Matosinhos", lanes, 10, 2.60));
-//    systemMonitor->addHighway(&highway);
-//    Client client1("Joao", 123123123);
-//    Vehicle vehicle1("XX-XX-XX", 1, false);
-//    client1.addVehicle(&vehicle1);
-//    systemMonitor->addClient(&client1);
-//
-//    systemMonitor->addEmployee(employee);
+    Highway highway("A4");
+    vector<Lane *> lanes;
+    queue<pair<string, double>> queue1;
+    vector<Employee*> lastE;
+
+    Employee* employee=new Employee("Maria",123456789,true);
+    lastE.push_back(employee);
+    lanes.push_back(new NormalExitLane(3, queue1,employee,lastE));
+    lanes.push_back(new ViaVerdeLane);
+    highway.addToll(new InToll("A", "Custoias", lanes, 0, 0.0));
+    highway.addToll(new OutToll("B", "Matosinhos", lanes, 10, 2.60));
+    systemMonitor->addHighway(&highway);
+    Client client1("Joao", 123123123);
+    Vehicle vehicle1("XX-XX-XX", 1, false);
+    client1.addVehicle(&vehicle1);
+    systemMonitor->addClient(&client1);
+
+    systemMonitor->addEmployee(employee);
     mainMenu();
     systemMonitor->~SystemMonitor();
     free(systemMonitor);
@@ -423,19 +423,25 @@ void menu::manageExistingHighways(Highway* highway) {
 void menu::managerManageToll(Highway *highway) {
     Toll* toll=systemMonitor->selectToll(highway);
     while (true) {
-        cout << "\nTOLL MANAGER MENU:\n\n";
-        cout << "\nPlease enter number:\n"
-             << "1 - ADD NORMAL LANE\n"
-             << "2 - ADD VIA VERDE LANE\n"
-             << "3 - CHANGE LANE EMPLOYEES\n"
-             << "4 - REMOVE LANE\n";
+
         if (toll->isExitToll()){
-        cout <<"5 - VIEW LANES\n"
-             <<"6 - VIEW TOLL PAST EMPLOYEES\n"
-                << "0 - GO BACK\n";}
+            cout << "\nEXIT-TOLL MANAGER MENU:\n\n";
+            cout << "\nPlease enter number:\n"
+                 << "1 - ADD NORMAL EXIT LANE\n"
+                 << "2 - ADD VIA VERDE EXIT LANE\n"
+                 << "3 - CHANGE EXIT LANE EMPLOYEES\n"
+                 << "4 - REMOVE LANE\n"
+                 << "5 - VIEW LANES\n"
+                 << "6 - VIEW TOLL PAST EMPLOYEES\n"
+                 << "0 - GO BACK\n";}
         else{
-        cout << "5 - VIEW LANES\n"
-             << "0 - GO BACK\n";}
+            cout << "\nENTRY-TOLL MANAGER MENU:\n\n";
+            cout << "\nPlease enter number:\n"
+                 << "1 - ADD NORMAL EXIT LANE\n"
+                 << "2 - ADD VIA VERDE LANE\n"
+                 << "3 - REMOVE LANE\n"
+                 << "4 - VIEW LANES\n"
+                 << "0 - GO BACK\n";}
         if(!toll->isExitToll()) {
             switch (SystemMonitor::getNumberInput()) {
                 case '1':
@@ -445,12 +451,9 @@ void menu::managerManageToll(Highway *highway) {
                     systemMonitor->managerAddLane(toll, true);
                     break;
                 case '3':
-                    systemMonitor->changeLaneEmployee(toll);
-                    break;
-                case '4':
                     systemMonitor->removeLane(toll);
                     break;
-                case '5':
+                case '4':
                     systemMonitor->viewLanes(toll);
                     break;
                 case '0':

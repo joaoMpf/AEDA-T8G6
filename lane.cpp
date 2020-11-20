@@ -77,11 +77,6 @@ Employee *NormalExitLane::getEmployee() {
     return employee;
 }
 
-void NormalExitLane::ChangeEmployee(Employee *employee1) {
-    setEmployee(employee1);
-    lastEmployees.push_back(employee);
-}
-
 const vector<Employee *> &NormalExitLane::getLastEmployees() const {
     return lastEmployees;
 }

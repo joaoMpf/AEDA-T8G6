@@ -119,16 +119,14 @@ public:
     /// \return pointer to Employee working in NormalExitLane
     Employee *getEmployee() ;
 
+    ///Changes Employee working in NormalExitLane
+    ///
+    /// \param employee pointer to Employee
     void setEmployee(Employee *employee);
 
     vector<Employee*> getLastEmployees(){return lastEmployees;}
 
     void addToEmployeeList(Employee* employee1){lastEmployees.push_back(employee);};
-
-    ///Changes Employee working in NormalExitLane
-    ///
-    /// \param employee pointer to Employee
-    void ChangeEmployee(Employee *employee);
 
 
     ///Returns vector of pointers to Employee

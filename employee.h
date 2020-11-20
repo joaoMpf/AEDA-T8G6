@@ -17,10 +17,8 @@ private:
     bool working; //IF EMPLOYEE IS WORKING IN A LANE, VALUE TRUE
 
 public:
-    ///Creates an Employee with name and ss_number
-    Employee(string n, int ss): name(n), ss_number(ss){
-        working = false;
-    };
+    ///Creates an Employee with name and ss_number and sets working status
+    Employee(string n, int ss,bool work=false): name(n), ss_number(ss),working(work){};
 
     ~Employee(){};
 
