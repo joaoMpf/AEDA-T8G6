@@ -6,15 +6,30 @@
 
 using namespace std;
 
+///Class with interactive functions with display
 class menu {
 private:
     SystemMonitor *systemMonitor;
 
+    ///Displays main menu
+    ///
+    ///1 - EMPLOYEE calls monitorEmployee()
+    ///2 - MANAGER calls monitorManager()
+    ///3 - CLIENT calls clientManager()
     void mainMenu();
 
+    ///Starts Employee monitor
+    ///
+    ///Allows login by calling SystemMonitor::loginEmployee()
+    ///Then displays information about the Lane where the Employee is working
+    ///And allows to pass Vehicles
     void monitorEmployee();
 
+    ///Starts Manager monitor
+    ///
+    ///
     void monitorManager();
+
 
     void operateToll(Client *client);
 

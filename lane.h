@@ -47,16 +47,32 @@ public:
     /// \return poped price pair
     pair<string, double> addCrossing(); //Chamar função para tirar próximo veiculo da queue
 
+    ///Adds the pair licensePlate, price to the queue
+    ///
+    /// \param licensePlate
+    /// \param price
+    ///@see ViaVerdeLane::addVehicle(string licensePlate, double price)
     virtual void addVehicle(string licensePlate, double price);
 
     bool isViaVerde() const { return false; }
 
     bool isNormalExitLane() {return false;}
 
-    virtual Employee *getEmployee() {}
 
+    ///Returns pointer to Employee
+    ///
+    /// \return pointer to Employee
+    virtual Employee *getEmployee(){return nullptr;}
+
+    ///Returns number of Vehicles in queue
+    ///
+    /// \return number of Vehicles in queue
     int numberVehiclesWaiting(){ return vehicleQueue.size()/2;}
+>>>>>>> 4e0845448bf8e1ba0c335b4122bd5b9567a25266
 
+    ///Set Employee
+    ///
+    /// \param employee
     virtual void setEmployee(Employee *employee){};
 
     virtual vector<Employee*> getLastEmployees(){ return vector<Employee *>(); };
@@ -71,6 +87,11 @@ public:
 
     bool operator>=(const Lane &rhs) const;
 
+    ///Returns ostream with the pairs <licensePlate, price> in queue
+    ///
+    /// \param os ostream
+    /// \param lane
+    /// \return ostream with the pairs <licensePlate, price> in queue
     friend ostream &operator<<(ostream &os, const Lane &lane);
 };
 
@@ -91,7 +112,6 @@ public:
     NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
-
     Employee *getEmployee() ;
 
     void setEmployee(Employee *employee);
