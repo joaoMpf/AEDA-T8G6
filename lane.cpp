@@ -54,14 +54,16 @@ ostream &operator<<(ostream &os, const Lane &lane) {
     return os;
 }
 
-istream &operator>>(istream &is, Lane &lane) {
+istream &operator>>(istream &is, Lane* lane) {
     int numCross, vehicleQueueSize;
     pair<string, double> pair;
     if (is >> numCross >> vehicleQueueSize) {
-        lane.numCrossings = numCross;
-        for (int i = 0; i < vehicleQueueSize; i++) {
-            is >> pair.first >> pair.second;
-            lane.vehicleQueue.push(pair);
+        lane->numCrossings = numCross;
+        if (vehicleQueueSize>0) {
+            for (int i = 0; i < vehicleQueueSize; i++) {
+                is >> pair.first >> pair.second;
+                lane->vehicleQueue.push(pair);
+            }
         }
     }
 
