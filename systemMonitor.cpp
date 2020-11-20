@@ -131,12 +131,34 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                 vector<Lane *> lanes;
                 tollfs >> type >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
-                    tollfs >> viaVerde;
-                    if (type && !viaVerde) {
-                        Lane *e = new Lane();
-                        tollfs >> *e;
-                        lanes.push_back(e);
+                    tollfs>>viaVerde;
+                    if(!viaVerde&&type){
+                        queue<pair<string, double>> vehicleQueue;
+                        int numCrossings,price,vehicleQueueSize,employeeSS,oldEmployeesSize;
+                        string licensePlate;
+                        tollfs>>numCrossings>>vehicleQueueSize;
+                        pair<string, double> pair;
+                        for(int i=0;i<vehicleQueueSize;i++){
+                            tollfs>>pair.first>>pair.second;
+                            vehicleQueue.push(pair);
+                        }
+                        tollfs>>oldEmployeesSize;
+                        Employee* employee;
+                        vector <Employee*> oldEmployees;
+
+                        for(int i=0;i<oldEmployeesSize;i++){
+                            tollfs>>employeeSS;
+                            employee=employees[findEmployee(new Employee("",employeeSS))];
+                            oldEmployees.push_back(employee);
+                        }
+                        if(oldEmployeesSize==0) employee= nullptr;
+
+                        lanes.push_back(new NormalExitLane(numCrossings,vehicleQueue,employee,oldEmployees));
                     }
+                    else if(viaVerde){
+                        lanes.push_back(new ViaVerdeLane);
+                    }
+                    else lanes.push_back(new Lane);
                 }
                 if (type)//type = true -> is exit toll
                     highway->addToll(new OutToll(name, location, lanes, pos, price));

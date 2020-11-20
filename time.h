@@ -5,6 +5,8 @@
 #include <ostream>
 
 using namespace std;
+
+///Contains info such as day, month, year, hour, minute, second
 class Time {
 private:
     int day,month,year,hour, minute, second;
@@ -23,14 +25,29 @@ public:
 
     Time(int day, int month, int year, int hour, int minute, int second);
 
+    ///Returns date in format DD-MM-YY
     string getDate() const;
 
+    ///Returns Hour
+    ///
+    /// \return Hour
     int getHour() const;
 
+    ///Returns Minute
+    ///
+    /// \return Minute
     int getMinute() const;
 
+    ///Returns Second
+    ///
+    /// \return Second
     int getSecond() const;
 
+    ///Sets time to h:m:s
+    ///
+    /// \param h hour
+    /// \param m minute
+    /// \param s second
     void setTime(int h, int m, int s);
 
     void setDay(int day);
@@ -47,8 +64,21 @@ public:
 
     Time& operator=(const Time &rhs);
 
+    ///Returns ostream with Time
+    ///
+    /// \param os
+    /// \param time1
+    /// \return ostream with Time in the format: day month year hour minute second
+
     friend ostream &operator<<(ostream &os, const Time &time1);
 
+    /// Sets Time with info in istream
+    ///
+    /// Allows Time to be set with an istream with the following format:\n
+    /// day month year hour minute second
+    /// \param is
+    /// \param time
+    /// \return
     friend istream &operator>>(istream &is, Time &time);
 };
 

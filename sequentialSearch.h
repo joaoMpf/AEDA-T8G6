@@ -5,6 +5,12 @@
 
 using namespace std;
 
+///Searches for pointer to Comparable in vector of pointers to Comparable
+///
+/// \tparam Comparable
+/// \param v vector
+/// \param x element to find
+/// \return index, if found or -1, otherwise
 template<class Comparable>
 int sequentialSearch(const vector<Comparable *> &v, const Comparable *x) {
     if (!v.empty())
