@@ -93,7 +93,7 @@ public:
     /// \return ostream with the pairs <licensePlate, price> in queue
     friend ostream &operator<<(ostream &os, const Lane &lane);
 
-    friend istream &operator>>(istream &is, Lane &lane);
+    friend istream &operator>>(istream &is, Lane* lane);
 };
 
 ///Child of Lane
@@ -110,7 +110,6 @@ private:
     vector<Employee *> lastEmployees;
 
 public:
-    NormalExitLane();
     NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
