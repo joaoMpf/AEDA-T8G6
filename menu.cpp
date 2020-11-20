@@ -10,7 +10,7 @@ inline int getchar_unlocked() { return _getchar_nolock(); }
 
 
 menu::menu() {
-    this->systemMonitor = new SystemMonitor;
+   /* this->systemMonitor = new SystemMonitor;
     Highway highway("A4");
     vector<Lane *> lanes;
     queue<pair<string, double>> queue1;
@@ -27,8 +27,7 @@ menu::menu() {
     Vehicle vehicle1("XX-XX-XX", 1, false);
     client1.addVehicle(&vehicle1);
     systemMonitor->addClient(&client1);
-
-    systemMonitor->addEmployee(employee);
+    systemMonitor->addEmployee(employee);*/
     mainMenu();
     systemMonitor->~SystemMonitor();
     free(systemMonitor);
