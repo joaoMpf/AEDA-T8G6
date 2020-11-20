@@ -4,8 +4,9 @@
 #include <string>
 #include <ostream>
 
-///Contains info such as day, month, year, hour, minute, second
 using namespace std;
+
+///Contains info such as day, month, year, hour, minute, second
 class Time {
 private:
     int day,month,year,hour, minute, second;

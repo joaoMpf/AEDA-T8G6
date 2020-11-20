@@ -11,7 +11,12 @@
 
 using namespace std;
 
-//Main class
+///This is the main Class of the system
+///
+/// @see Highway
+/// @see Employee
+/// @see Client
+/// @see Vehicle
 class SystemMonitor {
 private:
     vector<Highway* > highways;
@@ -20,8 +25,14 @@ private:
     vector<Vehicle *> vehicles;
 
 public:
+    ///Returns pointer to Vehicle with this license plate
+    ///
+    /// \param licensePlate
+    /// \return pointer to Vehicle with this license plate
+    /// @note this function calls sequentialSearch(const vector<Comparable *> &v, const Comparable *x)
     Vehicle *findVehicleClients(const string& licensePlate);
 
+    ///
     void load();
 
     void save();

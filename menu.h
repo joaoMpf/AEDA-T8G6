@@ -6,16 +6,16 @@
 
 using namespace std;
 
-///Class with interactive functions with display
+///Class used for used interface
 class menu {
 private:
     SystemMonitor *systemMonitor;
 
     ///Displays main menu
     ///
-    ///1 - EMPLOYEE calls monitorEmployee()
-    ///2 - MANAGER calls monitorManager()
-    ///3 - CLIENT calls clientManager()
+    ///1 - EMPLOYEE calls monitorEmployee()\n
+    ///2 - MANAGER calls monitorManager()\n
+    ///3 - CLIENT calls clientManager()\n
     void mainMenu();
 
     ///Starts Employee monitor
@@ -27,63 +27,88 @@ private:
 
     ///Starts Manager monitor
     ///
-    ///Allows manager to manage Highways or Employees
-    ///1 - MANAGE HIGHWAYS calls manageHighways()
-    ///2 - MANAGE EMPLOYEES calls manageEmployees()
+    ///Allows manager to manage Highways or Employees\n
+    ///1 - MANAGE HIGHWAYS calls manageHighways()\n
+    ///2 - MANAGE EMPLOYEES calls manageEmployees()\n
     void monitorManager();
 
-
+    /// Allows Client to operate toll
+    ///
+    /// \param client
+    /// @see operatePassToll(Client *client, bool exit)
     void operateToll(Client *client);
 
-    void operateEntryToll(Client *client);
-
-    void operateExitToll(Client *client);
-
-/*    void monitorTolls();
-
-    void chooseTollMonitor();
-
-    void passTolls();
-
-    void infoVehicles();
-
-    void infoEmployees();*/
 
 public:
+    ///Initiates SystemMonitor and displays menu
+    ///
+    ///Calls mainMenu()
+    ///@see SystemMonitor
+    ///@see mainMenu()
     menu();
 
+    ///Starts Client Monitor
+    ///
+    /// 1 - MANAGE VEHICLES\n
+    /// 2 - MANAGE COSTS\n
+    /// 3 - PASS TOLLS\n
+    /// 4 - MANAGE INFO\n
     void clientManager();
 
     void manageVehicles(Client *client);
 
+    ///Allows Client to start or end a Trip
+    ///
+    /// \param client
+    /// \param exit
+    /// @see getHighway() @see getTollInput(bool exit, Highway *highway)
     void operatePassToll(Client *client, bool exit);
 
+    /// Displays Client's Trips and their costs
+    ///
+    /// Calls systemMonitor::showCosts(Client *client)
+    /// \param pClient
+    ///@see systemMonitor::showCosts(Client *client)
     void manageCosts(Client *pClient);
 
+    /// Allows Client to manage their info
+    ///
+    /// Client is able to change name and/or NIF
+    /// \param client
     void manageInfo(Client *client);
 
     ///Displays Highway Management Menu
     ///
-    ///1 - ADD HIGHWAY\n"
-    ///2 - REMOVE HIGHWAY\n"
-    ///3 - CHANGE EXISTING HIGHWAY(ADD OR REMOVE TOLLS,LANES,ETC)\n"
-    ///4 - VIEW HIGHWAY LIST\n"
+    ///1 - ADD HIGHWAY\n
+    ///2 - REMOVE HIGHWAY\n
+    ///3 - CHANGE EXISTING HIGHWAY(ADD OR REMOVE TOLLS,LANES,ETC)\n
+    ///4 - VIEW HIGHWAY LIST\n
     void manageHighways();
 
     void manageExistingHighways(Highway* highway);
 
     void managerManageToll(Highway *highway);
 
+    ///Displays Highways numbered and allows user to choose a Highway
+    ///
+    ///Calls SystemMonitor::printHighwaysNumbered()
+    /// \return pointer to chosen Highway
     Highway *getHighway();
 
+    ///Displays Tolls numbered and allows user to choose a Toll
+    ///
+    /// Calls
+    /// \param exit this is true for exit Toll, false otherwise
+    /// \param highway Highway where Toll is located
+    /// \return pointer to chosen Toll
     Toll *getTollInput(bool exit, Highway *highway) const;
 
     ///Displays Employee Manangement Menu
     ///
-    ///1 - ADD EMPLOYEE\n"
-    ///2 - REMOVE EMPLOYEE\n"
-    ///3 - CHANGE EMPLOYEE'S WORK LANE\n"
-    ///4 - VIEW EMPLOYEE LIST\n"
+    ///1 - ADD EMPLOYEE\n
+    ///2 - REMOVE EMPLOYEE\n
+    ///3 - CHANGE EMPLOYEE'S WORK LANE\n
+    ///4 - VIEW EMPLOYEE LIST\n
     void manageEmployees();
 };
 
