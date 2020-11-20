@@ -8,8 +8,8 @@ const vector<Employee *> &SystemMonitor::getEmployees() const {
     return employees;
 }
 
-bool SystemMonitor::addEmployee(const Employee *&employee) {
-    return false;
+bool SystemMonitor::addEmployee( Employee *employee) {
+    employees.push_back(employee);
 }
 
 bool SystemMonitor::removeEmployee(const Employee *&employee) {
@@ -500,6 +500,10 @@ void SystemMonitor::removeVehicle(Client *client) {
 
 void SystemMonitor::viewVehicles(Client *client) {
 
+    if(client->getVehicles().size()==0){
+        cout<<"NO VEHICLES TO SHOW\n";
+        return;
+    }
     vector<Vehicle *>::iterator it;
     it = client->getVehicles().begin();
     char c;
@@ -594,11 +598,11 @@ Lane *SystemMonitor::findEmployeeLane(Employee *pEmployee) {
     for (auto h:highways) {
         for (auto t:h->getTolls()) {
             for (auto l:t->getLanes()) {
-                if (l->isNormalExitLane()) {
-                    if (l->getEmployee() == pEmployee) {
-                        return l;
-                    };
-                }
+
+                if (l->getEmployee() == pEmployee) {
+                    return l;
+                };
+
             }
         }
     }
@@ -681,9 +685,11 @@ void SystemMonitor::managerRemoveHighway() {
 
 void SystemMonitor::managerViewHighways() {
     printHighwaysNumbered();
+    int i;
     while (true) {
         cout << "PRESS 0 TO LEAVE\n";
-        if (getNumberInput() == '0') return;
+        cin>>i;
+        if (i==0) return;
     }
 
 }
@@ -704,7 +710,7 @@ int SystemMonitor::selectHighway() {
 
 }
 
-void SystemMonitor::managerAddToll(Highway *phighway) {
+void SystemMonitor::managerAddToll(Highway *phighway,bool exit) {
 
     string name, location;
     while (true) {
@@ -766,7 +772,8 @@ void SystemMonitor::managerAddToll(Highway *phighway) {
         }
     }
     vector<Lane *> l;
-    phighway->addToll(new Toll(name, location, l, position, price));
+    if(exit) phighway->addToll(new OutToll(name, location, l, position, price));
+    else phighway->addToll(new InToll(name, location, l, position, price));
     cout << "\n\nTOLL ADDED SUCCESSFULLY\n ";
     return;
 }
@@ -782,9 +789,11 @@ void SystemMonitor::viewHighwayTolls(Highway *phighway) {
         return;
     }
     phighway->printTollsNumbered();
+    int i;
     while (true) {
         cout << "PRESS 0 TO LEAVE\n";
-        if (getNumberInput() == '0') return;
+        cin>>i;
+        if (i==0) return;
     }
 }
 
@@ -822,7 +831,7 @@ Toll *SystemMonitor::selectToll(Highway *pHighway) {
         cout << "SELECT A TOLL TO MANAGE:\n";
         cin >> i;
         if (i > 0 && i <= pHighway->getTolls().size()) {
-            return pHighway->getTolls()[i - 1];
+            return pHighway->getTolls()[i-1];
         } else cout << "ENTER A VALID NUMBER\n";
         cin.clear();
         cin.ignore(10000, '\n');
@@ -830,6 +839,7 @@ Toll *SystemMonitor::selectToll(Highway *pHighway) {
 }
 
 void SystemMonitor::managerAddLane(Toll *pToll, bool viaVerde) {
+    if(!pToll->isExitToll()) pToll->addLane(new Lane);
     if (viaVerde) pToll->addLane(new ViaVerdeLane);
     else {
         if (pToll->isExitToll()) {
@@ -851,7 +861,9 @@ void SystemMonitor::managerAddLane(Toll *pToll, bool viaVerde) {
                                     oldLane->setEmployee(nullptr);
                                     queue<pair<string, double>> vehicleQueue;
                                     vector<Employee *> lastEmployees;
+                                    employee->changeWorkStatus();
                                     pToll->addLane(new NormalExitLane(0, vehicleQueue, employee, lastEmployees));
+                                    cout<<"LANE WAS CREATED\n\n";
                                     return;
                                 } else if (toupper(ans) == 'N') {
                                     cout
@@ -870,7 +882,9 @@ void SystemMonitor::managerAddLane(Toll *pToll, bool viaVerde) {
                         } else {
                             queue<pair<string, double>> vehicleQueue;
                             vector<Employee *> lastEmployees;
+                            employee->changeWorkStatus();
                             pToll->addLane(new NormalExitLane(0, vehicleQueue, employee, lastEmployees));
+                            cout<<"LANE WAS CREATED\n\n";
                             return;
                         }
                     } else if (toupper(ans) == 'N') {
@@ -928,6 +942,7 @@ void SystemMonitor::viewLanes(Toll *pToll) {
         } else cout << "NO\n\n";
         i++;
     }
+
 }
 
 void SystemMonitor::removeLane(Toll *pToll) {
@@ -947,6 +962,7 @@ void SystemMonitor::removeLane(Toll *pToll) {
 
 void SystemMonitor::changeLaneEmployee(Toll *pToll) {
     viewLanes(pToll);
+
     Lane *lane;
     int i;
     while (true) {
@@ -973,7 +989,10 @@ void SystemMonitor::changeLaneEmployee(Toll *pToll) {
                 if (lane->getEmployee() != nullptr) {
                     lane->getEmployee()->changeWorkStatus();
                 }
+
+                employee->changeWorkStatus();
                 lane->setEmployee(employee);
+                lane->addToEmployeeList(employee);
                 return;
             } else if (toupper(ans) == 'N') return;
             else if (ans == '0') return;
@@ -985,7 +1004,10 @@ void SystemMonitor::changeLaneEmployee(Toll *pToll) {
         if (lane->getEmployee() != nullptr) {
             lane->getEmployee()->changeWorkStatus();
         }
+
+        employee->changeWorkStatus();
         lane->setEmployee(employee);
+        lane->addToEmployeeList(employee);
         return;
     }
 
@@ -1032,17 +1054,40 @@ void SystemMonitor::managerRemoveEmployee() {
 void SystemMonitor::changeEmployeeLane() {
     Employee *employee = selectEmployee();
     Highway *highway = highways[selectHighway()];
-    Toll *pToll = selectToll(highway);
-    viewLanes(pToll);
-    Lane *lane;
+    Toll *pToll;
+    highway->printTollsNumbered(true);
     int i;
     while (true) {
-        cout << "SELECT A LANE:\n";
+        cout << "SELECT A TOLL TO MANAGE OR PRESS 0 TO RETURN:\n";
         cin >> i;
-        if (i > 0 && i <= pToll->getLanes().size()) {
-            lane = pToll->getLanes()[i - 1];
+        if(i==0) return;
+        if (i > 0 && i <= highway->getTolls().size()) {
+            pToll=highway->getTollAt(i-1,true);
             break;
         } else cout << "ENTER A VALID NUMBER\n";
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+    i=0;
+    for(int j=0;j<pToll->getLanes().size();j++){
+        cout<<"LANE "<<j+1<<endl<<"MANUAL EXIT LANE: ";
+        if((pToll->getLanes()[j])->isNormalExitLane()){
+            cout<<"YES\n";
+        }
+        else cout<<"NO\n";
+    }
+    Lane *lane;
+
+    while (true) {
+        cout << "SELECT A LANE OR PRESS 0 TO RETURN:\n";
+        cin >> i;
+        if (i > 0 && i<= pToll->getLanes().size()&&(pToll->getLanes()[i-1])->isNormalExitLane()) {
+            lane = pToll->getLanes()[i - 1];
+            break;
+        }
+        else if(i==0) return;
+        else if(!(pToll->getLanes()[i-1])->isNormalExitLane()) cout<<"ONLY MANUAL EXIT LANES HAVE EMPLOYEES\n";
+        else cout << "ENTER A VALID NUMBER\n";
         cin.clear();
         cin.ignore(10000, '\n');
     }
@@ -1059,7 +1104,10 @@ void SystemMonitor::changeEmployeeLane() {
                 if (lane->getEmployee() != nullptr) {
                     lane->getEmployee()->changeWorkStatus();
                 }
+                employee->changeWorkStatus();
                 lane->setEmployee(employee);
+                lane->addToEmployeeList(employee);
+
                 return;
             } else if ((toupper(ans) == 'N') || (ans == '0')) return;
             cin.clear();
@@ -1071,18 +1119,55 @@ void SystemMonitor::changeEmployeeLane() {
     else {
 
         if (lane->getEmployee() != nullptr) {
+
             lane->getEmployee()->changeWorkStatus();
         }
-
+        employee->changeWorkStatus();
         lane->setEmployee(employee);
+        lane->addToEmployeeList(employee);
         return;
     }
 }
 
 void SystemMonitor::viewEmployees() {
     printEmployeesNumbered();
+    int i;
     while (true) {
         cout << "PRESS 0 TO LEAVE\n";
-        if (getNumberInput() == '0') return;
+        cin>>i;
+        if (i==0) return;
     }
+}
+
+void SystemMonitor::viewLastEmployees(Toll *pToll) {
+    int cnt=0;
+    for(auto x:pToll->getLanes()){
+        cnt++;
+        if(x->isNormalExitLane()){
+            if(x->getLastEmployees().size()==0) {
+                cout<<"LANE "<<cnt<<": ";
+                cout<<"NO EMPLOYEE HISTORY FOR THIS LANE\n\n";
+                continue;
+            }
+
+
+            cout<<"LANE "<<cnt<<":"<<endl<<endl;
+            for(int i=0;i<x->getLastEmployees().size()-1;i++){
+                cout<<x->getLastEmployees()[i]->getName()<<endl;
+            }
+            cout<<"CURRENT EMPLOYEE :";
+            if(x->getEmployee()!= nullptr){
+                cout<<x->getEmployee()->getName()<<endl<<endl;
+            }
+            else cout<<"NO EMPLOYEE"<<endl<<endl;
+
+        }
+
+        else {
+            cout<<"LANE "<<cnt<<": ";
+            cout<<"NOT A MANUAL EXIT LANE\n\n";
+        }
+
+    }
+
 }

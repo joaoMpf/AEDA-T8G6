@@ -47,7 +47,7 @@ public:
     /// \return Toll's Lanes
     const vector<Lane *> &getLanes() const;
 
-    virtual bool isExitToll() const { return false; }
+    virtual bool isExitToll() const {return false;};
 
     ///Returns Recommended Lane
     ///
@@ -92,6 +92,8 @@ public:
     /// \param toll
     /// \return ostream with the Toll's type, name, location, number of lanes, position and price
     friend ostream &operator<<(ostream &os, const Toll &toll);
+
+    void addLane(ViaVerdeLane *lane);
 };
 
 ///Entry Toll

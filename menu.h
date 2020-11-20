@@ -47,7 +47,7 @@ public:
 
     void manageHighways();
 
-    void manageExistingHighways();
+    void manageExistingHighways(Highway* highway);
 
     void managerManageToll(Highway *highway);
 

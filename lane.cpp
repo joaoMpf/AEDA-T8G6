@@ -61,7 +61,7 @@ void NormalExitLane::setEmployee(Employee *employee1) {
     this->employee = employee1;
 }
 
-Employee *NormalExitLane::getEmployee() const {
+Employee *NormalExitLane::getEmployee() {
     return employee;
 }
 

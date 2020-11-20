@@ -7,15 +7,26 @@ const string &Highway::getName() const {
 Toll *Highway::getTollAt(int i, bool exit) {
     int cnt = 0;
     vector<Toll *>::iterator it;
-    if (!tolls.empty())
+    if (!tolls.empty()&&exit){
         for (it = tolls.begin(); it != tolls.end(); it++) {
-            if (exit ? (*it)->isExitToll() : !((*it)->isExitToll())) {
+            if ((*it)->isExitToll()) {
                 cnt++;
             }
             if (cnt == i) {
                 return *it;
             }
         }
+    }
+    else if (!tolls.empty()&&!exit){
+        for (it = tolls.begin(); it != tolls.end(); it++) {
+            if (!(*it)->isExitToll()) {
+                cnt++;
+            }
+            if (cnt == i) {
+                return *it;
+            }
+        }
+    }
     return nullptr;
 }
 
@@ -43,6 +54,8 @@ void Highway::printTollsNumbered() {
     int i = 1;
     for (it = tolls.begin(); it != tolls.end(); it++) {
         cout << i << ": " << (*it)->getName() << endl;
+        if((*it)->isExitToll()) cout<<"EXIT TOLL\n\n";
+        else cout<<"ENTRY TOLL\n\n";
         i++;
 
     }

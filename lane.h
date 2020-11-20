@@ -53,13 +53,17 @@ public:
 
     bool isNormalExitLane() {return false;}
 
-    virtual Employee *getEmployee() const {return nullptr;}
+    virtual Employee *getEmployee() {}
 
-    int numberVehiclesWaiting(){ return vehicleQueue.size();}
+    int numberVehiclesWaiting(){ return vehicleQueue.size()/2;}
 
     virtual void setEmployee(Employee *employee){};
 
+    virtual vector<Employee*> getLastEmployees(){ return vector<Employee *>(); };
+
     bool operator<(const Lane &rhs) const;
+
+    void addToEmployeeList(Employee* employee1){};
 
     bool operator>(const Lane &rhs) const;
 
@@ -83,13 +87,18 @@ private:
     Employee *employee;
     vector<Employee *> lastEmployees;
 
-    void setEmployee(Employee *employee);
-
 public:
     NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
-    Employee *getEmployee() const;
+
+    Employee *getEmployee() ;
+
+    void setEmployee(Employee *employee);
+
+    vector<Employee*> getLastEmployees(){return lastEmployees;}
+
+    void addToEmployeeList(Employee* employee1){lastEmployees.push_back(employee);};
 
     void ChangeEmployee(Employee *employee);
 
@@ -98,6 +107,7 @@ public:
 
 ///Child of Lane
 class ViaVerdeLane : public Lane {
+
 public:
     void addVehicle(string licensePlate, double price);
     bool isViaVerde() const { return true; }
