@@ -62,7 +62,6 @@ void SystemMonitor::save() {
     string clientsFileName = "clients.txt";
     string tollsFileName = "tolls.txt";
 
-
     saveVectorToFile(vehiclesFileName, vehicles);
     saveVectorToFile(employeesFileName, employees);
     saveVectorToFile(clientsFileName, clients);

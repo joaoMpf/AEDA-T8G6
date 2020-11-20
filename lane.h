@@ -47,16 +47,30 @@ public:
     /// \return poped price pair
     pair<string, double> addCrossing(); //Chamar função para tirar próximo veiculo da queue
 
+    ///Adds the pair licensePlate, price to the queue
+    ///
+    /// \param licensePlate
+    /// \param price
+    ///@see ViaVerdeLane::addVehicle(string licensePlate, double price)
     virtual void addVehicle(string licensePlate, double price);
 
     bool isViaVerde() const { return false; }
 
     bool isNormalExitLane() {return false;}
 
+    ///Returns pointer to Employee
+    ///
+    /// \return pointer to Employee
     virtual Employee *getEmployee() const {return nullptr;}
 
+    ///Returns number of Vehicles in queue
+    ///
+    /// \return number of Vehicles in queue
     int numberVehiclesWaiting(){ return vehicleQueue.size();}
 
+    ///Set Employee
+    ///
+    /// \param employee
     virtual void setEmployee(Employee *employee){};
 
     bool operator<(const Lane &rhs) const;
@@ -67,6 +81,11 @@ public:
 
     bool operator>=(const Lane &rhs) const;
 
+    ///Returns ostream with the pairs <licensePlate, price> in queue
+    ///
+    /// \param os ostream
+    /// \param lane
+    /// \return ostream with the pairs <licensePlate, price> in queue
     friend ostream &operator<<(ostream &os, const Lane &lane);
 };
 
