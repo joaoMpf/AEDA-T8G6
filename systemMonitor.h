@@ -28,6 +28,9 @@ public:
 
     SystemMonitor(){
         load();
+//        for (auto & vehicle : highways) {
+//            cout << *vehicle << endl;
+//        }
     };
 
     ~SystemMonitor(){

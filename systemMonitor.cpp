@@ -75,6 +75,7 @@ void SystemMonitor::saveVectorToFile(const string &vectorFileName, vector<T *> &
     if (!vec.empty() && file.is_open())
         for (int i = 0; i < vec.size(); ++i) {
             file << *vec[i];
+//            cout << *vec[i] << endl;
             if (i != vec.size() - 1)
                 file << endl;
         }
@@ -347,8 +348,9 @@ void SystemMonitor::addVehicleClient(Client *client) {
         CreatingVehicleException::showMessage();
         return;
     }
-
-    client->addVehicle(new Vehicle(licensePlate, category, viaVerde));
+    Vehicle *vehicle = new Vehicle(licensePlate, category, viaVerde);
+    client->addVehicle(vehicle);
+    vehicles.push_back(vehicle);
 }
 
 int SystemMonitor::categoryInput() const {
@@ -424,7 +426,7 @@ Client *SystemMonitor::createNewClient() {
 
     client = new Client(name, nif);
     clients.push_back(client);
-
+    cout << *client << endl;
     return client;
 }
 

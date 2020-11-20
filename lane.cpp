@@ -44,11 +44,11 @@ bool Lane::passVehicle() {
 
 ostream &operator<<(ostream &os, const Lane &lane) {
     os << lane.numCrossings << " " << lane.vehicleQueue.size();
-    if (lane.vehicleQueue.empty()) {
-        queue<pair<string, double>> printQueue = lane.vehicleQueue;
-        while (!printQueue.empty()) {
-            os << " " << printQueue.front().first << " " << printQueue.front().second;
-            printQueue.pop();
+    if (!lane.vehicleQueue.empty()) {
+        queue<pair<string, double>> copy(lane.vehicleQueue);
+        while (!copy.empty()) {
+            os << " " << copy.front().first << " " << copy.front().second;
+            copy.pop();
         }
     }
     return os;
@@ -59,7 +59,7 @@ istream &operator>>(istream &is, Lane &lane) {
     pair<string, double> pair;
     if (is >> numCross >> vehicleQueueSize) {
         lane.numCrossings = numCross;
-        for (int i = 0; i > vehicleQueueSize; i++) {
+        for (int i = 0; i < vehicleQueueSize; i++) {
             is >> pair.first >> pair.second;
             lane.vehicleQueue.push(pair);
         }

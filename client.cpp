@@ -72,10 +72,12 @@ void Client::printInfo() {
 }
 
 ostream &operator<<(ostream &os, const Client &client) {
-    os << client.name << " " << client.nif << " " << client.vehicles.size() << endl;
-    if (!client.vehicles.empty())
+    os << client.name << " " << client.nif << " " << client.vehicles.size();
+    if (!client.vehicles.empty()) {
+        os << endl;
         for (auto vehicle : client.vehicles)
             os << vehicle->getLicensePlate() << " ";
+    }
     return os;
 }
 

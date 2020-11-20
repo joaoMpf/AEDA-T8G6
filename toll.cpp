@@ -62,7 +62,7 @@ void Toll::addLane(Lane *lane) {
     lanes.push_back(lane);
 }
 
-void Toll::addLane(ViaVerdeLane *lane){
+void Toll::addLane(ViaVerdeLane *lane) {
     lanes.push_back(lane);
 }
 
@@ -72,13 +72,15 @@ void Toll::removeLaneAt(int i) {
 
 ostream &operator<<(ostream &os, const Toll &toll) {
     os << toll.isExitToll() << " " << toll.name << " " << toll.location << " " << toll.lanes.size() << " "
-       << toll.position << " " << toll.price << endl;
-    if (!toll.lanes.empty())
+       << toll.position << " " << toll.price;
+    if (!toll.lanes.empty()) {
+        os << endl;
         for (auto lane : toll.lanes) {
             os << *lane;
             if (toll.lanes.size() > 1)
                 os << endl;
         }
+    }
     return os;
 }
 

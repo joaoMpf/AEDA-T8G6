@@ -11,25 +11,26 @@ inline int getchar_unlocked() { return _getchar_nolock(); }
 
 menu::menu() {
     this->systemMonitor = new SystemMonitor;
-    Highway highway("A4");
-    vector<Lane *> lanes;
-    queue<pair<string, double>> queue1;
-    vector<Employee*> lastE;
-
-    Employee* employee=new Employee("Maria",123456789);
-    lastE.push_back(employee);
-    lanes.push_back(new NormalExitLane(3, queue1,employee,lastE));
-    lanes.push_back(new ViaVerdeLane);
-    highway.addToll(new InToll("A", "Custoias", lanes, 0, 0.0));
-    highway.addToll(new OutToll("B", "Matosinhos", lanes, 10, 2.60));
-    systemMonitor->addHighway(&highway);
-    Client client1("Joao", 123123123);
-    Vehicle vehicle1("XX-XX-XX", 1, false);
-    client1.addVehicle(&vehicle1);
-    systemMonitor->addClient(&client1);
-
-    systemMonitor->addEmployee(employee);
+//    Highway highway("A4");
+//    vector<Lane *> lanes;
+//    queue<pair<string, double>> queue1;
+//    vector<Employee*> lastE;
+//
+//    Employee* employee=new Employee("Maria",123456789);
+//    lastE.push_back(employee);
+//    lanes.push_back(new NormalExitLane(3, queue1,employee,lastE));
+//    lanes.push_back(new ViaVerdeLane);
+//    highway.addToll(new InToll("A", "Custoias", lanes, 0, 0.0));
+//    highway.addToll(new OutToll("B", "Matosinhos", lanes, 10, 2.60));
+//    systemMonitor->addHighway(&highway);
+//    Client client1("Joao", 123123123);
+//    Vehicle vehicle1("XX-XX-XX", 1, false);
+//    client1.addVehicle(&vehicle1);
+//    systemMonitor->addClient(&client1);
+//
+//    systemMonitor->addEmployee(employee);
     mainMenu();
+    systemMonitor->~SystemMonitor();
     free(systemMonitor);
 }
 
