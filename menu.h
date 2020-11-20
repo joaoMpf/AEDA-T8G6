@@ -27,7 +27,9 @@ private:
 
     ///Starts Manager monitor
     ///
-    ///
+    ///Allows manager to manage Highways or Employees
+    ///1 - MANAGE HIGHWAYS calls manageHighways()
+    ///2 - MANAGE EMPLOYEES calls manageEmployees()
     void monitorManager();
 
 
@@ -60,6 +62,12 @@ public:
 
     void manageInfo(Client *client);
 
+    ///Displays Highway Management Menu
+    ///
+    ///1 - ADD HIGHWAY\n"
+    ///2 - REMOVE HIGHWAY\n"
+    ///3 - CHANGE EXISTING HIGHWAY(ADD OR REMOVE TOLLS,LANES,ETC)\n"
+    ///4 - VIEW HIGHWAY LIST\n"
     void manageHighways();
 
     void manageExistingHighways(Highway* highway);
@@ -70,6 +78,12 @@ public:
 
     Toll *getTollInput(bool exit, Highway *highway) const;
 
+    ///Displays Employee Manangement Menu
+    ///
+    ///1 - ADD EMPLOYEE\n"
+    ///2 - REMOVE EMPLOYEE\n"
+    ///3 - CHANGE EMPLOYEE'S WORK LANE\n"
+    ///4 - VIEW EMPLOYEE LIST\n"
     void manageEmployees();
 };
 
