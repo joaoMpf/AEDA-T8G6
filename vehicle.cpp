@@ -23,7 +23,7 @@ void Vehicle::startTrip(Toll *toll, Time *time) {
              << "BEFORE ENTERING AGAIN\n";
         return;
     }
-    trips.push_back(new Trip(toll, time));
+    trips.push_back(new Trip(toll->getName(), toll->getPrice(), time));
 }
 
 double Vehicle::endTrip(Toll *toll, Time *time) {
@@ -31,7 +31,7 @@ double Vehicle::endTrip(Toll *toll, Time *time) {
         cout << "VEHICLE NEVER ENTERED OR ALREADY EXITED.\n";
         return -1;
     }
-    trips[trips.size() - 1]->setEnd(toll);
+    trips[trips.size() - 1]->setEnd(toll->getName(), toll->getPrice());
     trips[trips.size() - 1]->setEndTime(time);
 
     double price = 5.0;
@@ -94,6 +94,12 @@ Trip *Vehicle::getLastTrip() {
 }
 
 ostream &operator<<(ostream &os, const Vehicle &vehicle) {
-    os << vehicle.licensePlate << " " << vehicle.category << " " << vehicle.viaVerde;
+    os << vehicle.licensePlate << " " << vehicle.category << " " << vehicle.viaVerde << " " << vehicle.trips.size();
+    if (!vehicle.trips.empty())
+        for (int i = 0; i < vehicle.trips.size(); ++i) {
+            os << *vehicle.trips[i];
+            if (i != vehicle.trips.size() - 1)
+                os << endl;
+        }
     return os;
 }

@@ -4,22 +4,26 @@
 #include "time.h"
 #include "toll.h"
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
 class Trip {
 private:
-    Toll* begin;
-    Toll* end;
-    Time* beginTime;
-    Time* endTime;
-    bool finished=false;
+//    Toll* begin;
+//    Toll* end;
+    pair<string, double> begin, end;
+    Time *beginTime;
+    Time *endTime;
+    bool finished = false;
     double pricepaid;
 public:
-    Trip(Toll* beg, Time* begTime): begin(beg), beginTime(begTime),
-    endTime(new Time(0,0,0)), end(NULL){}
+    Trip(string begLocation, double begPrice, Time *begTime);
 
-    void setEnd(Toll* toll);
+    Trip(const pair<string, double> &begin, const pair<string, double> &anEnd, Time *beginTime, Time *endTime,
+         bool finished, double pricepaid);
+
+    void setEnd(string location, double price);
 
     void setPrice(double price);
 
@@ -27,15 +31,19 @@ public:
 
     double getPrice() const;
 
-    void setEndTime(Time* time);
+    void setEndTime(Time *time);
 
-    Toll *getBegin() const;
+    pair<string, double> getBegin() const;
 
-    Toll *getEnd() const;
+    pair<string, double> getEnd() const;
 
     Time *getBeginTime() const;
 
     Time *getEndTime() const;
+
+    friend ostream &operator<<(ostream &os, const Trip &trip);
+
+    friend istream &operator>>(istream &is, Trip &trip);
 
 };
 

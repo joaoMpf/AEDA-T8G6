@@ -190,10 +190,9 @@ void SystemMonitor::loadVehicles(
     if (vehiclefs.is_open()) {
         string licensePlate;
         bool viaVerde;
-        int category;
+        int category, numTrips;
 
-        while (!vehiclefs.eof()) {
-            vehiclefs >> licensePlate >> category >> viaVerde;
+        while (vehiclefs >> licensePlate >> category >> viaVerde >> numTrips) {
             Vehicle *vehicle = new Vehicle(licensePlate, category);
             if (viaVerde) vehicle->changeViaVerde();
             vehicles.push_back(vehicle);
@@ -567,8 +566,8 @@ void SystemMonitor::showCosts(Client *client) {
             cout << "VEHICLE " << (x)->getLicensePlate() << endl << endl;
             if (!x->getTrips().empty()) {
                 for (auto y:(x->getTrips())) {
-                    cout << "FROM: " << (y)->getBegin()->getLocation() << endl;
-                    cout << "TO: " << (y)->getEnd()->getLocation() << endl;
+                    cout << "FROM: " << (y)->getBegin().first << endl;
+                    cout << "TO: " << (y)->getEnd().first << endl;
                     cout << "WHEN: " << (y)->getEndTime()->getDate() << endl;
                     cout << "PRICE PAID: " << (y)->getPrice() << endl;
                 }

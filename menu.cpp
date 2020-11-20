@@ -270,7 +270,7 @@ void menu::operatePassToll(Client *client, bool exit) {
             return;
         } else {
             float price; //CALCULAR PREÇO
-            price = toll->getPrice() - vehicle->getLastTrip()->getBegin()->getPrice();
+            price = toll->getPrice() - vehicle->getLastTrip()->getBegin().second;
             vehicle->addPayment(price);
             if (vehicle->isViaVerde()) {
                 vehicle->endTrip(toll, new Time);
