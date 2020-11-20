@@ -92,6 +92,8 @@ public:
     /// \param lane
     /// \return ostream with the pairs <licensePlate, price> in queue
     friend ostream &operator<<(ostream &os, const Lane &lane);
+
+    friend istream &operator>>(istream &is, Lane &lane);
 };
 
 ///Child of Lane

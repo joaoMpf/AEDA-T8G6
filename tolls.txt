@@ -1,5 +1,6 @@
 highwayName1 2
-1 nome1 localizacao1 2 0 0.0
-1 nome2 localizacao2 3 10 1.60
+1 nome1 localizacao1 1 0 0.0
+5 1 XX-XX-XX 0.0
+0 nome2 localizacao2 0 10 1.60
 highwayName2 1
-1 nome3 localizacao3 5 0 0.0
+1 nome3 localizacao3 0 0 0.0

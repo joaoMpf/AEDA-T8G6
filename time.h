@@ -2,6 +2,8 @@
 #define AEDA_T8G6_TIME_H
 #include <ctime>
 #include <string>
+#include <ostream>
+
 using namespace std;
 class Time {
 private:
@@ -19,6 +21,8 @@ public:
     }
     Time(int h, int m, int s): hour(h), minute(m), second(s){};
 
+    Time(int day, int month, int year, int hour, int minute, int second);
+
     string getDate() const;
 
     int getHour() const;
@@ -29,7 +33,23 @@ public:
 
     void setTime(int h, int m, int s);
 
+    void setDay(int day);
+
+    void setMonth(int month);
+
+    void setYear(int year);
+
+    void setHour(int hour);
+
+    void setMinute(int minute);
+
+    void setSecond(int second);
+
     Time& operator=(const Time &rhs);
+
+    friend ostream &operator<<(ostream &os, const Time &time1);
+
+    friend istream &operator>>(istream &is, Time &time);
 };
 
 

@@ -4,6 +4,7 @@
 #include "time.h"
 #include "toll.h"
 #include <iostream>
+#include <utility>
 
 using namespace std;
 
@@ -15,25 +16,29 @@ using namespace std;
 
 class Trip {
 private:
-    Toll* begin;
-    Toll* end;
-    Time* beginTime;
-    Time* endTime;
+    pair<string, double> begin, end;
+    Time *beginTime;
+    Time *endTime;
     bool finished = false;
     double pricepaid;
 public:
 
     ///Creates a trip with begin toll and begin time
     ///
-    /// \param beg
+    /// \param begLocation
+    /// \param begPrice
     /// \param begTime
-    Trip(Toll* beg, Time* begTime): begin(beg), beginTime(begTime),
-    endTime(new Time(0,0,0)), end(NULL){}
+    Trip(string begLocation, double begPrice, Time *begTime);
+
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    Trip(const pair<string, double> &begin, const pair<string, double> &anEnd, Time *beginTime, Time *endTime,
+         bool finished, double pricepaid);
 
     ///Sets end Toll
     ///
-    /// \param toll points to end Toll
-    void setEnd(Toll* toll);
+    /// \param endLocation
+    /// \param endPrice
+    void setEnd(string location, double price);
 
     ///Sets Price
     ///
@@ -55,15 +60,15 @@ public:
     /// \param time pointer to end time
     void setEndTime(Time* time);
 
-    ///Returns pointer to begin Toll
+    ///Returns pair to begin toll distance and begin toll price
     ///
-    /// \return pointer to begin Toll
-    Toll *getBegin() const;
+    /// \return pair to begin distance and price
+    pair<string, double> getBegin() const;
 
-    /// Returns pointer to end Toll
+    ///Returns pair to end toll distance and end toll price
     ///
-    /// \return pointer to end Toll
-    Toll *getEnd() const;
+    /// \return pair to end distance and price
+    pair<string, double> getEnd() const;
 
     /// Returns pointer to begin Time
     ///
@@ -75,6 +80,11 @@ public:
     /// \return
     Time *getEndTime() const;
 
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    friend ostream &operator<<(ostream &os, const Trip &trip);
+
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    friend istream &operator>>(istream &is, Trip &trip);
 };
 
 

@@ -97,7 +97,9 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
 //exemplo ficheiro portagens:
 //highwayName numTolls
 //tipo nome1 localização numeroDeVias pos price
+//numPassagens veiculo preco veiculo preco ...
 //tipo nome2 localização numeroDeVias pos price
+//numPassagens veiculo preco
 //...
 //tipo nomex localização numeroDeVias pos price
     ifstream tollfs(tollsFileName);
@@ -113,8 +115,9 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                 vector<Lane *> lanes;
                 tollfs >> type >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
-                    Lane e;
-                    lanes.push_back(&e);
+                    Lane *e = new Lane();
+                    tollfs >> *e;
+                    lanes.push_back(e);
                 }
                 if (type)//type = true -> is exit toll
                     highway->addToll(new OutToll(name, location, lanes, pos, price));
@@ -187,10 +190,9 @@ void SystemMonitor::loadVehicles(
     if (vehiclefs.is_open()) {
         string licensePlate;
         bool viaVerde;
-        int category;
+        int category, numTrips;
 
-        while (!vehiclefs.eof()) {
-            vehiclefs >> licensePlate >> category >> viaVerde;
+        while (vehiclefs >> licensePlate >> category >> viaVerde >> numTrips) {
             Vehicle *vehicle = new Vehicle(licensePlate, category);
             if (viaVerde) vehicle->changeViaVerde();
             vehicles.push_back(vehicle);
@@ -568,8 +570,8 @@ void SystemMonitor::showCosts(Client *client) {
             cout << "VEHICLE " << (x)->getLicensePlate() << endl << endl;
             if (!x->getTrips().empty()) {
                 for (auto y:(x->getTrips())) {
-                    cout << "FROM: " << (y)->getBegin()->getLocation() << endl;
-                    cout << "TO: " << (y)->getEnd()->getLocation() << endl;
+                    cout << "FROM: " << (y)->getBegin().first << endl;
+                    cout << "TO: " << (y)->getEnd().first << endl;
                     cout << "WHEN: " << (y)->getEndTime()->getDate() << endl;
                     cout << "PRICE PAID: " << (y)->getPrice() << endl;
                 }
