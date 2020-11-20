@@ -20,7 +20,7 @@ private:
     Time *beginTime;
     Time *endTime;
     bool finished = false;
-    double pricepaid;
+    double pricePaid;
 public:
 
     ///Creates a trip with begin toll and begin time
@@ -85,6 +85,8 @@ public:
 
     //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     friend istream &operator>>(istream &is, Trip &trip);
+
+    Trip();
 };
 
 

@@ -14,6 +14,8 @@ private:
     vector<Vehicle *> vehicles;
 
 public:
+    Client();
+
     ///Creates a Client with name and nif
     ///
     /// \param name
@@ -93,6 +95,15 @@ public:
     /// \param client
     /// \return
     friend ostream &operator<<(ostream &os, const Client &client);
+
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    friend istream &operator>>(istream &is, Client &client);
+
+    void setName(const string &name);
+
+    void setNif(int nif);
+
+    void setVehicles(const vector<Vehicle *> &vehicles);
 };
 
 

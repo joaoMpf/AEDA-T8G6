@@ -188,19 +188,17 @@ public:
     void saveVectorToFile(const string &vectorFileName, vector<T *> &vec) const;
 
     void viewLastEmployees(Toll *pToll);
+
+    template<class T>
+    void loadVectorFromFile(string &vectorFileName, vector<T *> &vec);
+
+    void finishLoadingClients();
 };
 
 class ConfirmationExitException : exception {
 public:
     static void showMessage() {
         cout << "OPERATION CANCELED\n";
-    }
-};
-
-class VehicleInCirculationException : exception {
-public:
-    static void showMessage() {
-        cout << "Vehicle is already in circulation!\n";
     }
 };
 

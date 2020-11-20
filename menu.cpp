@@ -168,6 +168,7 @@ void menu::clientManager() {
                 break;
             case '4':
                 manageInfo(client);
+                break;
             case back:
                 return;
             default:
