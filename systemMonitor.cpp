@@ -110,15 +110,19 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
         bool type;
         int numLanes, numTolls, pos;
         double price;
+        bool viaVerde;
         while (tollfs >> highway_name >> numTolls) {
             Highway *highway = new Highway(highway_name);
             while (numTolls > 0) {
                 vector<Lane *> lanes;
                 tollfs >> type >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
-                    Lane *e = new Lane();
-                    tollfs >> *e;
-                    lanes.push_back(e);
+                    tollfs >>viaVerde;
+                    if(type&&!viaVerde) { 
+                        Lane *e = new NormalExitLane();
+                        tollfs >> *e;
+                        lanes.push_back(e);
+                    }
                 }
                 if (type)//type = true -> is exit toll
                     highway->addToll(new OutToll(name, location, lanes, pos, price));

@@ -110,6 +110,7 @@ private:
     vector<Employee *> lastEmployees;
 
 public:
+    NormalExitLane();
     NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
