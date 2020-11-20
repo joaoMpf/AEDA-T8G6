@@ -131,34 +131,34 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                 vector<Lane *> lanes;
                 tollfs >> type >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
-                    tollfs>>viaVerde;
-                    if(!viaVerde&&type){
+                    tollfs >> viaVerde;
+                    if (!viaVerde && type) {
                         queue<pair<string, double>> vehicleQueue;
-                        int numCrossings,price,vehicleQueueSize,employeeSS,oldEmployeesSize;
+                        int numCrossings, vehicleQueueSize, employeeSS, oldEmployeesSize;
                         string licensePlate;
-                        tollfs>>numCrossings>>vehicleQueueSize;
+                        tollfs >> numCrossings >> vehicleQueueSize;
                         pair<string, double> pair;
-                        for(int i=0;i<vehicleQueueSize;i++){
-                            tollfs>>pair.first>>pair.second;
+                        for (int j = 0; j < vehicleQueueSize; j++) {
+                            tollfs >> pair.first >> pair.second;
                             vehicleQueue.push(pair);
                         }
-                        tollfs>>oldEmployeesSize;
-                        Employee* employee;
-                        vector <Employee*> oldEmployees;
+                        tollfs >> oldEmployeesSize;
+                        Employee *employee;
+                        vector<Employee *> oldEmployees;
 
-                        for(int i=0;i<oldEmployeesSize;i++){
-                            tollfs>>employeeSS;
-                            employee=employees[findEmployee(new Employee("",employeeSS))];
+                        for (int j = 0; j < oldEmployeesSize; j++) {
+                            tollfs >> employeeSS;
+                            employee = employees[findEmployee(new Employee("", employeeSS))];
                             oldEmployees.push_back(employee);
                         }
-                        if(oldEmployeesSize==0) employee= nullptr;
+                        if (oldEmployeesSize == 0) employee = nullptr;
 
-                        lanes.push_back(new NormalExitLane(numCrossings,vehicleQueue,employee,oldEmployees));
+                        lanes.push_back(new NormalExitLane(numCrossings, vehicleQueue, employee, oldEmployees));
+                    } else if (viaVerde) {
+                        lanes.push_back(new ViaVerdeLane());
+                    } else {
+                        lanes.push_back(new NormalLane());
                     }
-                    else if(viaVerde){
-                        lanes.push_back(new ViaVerdeLane);
-                    }
-                    else lanes.push_back(new Lane);
                 }
                 if (type)//type = true -> is exit toll
                     highway->addToll(new OutToll(name, location, lanes, pos, price));
@@ -172,74 +172,74 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
     } else throw invalid_argument("Not able to open tolls file");
 }
 
-void SystemMonitor::loadClients(const string &clientsFileName) {//load employees into vector
-//exemplo ficheiro client:
-//name nif numCarros
-//matricula1 matricula2 etc
-//name nif numCarros
-//matricula3
-    ifstream clientsfs(clientsFileName);
-
-    if (clientsfs.is_open()) {
-        string cName, licensePlate;
-        int nif, numVehicles;
-
-        while (clientsfs >> cName >> nif >> numVehicles) {
-            Client *client = new Client(cName, nif);
-            while (numVehicles > 0 && clientsfs >> licensePlate) {
-                client->addVehicle(getVehicle(licensePlate));
-                numVehicles--;
-            }
-            clients.push_back(client);
-        }
-        clientsfs.close();
-    } else throw invalid_argument("Not able to open clients file");
-}
-
-void SystemMonitor::loadEmployees(const string &employeesFileName) {//load employees into vector
-//exemplo ficheiro empregado:
-//nome1 numeroDeSS 1
-//nome2 numeroDeSS 0
-//...
-//nomex numeroDeSS
-    ifstream employeesfs(employeesFileName);
-
-    if (employeesfs.is_open()) {
-        string eName;
-        int ssNumber;
-        bool working;
-
-        while (employeesfs >> eName >> ssNumber >> working) {
-            Employee *employee = new Employee(eName, ssNumber);
-            if (working) employee->changeWorkStatus();
-            employees.push_back(employee);
-        }
-        employeesfs.close();
-    } else throw invalid_argument("Not able to open employees file");
-}
-
-void SystemMonitor::loadVehicles(
-        const string &vehiclesFileName) {//considerando um ficheiro do texto em que cada linha representa um objeto
-//exemplo ficheiro veiculo:
-//matricula1 categoria viaVerde numTrips
-//begLocation begPrice endLocation endPrice beginTime endTime finished pricePaid
-//begLocation begPrice endLocation endPrice beginTime endTime finished pricePaid
-//matricula2 categoria !viaVerde numTrips
-//...
-//matriculax categoria viaverde numTrips
-//load vehicles into vector
-    ifstream vehiclefs(vehiclesFileName);
-
-    if (vehiclefs.is_open()) {
-        Vehicle *vehicle = new Vehicle();
-
-        while (vehiclefs >> *vehicle) {
-            vehicles.push_back(vehicle);
-            vehicle = new Vehicle();
-        }
-        vehiclefs.close();
-    } else throw invalid_argument("Not able to open " + vehiclesFileName + " file");
-}
+//void SystemMonitor::loadClients(const string &clientsFileName) {//load employees into vector
+////exemplo ficheiro client:
+////name nif numCarros
+////matricula1 matricula2 etc
+////name nif numCarros
+////matricula3
+//    ifstream clientsfs(clientsFileName);
+//
+//    if (clientsfs.is_open()) {
+//        string cName, licensePlate;
+//        int nif, numVehicles;
+//
+//        while (clientsfs >> cName >> nif >> numVehicles) {
+//            Client *client = new Client(cName, nif);
+//            while (numVehicles > 0 && clientsfs >> licensePlate) {
+//                client->addVehicle(getVehicle(licensePlate));
+//                numVehicles--;
+//            }
+//            clients.push_back(client);
+//        }
+//        clientsfs.close();
+//    } else throw invalid_argument("Not able to open clients file");
+//}
+//
+//void SystemMonitor::loadEmployees(const string &employeesFileName) {//load employees into vector
+////exemplo ficheiro empregado:
+////nome1 numeroDeSS 1
+////nome2 numeroDeSS 0
+////...
+////nomex numeroDeSS
+//    ifstream employeesfs(employeesFileName);
+//
+//    if (employeesfs.is_open()) {
+//        string eName;
+//        int ssNumber;
+//        bool working;
+//
+//        while (employeesfs >> eName >> ssNumber >> working) {
+//            Employee *employee = new Employee(eName, ssNumber);
+//            if (working) employee->changeWorkStatus();
+//            employees.push_back(employee);
+//        }
+//        employeesfs.close();
+//    } else throw invalid_argument("Not able to open employees file");
+//}
+//
+//void SystemMonitor::loadVehicles(
+//        const string &vehiclesFileName) {//considerando um ficheiro do texto em que cada linha representa um objeto
+////exemplo ficheiro veiculo:
+////matricula1 categoria viaVerde numTrips
+////begLocation begPrice endLocation endPrice beginTime endTime finished pricePaid
+////begLocation begPrice endLocation endPrice beginTime endTime finished pricePaid
+////matricula2 categoria !viaVerde numTrips
+////...
+////matriculax categoria viaverde numTrips
+////load vehicles into vector
+//    ifstream vehiclefs(vehiclesFileName);
+//
+//    if (vehiclefs.is_open()) {
+//        Vehicle *vehicle = new Vehicle();
+//
+//        while (vehiclefs >> *vehicle) {
+//            vehicles.push_back(vehicle);
+//            vehicle = new Vehicle();
+//        }
+//        vehiclefs.close();
+//    } else throw invalid_argument("Not able to open " + vehiclesFileName + " file");
+//}
 
 
 const vector<Client *> &SystemMonitor::getClients() const {

@@ -93,12 +93,16 @@ public:
     /// \return ostream with the pairs <licensePlate, price> in queue
     friend ostream &operator<<(ostream &os, const Lane &lane);
 
-    friend istream &operator>>(istream &is, Lane* lane);
+    friend istream &operator>>(istream &is, Lane &lane);
 };
 
 ///Child of Lane
 class NormalLane : public Lane {
 public:
+    NormalLane() {
+
+    }
+
     NormalLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
 
 };
@@ -139,6 +143,8 @@ public:
 class ViaVerdeLane : public Lane {
 
 public:
+    ViaVerdeLane();
+
     /// Passes Vehicle through ViaVerdeLane
     ///
     /// \param licensePlate
