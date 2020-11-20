@@ -10,6 +10,7 @@ const vector<Employee *> &SystemMonitor::getEmployees() const {
 
 bool SystemMonitor::addEmployee( Employee *employee) {
     employees.push_back(employee);
+    return false;
 }
 
 bool SystemMonitor::removeEmployee(const Employee *&employee) {
@@ -332,7 +333,7 @@ void SystemMonitor::addVehicleClient(Client *client) {
     bool viaVerde; //true se tiver via verde
 
     try {
-        category = categoryInput();
+        category = categoryInput() - '0';
         if (category == 0)
             throw CreatingVehicleException();
 
@@ -1045,7 +1046,7 @@ void SystemMonitor::managerAddEmployee() {
 void SystemMonitor::managerRemoveEmployee() {
     Employee *employee = selectEmployee();
     if (int i = findEmployee(employee) != -1) {
-        employees.erase(employees.begin() + i);
+        employees.erase(employees.begin() + i + 1);
     }
     return;
 }
