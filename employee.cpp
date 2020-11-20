@@ -1,5 +1,6 @@
 #include "employee.h"
 #include <iostream>
+
 const string &Employee::getName() const {
     return name;
 }
@@ -22,8 +23,28 @@ ostream &operator<<(ostream &os, const Employee &employee) {
 }
 
 void Employee::changeWorkStatus() {
-    working=!working;
+    working = !working;
 }
 
+istream &operator>>(istream &is, Employee &employee) {
+    string name;
+    int ss_number;
+    bool working; //IF EMPLOYEE IS WORKING IN A LANE, VALUE TRUE
 
+    if (is >> name >> ss_number >> working) {
+        employee.setName(name);
+        employee.setSsNumber(ss_number);
+        if (working) employee.changeWorkStatus();
+    }
+    return is;
+}
 
+void Employee::setName(const string &name) {
+    Employee::name = name;
+}
+
+void Employee::setSsNumber(int ssNumber) {
+    ss_number = ssNumber;
+}
+
+Employee::Employee() {}

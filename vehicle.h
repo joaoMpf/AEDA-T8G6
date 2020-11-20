@@ -25,6 +25,9 @@ private:
     vector<Trip *> trips;
 
 public:
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    Vehicle();
+
     /// Creates Vehicle with license plate, category and ViaVerde status
     ///
     /// \param licensePlate
@@ -40,7 +43,7 @@ public:
         viaVerde = 0;
     }
 
-    ///Returns license plate
+    ///Initializes license plate
     ///
     /// \param licensePlate
     Vehicle(const string &licensePlate);
@@ -70,10 +73,15 @@ public:
     ///Changes ViaVerde status
     void changeViaVerde();
 
+    //FALTA COMENTAR/APAGAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     void setLicensePlate(const string &licensePlate);
 
+    void setCategory(int category);
+
+    //FALTA COMENTAR
     bool operator==(const Vehicle &rhs) const;
 
+    //FALTA COMENTAR/APAGAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     bool operator!=(const Vehicle &rhs) const;
 
     ///Returns Vehicle's category
@@ -114,6 +122,12 @@ public:
     /// \param vehicle
     /// \return ostream with Vehicle's info
     friend ostream &operator<<(ostream &os, const Vehicle &vehicle);
+
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    friend istream &operator>>(istream &is, Vehicle &vehicle);
+
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    void setTrips(const vector<Trip *> &trips);
 };
 
 ///Thrown when Vehicle creatin is cancelled
@@ -123,6 +137,5 @@ public:
         cout << "CREATING VEHICLE CANCELED\n";
     }
 };
-
 
 #endif //AEDA_T8G6_VEHICLE_H

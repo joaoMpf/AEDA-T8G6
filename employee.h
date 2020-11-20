@@ -17,6 +17,8 @@ private:
     bool working; //IF EMPLOYEE IS WORKING IN A LANE, VALUE TRUE
 
 public:
+    Employee();
+
     ///Creates an Employee with name and ss_number and sets working status
     Employee(string n, int ss,bool work=false): name(n), ss_number(ss),working(work){};
 
@@ -54,6 +56,15 @@ public:
     /// \param employee
     /// \return ostream with Employee's name and ss number
     friend ostream &operator<<(ostream &os, const Employee &employee);
+
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    friend istream &operator>>(istream &is, Employee &employee);
+
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    void setName(const string &name);
+
+    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    void setSsNumber(int ssNumber);
 };
 
 

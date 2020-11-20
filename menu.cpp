@@ -10,8 +10,8 @@ inline int getchar_unlocked() { return _getchar_nolock(); }
 
 
 menu::menu() {
-   /* this->systemMonitor = new SystemMonitor;
-    Highway highway("A4");
+    this->systemMonitor = new SystemMonitor;
+    /*Highway highway("A4");
     vector<Lane *> lanes;
     queue<pair<string, double>> queue1;
     vector<Employee*> lastE;
@@ -168,6 +168,7 @@ void menu::clientManager() {
                 break;
             case '4':
                 manageInfo(client);
+                break;
             case back:
                 return;
             default:

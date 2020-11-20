@@ -81,3 +81,34 @@ ostream &operator<<(ostream &os, const Client &client) {
     return os;
 }
 
+istream &operator>>(istream &is, Client &client) {
+    string name, licensePlate;
+    int nif, numVehicles;
+    vector<Vehicle *> vehicles;
+
+    if (is >> name >> nif >> numVehicles) {
+        client.setName(name);
+        client.setNif(nif);
+        for (int i = 0; i < numVehicles; i++) {
+            if (is >> licensePlate)
+                vehicles.push_back(new Vehicle(licensePlate));
+        }
+        client.setVehicles(vehicles);
+    }
+    return is;
+}
+
+void Client::setName(const string &name) {
+    Client::name = name;
+}
+
+void Client::setNif(int nif) {
+    Client::nif = nif;
+}
+
+void Client::setVehicles(const vector<Vehicle *> &vehicles) {
+    Client::vehicles = vehicles;
+}
+
+Client::Client() {}
+

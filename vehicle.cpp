@@ -4,6 +4,12 @@ const string &Vehicle::getLicensePlate() const {
     return licensePlate;
 }
 
+Vehicle::Vehicle() {}
+
+void Vehicle::setLicensePlate(const string &licensePlate) {
+    Vehicle::licensePlate = licensePlate;
+}
+
 int Vehicle::getCategory() const {
     return category;
 }
@@ -102,4 +108,35 @@ ostream &operator<<(ostream &os, const Vehicle &vehicle) {
                 os << endl;
         }
     return os;
+}
+
+istream &operator>>(istream &is, Vehicle &vehicle) {
+    string licensePlate;
+    bool viaVerde;
+    int category, numTrips;
+
+    if (is >> licensePlate >> category >> viaVerde >> numTrips) {
+        vehicle.setLicensePlate(licensePlate);
+        vehicle.setCategory(category);
+        if (viaVerde) vehicle.changeViaVerde();
+
+        vector<Trip *> trips;
+        for (int i = 0; i < numTrips; ++i) {
+            Trip *trip = new Trip();
+            if (is >> *trip) {
+                trips.push_back(trip);
+            }
+        }
+        vehicle.setTrips(trips);
+    }
+
+    return is;
+}
+
+void Vehicle::setCategory(int category) {
+    Vehicle::category = category;
+}
+
+void Vehicle::setTrips(const vector<Trip *> &trips) {
+    Vehicle::trips = trips;
 }
