@@ -32,27 +32,45 @@ public:
     /// @note this function calls sequentialSearch(const vector<Comparable *> &v, const Comparable *x)
     Vehicle *findVehicleClients(const string& licensePlate);
 
+    ///Read from file and loads information onto the various classes
     ///
+    ///Calls loadVectorFromFile(string &vectorFileName, vector<T *> &vec)
     void load();
 
+    ///Saves information of the various classes onto the text files
+    ///
+    ///Calls saveVectorToFile(const string &vectorFileName, vector<T *> &vec)
     void save();
 
+    ///Initiates SystemMonitor
+    ///
+    ///Calls load()
     SystemMonitor(){
         load();
     };
 
+    ///Closes SystemMonitor
+    ///
+    ///Calls save()
     ~SystemMonitor(){
         save();
     };
 
+    ///Returns vector of pointers to Highway
+    ///
+    /// \return vector of pointers to Highway
     vector<Highway* > getHighways();
 
+    ///Return vector of pointers to Employee
+    ///
+    /// \return vector of pointers to Employee
     const vector<Employee *> &getEmployees() const;
 
     bool addEmployee( Employee* employee);
 
     bool removeEmployee(const Employee* &employee); //Definir operator == em Employee
 
+    ///If founf, returns postion of Employee in vector, else it returns -1
     int findEmployee(const Employee* cemployee);
 
     void sortEmployees();
