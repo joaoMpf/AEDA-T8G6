@@ -48,10 +48,7 @@ public:
     ///Changes the boolean member working
     ///
     ///If working is true it becomes false and vice-versa
-    void changeWorkStatus(){
-        working=!working;
-
-    };
+    void changeWorkStatus();
 
     ///Returns ostream with name and ss_number
     ///

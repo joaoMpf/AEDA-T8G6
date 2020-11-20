@@ -62,6 +62,10 @@ void Toll::addLane(Lane *lane) {
     lanes.push_back(lane);
 }
 
+void Toll::addLane(ViaVerdeLane *lane){
+    lanes.push_back(lane);
+}
+
 void Toll::removeLaneAt(int i) {
     lanes.erase(lanes.begin() + i);
 }

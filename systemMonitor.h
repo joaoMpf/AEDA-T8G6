@@ -38,7 +38,7 @@ public:
 
     const vector<Employee *> &getEmployees() const;
 
-    bool addEmployee(const Employee* &employee);
+    bool addEmployee( Employee* employee);
 
     bool removeEmployee(const Employee* &employee); //Definir operator == em Employee
 
@@ -132,7 +132,7 @@ public:
 
     int selectHighway();
 
-    void managerAddToll(Highway *phighway);
+    void managerAddToll(Highway *phighway,bool exit);
 
     void managerManageToll(Highway *phighway);
 
@@ -172,6 +172,8 @@ public:
 
     template<class T>
     void saveVectorToFile(const string &vectorFileName, vector<T *> &vec) const;
+
+    void viewLastEmployees(Toll *pToll);
 };
 
 class ConfirmationExitException : exception {

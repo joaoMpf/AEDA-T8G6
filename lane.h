@@ -47,19 +47,38 @@ public:
     /// \return poped price pair
     pair<string, double> addCrossing(); //Chamar função para tirar próximo veiculo da queue
 
+    ///Adds the pair licensePlate, price to the queue
+    ///
+    /// \param licensePlate
+    /// \param price
+    ///@see ViaVerdeLane::addVehicle(string licensePlate, double price)
     virtual void addVehicle(string licensePlate, double price);
 
     bool isViaVerde() const { return false; }
 
     bool isNormalExitLane() {return false;}
 
-    virtual Employee *getEmployee() const {return nullptr;}
 
-    int numberVehiclesWaiting(){ return vehicleQueue.size();}
+    ///Returns pointer to Employee
+    ///
+    /// \return pointer to Employee
+    virtual Employee *getEmployee(){return nullptr;}
 
+    ///Returns number of Vehicles in queue
+    ///
+    /// \return number of Vehicles in queue
+    int numberVehiclesWaiting(){ return vehicleQueue.size()/2;}
+
+    ///Set Employee
+    ///
+    /// \param employee
     virtual void setEmployee(Employee *employee){};
 
+    virtual vector<Employee*> getLastEmployees(){ return vector<Employee *>(); };
+
     bool operator<(const Lane &rhs) const;
+
+    void addToEmployeeList(Employee* employee1){};
 
     bool operator>(const Lane &rhs) const;
 
@@ -67,6 +86,11 @@ public:
 
     bool operator>=(const Lane &rhs) const;
 
+    ///Returns ostream with the pairs <licensePlate, price> in queue
+    ///
+    /// \param os ostream
+    /// \param lane
+    /// \return ostream with the pairs <licensePlate, price> in queue
     friend ostream &operator<<(ostream &os, const Lane &lane);
 
     friend istream &operator>>(istream &is, Lane &lane);
@@ -85,22 +109,45 @@ private:
     Employee *employee;
     vector<Employee *> lastEmployees;
 
-    void setEmployee(Employee *employee);
-
 public:
     NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
-    Employee *getEmployee() const;
 
+    ///Return pointer to Employee working in NormalExitLane
+    ///
+    /// \return pointer to Employee working in NormalExitLane
+    Employee *getEmployee() ;
+
+    void setEmployee(Employee *employee);
+
+    vector<Employee*> getLastEmployees(){return lastEmployees;}
+
+    void addToEmployeeList(Employee* employee1){lastEmployees.push_back(employee);};
+
+    ///Changes Employee working in NormalExitLane
+    ///
+    /// \param employee pointer to Employee
     void ChangeEmployee(Employee *employee);
 
+
+    ///Returns vector of pointers to Employee
+    ///
+    /// \return
     const vector<Employee *> &getLastEmployees() const;
 };
 
 ///Child of Lane
 class ViaVerdeLane : public Lane {
+
 public:
+    /// Passes Vehicle through ViaVerdeLane
+    ///
+    /// \param licensePlate
+    /// \param price
+    ///@note Adds the pair <licensePlate, price> to queue vehicleQueue and pops it, incrementing numCrossings
+    ///@see Lane::addVehicle()
+    ///@see addCrossing()
     void addVehicle(string licensePlate, double price);
     bool isViaVerde() const { return true; }
 };
