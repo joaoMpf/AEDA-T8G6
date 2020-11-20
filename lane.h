@@ -112,6 +112,10 @@ public:
     NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
+
+    ///Return pointer to Employee working in NormalExitLane
+    ///
+    /// \return pointer to Employee working in NormalExitLane
     Employee *getEmployee() ;
 
     void setEmployee(Employee *employee);
@@ -120,8 +124,15 @@ public:
 
     void addToEmployeeList(Employee* employee1){lastEmployees.push_back(employee);};
 
+    ///Changes Employee working in NormalExitLane
+    ///
+    /// \param employee pointer to Employee
     void ChangeEmployee(Employee *employee);
 
+
+    ///Returns vector of pointers to Employee
+    ///
+    /// \return
     const vector<Employee *> &getLastEmployees() const;
 };
 
@@ -129,6 +140,13 @@ public:
 class ViaVerdeLane : public Lane {
 
 public:
+    /// Passes Vehicle through ViaVerdeLane
+    ///
+    /// \param licensePlate
+    /// \param price
+    ///@note Adds the pair <licensePlate, price> to queue vehicleQueue and pops it, incrementing numCrossings
+    ///@see Lane::addVehicle()
+    ///@see addCrossing()
     void addVehicle(string licensePlate, double price);
     bool isViaVerde() const { return true; }
 };
