@@ -24,6 +24,8 @@ public:
     ///Creates a Lane with 0 crossings
     Lane() { this->numCrossings = 0; }
 
+    Lane(int numCrossings);
+
     ///Creates a Lane with numCrossings crossings and a queue with <licensePlate, price> pairs
     ///
     /// \param numCrossings
@@ -78,7 +80,7 @@ public:
 
     bool operator<(const Lane &rhs) const;
 
-    void addToEmployeeList(Employee* employee1){};
+    virtual void addToEmployeeList(Employee* employee1) {};
 
     bool operator>(const Lane &rhs) const;
 
@@ -94,6 +96,8 @@ public:
     friend ostream &operator<<(ostream &os, const Lane &lane);
 
     friend istream &operator>>(istream &is, Lane &lane);
+
+    virtual ostream &saveToFile(ostream &os) const;
 };
 
 ///Child of Lane
@@ -102,6 +106,8 @@ public:
     NormalLane() {
 
     }
+
+    NormalLane(int numCrossings) : Lane(numCrossings) {}
 
     NormalLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
 
@@ -130,13 +136,15 @@ public:
 
     vector<Employee*> getLastEmployees(){return lastEmployees;}
 
-    void addToEmployeeList(Employee* employee1){lastEmployees.push_back(employee);};
+    void addToEmployeeList(Employee* employee1) override{lastEmployees.push_back(employee);};
 
 
     ///Returns vector of pointers to Employee
     ///
     /// \return
     const vector<Employee *> &getLastEmployees() const;
+
+    ostream &saveToFile(ostream &os) const override;
 };
 
 ///Child of Lane
@@ -144,6 +152,8 @@ class ViaVerdeLane : public Lane {
 
 public:
     ViaVerdeLane();
+
+    ViaVerdeLane(int numCrossings);
 
     /// Passes Vehicle through ViaVerdeLane
     ///

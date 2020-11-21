@@ -43,15 +43,7 @@ bool Lane::passVehicle() {
 }
 
 ostream &operator<<(ostream &os, const Lane &lane) {
-    os << lane.numCrossings << " " << lane.vehicleQueue.size();
-    if (!lane.vehicleQueue.empty()) {
-        queue<pair<string, double>> copy(lane.vehicleQueue);
-        while (!copy.empty()) {
-            os << " " << copy.front().first << " " << copy.front().second;
-            copy.pop();
-        }
-    }
-    return os;
+    return lane.saveToFile(os);
 }
 
 istream &operator>>(istream &is, Lane &lane) {
@@ -69,6 +61,20 @@ istream &operator>>(istream &is, Lane &lane) {
 
     return is;
 }
+
+ostream &Lane::saveToFile(ostream &os) const {
+    os << isViaVerde() << " " << numCrossings << " " << vehicleQueue.size();
+    if (!vehicleQueue.empty()) {
+        queue<pair<string, double>> copy(vehicleQueue);
+        while (!copy.empty()) {
+            os << " " << copy.front().first << " " << copy.front().second;
+            copy.pop();
+        }
+    }
+    return os;
+}
+
+Lane::Lane(int numCrossings) : numCrossings(numCrossings) {}
 
 
 void NormalExitLane::setEmployee(Employee *employee1) {
@@ -88,9 +94,26 @@ NormalExitLane::NormalExitLane(int numCrossings, const queue<pair<string, double
                                                                           employee(employee),
                                                                           lastEmployees(lastEmployees) {}
 
+ostream &NormalExitLane::saveToFile(ostream &os) const {
+    Lane::saveToFile(os);
+    bool hasCurrentEmployee = (employee == nullptr);
+    os << " " << hasCurrentEmployee << " ";
+    if (hasCurrentEmployee)
+        os << employee->getSsNumber() << " ";
+    os << lastEmployees.size() << " ";
+    if (!lastEmployees.empty()) {
+        for (auto lastEmployee : lastEmployees) {
+            os << lastEmployee->getSsNumber() << " ";
+        }
+    }
+    return os;
+}
+
 void ViaVerdeLane::addVehicle(string licensePlate, double price) {
     Lane::addVehicle(licensePlate, price);
     addCrossing();
 }
 
 ViaVerdeLane::ViaVerdeLane() {}
+
+ViaVerdeLane::ViaVerdeLane(int numCrossings) : Lane(numCrossings) {}
