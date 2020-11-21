@@ -15,7 +15,7 @@ void Lane::addVehicle(string licensePlate, double price) {
     vehicleQueue.push(pair<string, double>(licensePlate, price));
 }
 
-Lane::Lane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : numCrossings(numCrossings),
+Lane::Lane(int numCrossings, queue<pair<string, double>> vehicleQueue) : numCrossings(numCrossings),
                                                                                 vehicleQueue(vehicleQueue) {}
 
 bool Lane::operator<(const Lane &rhs) const {
@@ -35,6 +35,7 @@ bool Lane::operator>=(const Lane &rhs) const {
 }
 
 bool Lane::passVehicle() {
+
     if (!vehicleQueue.empty()) {
         vehicleQueue.pop();
         return true;
@@ -70,6 +71,10 @@ istream &operator>>(istream &is, Lane &lane) {
     return is;
 }
 
+int Lane::numberVehiclesWaiting() { return vehicleQueue.size();}
+
+Employee *Lane::getEmployee() {return nullptr;}
+
 
 void NormalExitLane::setEmployee(Employee *employee1) {
     this->employee = employee1;
@@ -83,10 +88,14 @@ const vector<Employee *> &NormalExitLane::getLastEmployees() const {
     return lastEmployees;
 }
 
-NormalExitLane::NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
-                               const vector<Employee *> &lastEmployees) : NormalLane(numCrossings, vehicleQueue),
+NormalExitLane::NormalExitLane(int numCrossings, queue<pair<string, double>> vehicleQueue, Employee *employee,
+                                const vector<Employee *> &lastEmployees) : NormalLane(numCrossings, vehicleQueue),
                                                                           employee(employee),
                                                                           lastEmployees(lastEmployees) {}
+
+void NormalExitLane::addToEmployeeList(Employee *employee1) {lastEmployees.push_back(employee);}
+
+vector<Employee *> NormalExitLane::getLastEmployees() {return lastEmployees;}
 
 void ViaVerdeLane::addVehicle(string licensePlate, double price) {
     Lane::addVehicle(licensePlate, price);

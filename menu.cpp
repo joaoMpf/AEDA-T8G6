@@ -108,7 +108,8 @@ void menu::monitorEmployee() {
                 if (lane->passVehicle()) {
                     lane->addCrossing();
                     cout << "VEHICLE PASSED";
-                } else cout << "NO VEHICLE'S TO PASS";
+                }
+                else cout << "NO VEHICLE'S TO PASS";
                 break;
             case back:
                 return;

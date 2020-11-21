@@ -28,7 +28,7 @@ public:
     ///
     /// \param numCrossings
     /// \param vehicleQueue
-    Lane(int numCrossings, const queue<pair<string, double>> &vehicleQueue);
+    Lane(int numCrossings, queue<pair<string, double>> vehicleQueue);
 
     ///Returns Number of Crossings
     ///
@@ -62,12 +62,12 @@ public:
     ///Returns pointer to Employee
     ///
     /// \return pointer to Employee
-    virtual Employee *getEmployee(){return nullptr;}
+    virtual Employee *getEmployee();
 
     ///Returns number of Vehicles in queue
     ///
     /// \return number of Vehicles in queue
-    int numberVehiclesWaiting(){ return vehicleQueue.size();}
+    int numberVehiclesWaiting();
 
     ///Set Employee
     ///
@@ -103,7 +103,7 @@ public:
 
     }
 
-    NormalLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
+    NormalLane(int numCrossings, queue<pair<string, double>> vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
 
 };
 
@@ -114,7 +114,7 @@ private:
     vector<Employee *> lastEmployees;
 
 public:
-    NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
+    NormalExitLane(int numCrossings, queue<pair<string, double>> vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
 
@@ -128,9 +128,9 @@ public:
     /// \param employee pointer to Employee
     void setEmployee(Employee *employee);
 
-    vector<Employee*> getLastEmployees(){return lastEmployees;}
+    vector<Employee*> getLastEmployees();
 
-    void addToEmployeeList(Employee* employee1){lastEmployees.push_back(employee);};
+    void addToEmployeeList(Employee* employee1);;
 
 
     ///Returns vector of pointers to Employee
