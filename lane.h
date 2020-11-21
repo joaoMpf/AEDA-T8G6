@@ -84,6 +84,8 @@ public:
 
     bool operator>(const Lane &rhs) const;
 
+    virtual bool isViaVerde() {return false;};
+
     bool operator<=(const Lane &rhs) const;
 
     bool operator>=(const Lane &rhs) const;
@@ -165,7 +167,7 @@ public:
     ///@see Lane::addVehicle()
     ///@see addCrossing()
     void addVehicle(string licensePlate, double price);
-    bool isViaVerde() const { return true; }
+    bool isViaVerde() { return true; }
 };
 
 #endif //AEDA_T8G6_LANE_H
