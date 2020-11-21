@@ -6,6 +6,9 @@ Trip::Trip(string begLocation, double begPrice, Time *begTime) : beginTime(begTi
     pricePaid = 0;
     begin.first = std::move(begLocation);
     begin.second = begPrice;
+    end.first = "empty";
+    end.second = 0;
+    this->finished = false;
 }
 
 Trip::Trip(const pair<string, double> &begin, const pair<string, double> &anEnd, Time *beginTime, Time *endTime,

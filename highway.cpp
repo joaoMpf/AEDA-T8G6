@@ -69,9 +69,7 @@ ostream &operator<<(ostream &os, const Highway &highway) {
 int Highway::getTollsSize(bool exit) {
     int cnt = 0;
     for (auto x:tolls) {
-        if (x->isExitToll() && exit) {
-            cnt++;
-        } else if (!(x->isExitToll()) && exit) {
+        if (x->isExitToll() == exit) {
             cnt++;
         }
     }
