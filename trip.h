@@ -23,18 +23,18 @@ private:
     double pricePaid;
 public:
 
-    ///Creates a trip with begin toll and begin time
+    ///Creates Trip with begin location, begin time and begin price
     ///
     /// \param begLocation
     /// \param begPrice
     /// \param begTime
     Trip(string begLocation, double begPrice, Time *begTime);
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Creates Trip with
     Trip(const pair<string, double> &begin, const pair<string, double> &anEnd, Time *beginTime, Time *endTime,
          bool finished, double pricepaid);
 
-    ///Sets end Toll
+    ///Sets end location and time
     ///
     /// \param endLocation
     /// \param endPrice
@@ -80,10 +80,18 @@ public:
     /// \return
     Time *getEndTime() const;
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Returns ostream with Trip info
+    ///
+    /// \param os
+    /// \param trip
+    /// \return ostream with Trip info
     friend ostream &operator<<(ostream &os, const Trip &trip);
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Returns istream with Trip info
+    ///
+    /// \param is
+    /// \param trip
+    /// \return istream with Trip info
     friend istream &operator>>(istream &is, Trip &trip);
 
     Trip();
