@@ -33,7 +33,8 @@ void Vehicle::startTrip(Toll *toll, Time *time) {
 }
 
 double Vehicle::endTrip(Toll *toll, Time *time) {
-    if ((!trips.empty() && trips[trips.size() - 1]->isFinished())) {
+
+    if ((trips.empty() || trips[trips.size() - 1]->isFinished())) {
         cout << "VEHICLE NEVER ENTERED OR ALREADY EXITED.\n";
         return -1;
     }

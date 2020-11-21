@@ -859,8 +859,14 @@ Toll *SystemMonitor::selectToll(Highway *pHighway) {
 }
 
 void SystemMonitor::managerAddLane(Toll *pToll, bool viaVerde) {
-    if (!pToll->isExitToll()) pToll->addLane(new Lane);
-    if (viaVerde) pToll->addLane(new ViaVerdeLane);
+    if (!pToll->isExitToll()&&!viaVerde) {
+        pToll->addLane(new Lane);
+        return;
+    }
+    if (viaVerde) {
+        pToll->addLane(new ViaVerdeLane);
+        return;
+    }
     else {
         if (pToll->isExitToll()) {
             while (true) {

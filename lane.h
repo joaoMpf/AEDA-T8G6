@@ -41,7 +41,7 @@ public:
     ///
     /// \return true if successful, false otherwise
     ///@note This function will return false when vehicleQueue is empty
-    bool passVehicle();
+    string passVehicle();
 
     ///Adds Crossing
     ///increments numCrossings\n
@@ -83,6 +83,8 @@ public:
     virtual void addToEmployeeList(Employee *employee1) {};
 
     bool operator>(const Lane &rhs) const;
+
+    virtual bool isViaVerde() {return false;};
 
     bool operator<=(const Lane &rhs) const;
 
