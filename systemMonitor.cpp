@@ -1095,7 +1095,7 @@ void SystemMonitor::managerAddEmployee() {
 void SystemMonitor::managerRemoveEmployee() {
     Employee *employee = selectEmployee();
     if (int i = findEmployee(employee) != -1) {
-        employees.erase(employees.begin() + i + 1);
+        employees.erase(employees.begin() + i);
     }
     return;
 }
