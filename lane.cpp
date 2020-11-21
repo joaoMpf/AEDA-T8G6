@@ -112,6 +112,8 @@ void ViaVerdeLane::addVehicle(string licensePlate, double price) {
     addCrossing();
 }
 
-ViaVerdeLane::ViaVerdeLane() {}
+ViaVerdeLane::ViaVerdeLane() {
+    numCrossings=0;
+}
 
 ViaVerdeLane::ViaVerdeLane(int numCrossings) : Lane(numCrossings) {}

@@ -58,6 +58,8 @@ public:
     /// \return Highways tolls
     vector<Toll *> &getTolls();
 
+    int getTollsSize(bool exit);
+
     ///Erases Toll at index i
     ///
     /// \param i index

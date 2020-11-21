@@ -481,9 +481,10 @@ int SystemMonitor::getNif() {
     while (true) {
         cout << "ENTER NIF\n";
         cin >> nif;
-        cin >> nif;
         if (confirmation() && countDigit(nif) == 9 && findClient(new Client(nif)) == -1)
             break;
+        else cout<<"ENTER A VALID 9 DIGIT NIF\n";
+
     }
 
     return nif;
@@ -631,6 +632,7 @@ void SystemMonitor::showCosts(Client *client) {
 }
 
 void SystemMonitor::changeNIF(Client *client) {
+
     int newNif = getNif();
     client->changeNIF(newNif);
 
@@ -1093,10 +1095,22 @@ void SystemMonitor::managerAddEmployee() {
 }
 
 void SystemMonitor::managerRemoveEmployee() {
-    Employee *employee = selectEmployee();
-    if (int i = findEmployee(employee) != -1) {
-        employees.erase(employees.begin() + i);
+    int cnt=1;
+    for(auto x:employees){
+        cout<<cnt<<": "<<x->getName()<<endl<<endl;
+        cnt++;
     }
+    while(true) {
+        cout << "SELECT AN EMPLOYEE OR PRESS 0 TO RETURN\n";
+        cin >> cnt;
+        if(cnt<1||cnt>employees.size()){
+            cout<<"ENTER A VALID INPUT\n";
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
+        else break;
+    }
+    employees.erase(employees.begin()+(cnt-1));
     return;
 }
 

@@ -233,12 +233,17 @@ void menu::operateToll(Client *client) {
 }
 
 void menu::operatePassToll(Client *client, bool exit) {
+
     Highway *highway = getHighway();
     if (highway == nullptr) {
         cout << "INVALID HIGHWAY\n";
         return;
     }
 
+    if(highway->getTollsSize(exit)==0){
+        cout<<"NO TOLLS TO SHOW\n";
+        return;
+    }
     highway->printTollsNumbered(exit);
     Toll *toll = getTollInput(exit, highway);
     if (toll == nullptr) {
@@ -302,8 +307,6 @@ Toll *menu::getTollInput(bool exit, Highway *highway) const {
     cout << "CHOOSE TOLL\n";
     int tollNum;
     cin >> tollNum;
-    cin.ignore(1000, '\n');
-    cin.clear();
     Toll *toll = highway->getTollAt(tollNum, exit);
     return toll;
 }
@@ -313,8 +316,6 @@ Highway *menu::getHighway() {
     cout << "CHOOSE HIGHWAY\n";
     int highwayNum;
     cin >> highwayNum;
-    cin.ignore(1000, '\n');
-    cin.clear();
     Highway *highway = systemMonitor->getHighwayAt(highwayNum - 1);
     return highway;
 }
