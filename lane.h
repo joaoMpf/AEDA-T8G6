@@ -45,9 +45,9 @@ public:
 
     ///Adds Crossing
     ///increments numCrossings\n
-    ///pops price paid from queue
+    ///
     /// \return poped price pair
-    pair<string, double> addCrossing(); //Chamar função para tirar próximo veiculo da queue
+    void addCrossing(); //Chamar função para tirar próximo veiculo da queue
 
     ///Adds the pair licensePlate, price to the queue
     ///

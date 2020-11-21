@@ -144,11 +144,11 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                             vehicleQueue.push(pair);
                         }
 
-                        Employee *employee;
+                        Employee *employee1,*employee;
                         tollfs >> working;
                         if (working) {
                             tollfs >> employeeSS;
-                            employee = employees[findEmployee(new Employee("", employeeSS))];
+                            employee1 = employees[findEmployee(new Employee("", employeeSS))];
                         }
 
                         tollfs >> oldEmployeesSize;
@@ -159,7 +159,7 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                             oldEmployees.push_back(employee);
                         }
 
-                        lanes.push_back(new NormalExitLane(numCrossings, vehicleQueue, employee, oldEmployees));
+                        lanes.push_back(new NormalExitLane(numCrossings, vehicleQueue, employee1, oldEmployees));
                     } else if (viaVerde) {
                         lanes.push_back(new ViaVerdeLane(numCrossings));
                     } else {

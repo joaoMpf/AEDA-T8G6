@@ -4,11 +4,8 @@ int Lane::getNumCrossings() const {
     return numCrossings;
 }
 
-pair<string, double> Lane::addCrossing() {
+void Lane::addCrossing() {
     this->numCrossings++;
-    pair<string, double> pricePair = vehicleQueue.front();
-    vehicleQueue.pop();
-    return pricePair;
 }
 
 void Lane::addVehicle(string licensePlate, double price) {
