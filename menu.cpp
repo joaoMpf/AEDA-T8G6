@@ -212,7 +212,7 @@ void menu::operateToll(Client *client) {
     while (true) {
         cout << "\nOPERATE TOLL\n"
              << "\nPlease enter number:\n"
-             << "1 - ENTRY TOLL\n"
+             << "1 - ENTER TOLL\n"
              << "2 - EXIT TOLL\n"
              << "0 - GO BACK\n";
 
@@ -393,7 +393,7 @@ void menu::manageExistingHighways(Highway* highway) {
              << "1 - ADD ENTRY TOLL\n"
              << "2 - ADD EXIT TOLL\n"
              << "3 - REMOVE TOLL\n"
-             << "4 - MANAGE TOLLS\n" //NOT DONE
+             << "4 - MANAGE TOLLS\n"
              << "5 - VIEW HIGHWAY TOLLS\n"
              << "0 - GO BACK\n";
         switch (SystemMonitor::getNumberInput()) {
@@ -432,16 +432,16 @@ void menu::managerManageToll(Highway *highway) {
                  << "2 - ADD VIA VERDE EXIT LANE\n"
                  << "3 - CHANGE EXIT LANE EMPLOYEES\n"
                  << "4 - REMOVE LANE\n"
-                 << "5 - VIEW LANES\n"
+                 << "5 - VIEW EXIT LANES\n"
                  << "6 - VIEW TOLL PAST EMPLOYEES\n"
                  << "0 - GO BACK\n";}
         else{
             cout << "\nENTRY-TOLL MANAGER MENU:\n\n";
             cout << "\nPlease enter number:\n"
-                 << "1 - ADD NORMAL EXIT LANE\n"
+                 << "1 - ADD NORMAL LANE\n"
                  << "2 - ADD VIA VERDE LANE\n"
                  << "3 - REMOVE LANE\n"
-                 << "4 - VIEW LANES\n"
+                 << "4 - VIEW ENTRY LANES\n"
                  << "0 - GO BACK\n";}
         if(!toll->isExitToll()) {
             switch (SystemMonitor::getNumberInput()) {
