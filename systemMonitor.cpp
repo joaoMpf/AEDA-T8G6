@@ -75,10 +75,11 @@ void SystemMonitor::saveVectorToFile(const string &vectorFileName, vector<T *> &
     if (!vec.empty() && file.is_open())
         for (int i = 0; i < vec.size(); ++i) {
             file << *vec[i];
-//            cout << *vec[i] << endl;
             if (i != vec.size() - 1)
                 file << endl;
         }
+    else if (!file.is_open()) throw invalid_argument("Not able to open " + vectorFileName + " file");
+
     file.close();
 }
 
@@ -101,6 +102,7 @@ void SystemMonitor::loadVectorFromFile(string &vectorFileName, vector<T *> &vec)
     if (file.is_open()) {
         T *newElement = new T();
         while (file >> *newElement) {
+//            cout << *newElement << endl;
             vec.push_back(newElement);
             newElement = new T();
         }
@@ -144,13 +146,14 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                             vehicleQueue.push(pair);
                         }
 
-                        Employee *employee1,*employee;
+                        Employee *currentEmployee = nullptr;
                         tollfs >> working;
                         if (working) {
                             tollfs >> employeeSS;
-                            employee1 = employees[findEmployee(new Employee("", employeeSS))];
+                            currentEmployee = employees[findEmployee(new Employee("", employeeSS))];
                         }
 
+                        Employee *employee;
                         tollfs >> oldEmployeesSize;
                         vector<Employee *> oldEmployees;
                         for (int j = 0; j < oldEmployeesSize; j++) {
@@ -159,7 +162,7 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                             oldEmployees.push_back(employee);
                         }
 
-                        lanes.push_back(new NormalExitLane(numCrossings, vehicleQueue, employee1, oldEmployees));
+                        lanes.push_back(new NormalExitLane(numCrossings, vehicleQueue, currentEmployee, oldEmployees));
                     } else if (viaVerde) {
                         lanes.push_back(new ViaVerdeLane(numCrossings));
                     } else {
@@ -483,7 +486,7 @@ int SystemMonitor::getNif() {
         cin >> nif;
         if (confirmation() && countDigit(nif) == 9 && findClient(new Client(nif)) == -1)
             break;
-        else cout<<"ENTER A VALID 9 DIGIT NIF\n";
+        else cout << "ENTER A VALID 9 DIGIT NIF\n";
 
     }
 
@@ -550,7 +553,7 @@ void SystemMonitor::removeVehicle(Client *client) {
 
 void SystemMonitor::viewVehicles(Client *client) {
 
-    if (client->getVehicles().size() == 0) {
+    if (client->getVehicles().empty()) {
         cout << "NO VEHICLES TO SHOW\n";
         return;
     }
@@ -564,9 +567,9 @@ void SystemMonitor::viewVehicles(Client *client) {
             case '0':
                 return;
             default:
-                if (isdigit(c)) {
+                if (isdigit(c) || c < 1 || c > client->getVehicles().size()) {
                     cout << endl;
-                    (*(it + ((int) c) - 1))->printTrips();
+                    client->getVehicles()[(c - '0') - 1]->printTrips();
                     cout << endl << endl;
                     break;
                 } else {
@@ -982,22 +985,8 @@ Employee *SystemMonitor::selectEmployee() {
     }
 }
 
-void SystemMonitor::viewLanes(Toll *pToll) {
-    vector<Lane *>::const_iterator it;
-    int i = 1;
-    for (it = pToll->getLanes().begin(); it != pToll->getLanes().end(); it++) {
-        cout << "LANE " << i << ":\n";
-        cout << "VIA VERDE: ";
-        if ((*it)->isViaVerde()) {
-            cout << "YES\n\n";
-        } else cout << "NO\n\n";
-        i++;
-    }
-
-}
-
 void SystemMonitor::removeLane(Toll *pToll) {
-    viewLanes(pToll);
+    pToll->viewLanes();
     int i;
     while (true) {
         cout << "SELECT A LANE TO ERASE:\n";
@@ -1012,7 +1001,7 @@ void SystemMonitor::removeLane(Toll *pToll) {
 }
 
 void SystemMonitor::changeLaneEmployee(Toll *pToll) {
-    viewLanes(pToll);
+    pToll->viewLanes();
 
     Lane *lane;
     int i;
@@ -1045,8 +1034,7 @@ void SystemMonitor::changeLaneEmployee(Toll *pToll) {
                 lane->setEmployee(employee);
                 lane->addToEmployeeList(employee);
                 return;
-            } else if (toupper(ans) == 'N') return;
-            else if (ans == '0') return;
+            } else if ((toupper(ans) == 'N') || (ans == '0')) return;
             cin.clear();
             cin.ignore(10000, '\n');
             cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
@@ -1095,22 +1083,21 @@ void SystemMonitor::managerAddEmployee() {
 }
 
 void SystemMonitor::managerRemoveEmployee() {
-    int cnt=1;
-    for(auto x:employees){
-        cout<<cnt<<": "<<x->getName()<<endl<<endl;
+    int cnt = 1;
+    for (auto x:employees) {
+        cout << cnt << ": " << x->getName() << endl << endl;
         cnt++;
     }
-    while(true) {
+    while (true) {
         cout << "SELECT AN EMPLOYEE OR PRESS 0 TO RETURN\n";
         cin >> cnt;
-        if(cnt<1||cnt>employees.size()){
-            cout<<"ENTER A VALID INPUT\n";
+        if (cnt < 1 || cnt > employees.size()) {
+            cout << "ENTER A VALID INPUT\n";
             cin.clear();
             cin.ignore(10000, '\n');
-        }
-        else break;
+        } else break;
     }
-    employees.erase(employees.begin()+(cnt-1));
+    employees.erase(employees.begin() + (cnt - 1));
     return;
 }
 
@@ -1230,15 +1217,14 @@ void SystemMonitor::viewLastEmployees(Toll *pToll) {
 
 void SystemMonitor::finishLoadingClients() {
     if (!clients.empty())
-        for (auto & client : clients) {
+        for (auto &client : clients) {
             if (!client->getVehicles().empty()) {
                 vector<Vehicle *> vecVehicles;
-                for (auto & vehic : client->getVehicles()) {
+                for (auto &vehic : client->getVehicles()) {
                     Vehicle *vehicle = getVehicle(vehic->getLicensePlate());
                     if (vehicle != nullptr)
-                        vecVehicles.push_back(vehicle);
+                        vecVehicles.push_back(getVehicle(vehic->getLicensePlate()));
                     else cout << "Error loading client vehicle!\n";
-                    cout << *vehicle << endl;
                 }
                 client->setVehicles(vecVehicles);
             }

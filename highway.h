@@ -72,6 +72,8 @@ public:
     /// \return ostream with Highway's name, number of Tolls and info of each Toll
     /// @see Toll::operator<<
     friend ostream &operator<<(ostream &os, const Highway &highway);
+
+    void printTollNumbered(const vector<Toll *>::const_iterator &it, int i) const;
 };
 
 

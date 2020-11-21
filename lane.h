@@ -98,6 +98,8 @@ public:
     friend istream &operator>>(istream &is, Lane &lane);
 
     virtual ostream &saveToFile(ostream &os) const;
+
+    void PrintLaneNumbered(int i);
 };
 
 ///Child of Lane

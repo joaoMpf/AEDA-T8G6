@@ -70,6 +70,19 @@ void Toll::removeLaneAt(int i) {
     lanes.erase(lanes.begin() + i);
 }
 
+void Toll::printTollNumbered(int i) const {
+    cout << i << ": " << getName() << endl;
+    cout << "number of crossings: " << getName() << endl;
+    if (isExitToll()) cout << "EXIT TOLL\n\n";
+    else cout << "ENTRY TOLL\n\n";
+}
+
+void Toll::viewLanes() {
+    for (int i = 0; i < getLanes().size(); ++i) {
+        getLanes()[i]->PrintLaneNumbered(i + 1);
+    }
+}
+
 ostream &operator<<(ostream &os, const Toll &toll) {
     os << toll.isExitToll() << " " << toll.name << " " << toll.location << " " << toll.lanes.size() << " "
        << toll.position << " " << toll.price;

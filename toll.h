@@ -94,6 +94,12 @@ public:
     friend ostream &operator<<(ostream &os, const Toll &toll);
 
     void addLane(ViaVerdeLane *lane);
+
+    void printTollNumbered(int i) const;
+
+    void PrintLaneNumbered(int i);
+
+    void viewLanes();
 };
 
 ///Entry Toll

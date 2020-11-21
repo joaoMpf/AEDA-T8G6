@@ -7,7 +7,7 @@ const string &Highway::getName() const {
 Toll *Highway::getTollAt(int i, bool exit) {
     int cnt = 0;
     vector<Toll *>::iterator it;
-    if (!tolls.empty()&&exit){
+    if (!tolls.empty() && exit) {
         for (it = tolls.begin(); it != tolls.end(); it++) {
             if ((*it)->isExitToll()) {
                 cnt++;
@@ -16,8 +16,7 @@ Toll *Highway::getTollAt(int i, bool exit) {
                 return *it;
             }
         }
-    }
-    else if (!tolls.empty()&&!exit){
+    } else if (!tolls.empty() && !exit) {
         for (it = tolls.begin(); it != tolls.end(); it++) {
             if (!(*it)->isExitToll()) {
                 cnt++;
@@ -50,16 +49,10 @@ vector<Toll *> &Highway::getTolls() {
 }
 
 void Highway::printTollsNumbered() {
-    vector<Toll *>::const_iterator it;
-    int i = 1;
-    for (it = tolls.begin(); it != tolls.end(); it++) {
-        cout << i << ": " << (*it)->getName() << endl;
-        if((*it)->isExitToll()) cout<<"EXIT TOLL\n\n";
-        else cout<<"ENTRY TOLL\n\n";
-        i++;
-
-    }
-
+    if (!tolls.empty())
+        for (int i = 0; i < tolls.size(); ++i) {
+            tolls[i]->printTollNumbered(i + 1);
+        }
 }
 
 ostream &operator<<(ostream &os, const Highway &highway) {
@@ -74,12 +67,11 @@ ostream &operator<<(ostream &os, const Highway &highway) {
 }
 
 int Highway::getTollsSize(bool exit) {
-    int cnt=0;
-    for (auto x:tolls){
-        if(x->isExitToll()&&exit){
+    int cnt = 0;
+    for (auto x:tolls) {
+        if (x->isExitToll() && exit) {
             cnt++;
-        }
-        else if(!(x->isExitToll())&&exit){
+        } else if (!(x->isExitToll()) && exit) {
             cnt++;
         }
     }

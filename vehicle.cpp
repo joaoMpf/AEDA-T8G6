@@ -4,7 +4,7 @@ const string &Vehicle::getLicensePlate() const {
     return licensePlate;
 }
 
-Vehicle::Vehicle() {}
+Vehicle::Vehicle() { viaVerde = false; }
 
 void Vehicle::setLicensePlate(const string &licensePlate) {
     Vehicle::licensePlate = licensePlate;
@@ -96,13 +96,14 @@ vector<Trip *> Vehicle::getTrips() {
 }
 
 Trip *Vehicle::getLastTrip() {
-    if(trips.empty())
+    if (trips.empty())
         return nullptr;
     return trips[trips.size() - 1];
 }
 
 ostream &operator<<(ostream &os, const Vehicle &vehicle) {
-    os << vehicle.licensePlate << " " << vehicle.category << " " << vehicle.viaVerde << " " << vehicle.trips.size();
+    os << vehicle.getLicensePlate() << " " << vehicle.getCategory() << " " << vehicle.isViaVerde() << " "
+       << vehicle.trips.size();
     if (!vehicle.trips.empty())
         for (int i = 0; i < vehicle.trips.size(); ++i) {
             os << *vehicle.trips[i];
@@ -119,16 +120,23 @@ istream &operator>>(istream &is, Vehicle &vehicle) {
 
     if (is >> licensePlate >> category >> viaVerde >> numTrips) {
         vehicle.setLicensePlate(licensePlate);
-        vehicle.setCategory(category);
-        if (viaVerde) vehicle.changeViaVerde();
-        vector<Trip *> trips;
-        for (int i = 0; i < numTrips; ++i) {
-            Trip *trip = new Trip();
-            if (is >> *trip) {
-                trips.push_back(trip);
+        if (category <= 5 && category > 0)
+            vehicle.setCategory(category);
+
+        if (viaVerde)
+            vehicle.changeViaVerde();
+
+        vector<Trip *> trips = vector<Trip *>();
+        if (numTrips > 0) {
+            for (int i = 0; i < numTrips; ++i) {
+                Trip *trip = new Trip();
+                if (is >> *trip) {
+                    trips.push_back(trip);
+                }
             }
         }
         vehicle.setTrips(trips);
+
     }
 
     return is;

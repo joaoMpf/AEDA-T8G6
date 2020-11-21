@@ -66,6 +66,13 @@ ostream &Lane::saveToFile(ostream &os) const {
 
 Lane::Lane(int numCrossings) : numCrossings(numCrossings) {}
 
+void Lane::PrintLaneNumbered(int i) {
+    cout << "LANE " << i << ":\n";
+    cout << "VIA VERDE: ";
+    if (isViaVerde()) {
+        cout << "YES\n\n";
+    } else cout << "NO\n\n";
+}
 
 void NormalExitLane::setEmployee(Employee *employee1) {
     this->employee = employee1;
@@ -94,7 +101,7 @@ ostream &NormalExitLane::saveToFile(ostream &os) const {
             copy.pop();
         }
     }
-    bool hasCurrentEmployee = (employee == nullptr);
+    bool hasCurrentEmployee = (employee != nullptr);
     os << " " << hasCurrentEmployee << " ";
     if (hasCurrentEmployee)
         os << employee->getSsNumber() << " ";
@@ -113,7 +120,7 @@ void ViaVerdeLane::addVehicle(string licensePlate, double price) {
 }
 
 ViaVerdeLane::ViaVerdeLane() {
-    numCrossings=0;
+    numCrossings = 0;
 }
 
 ViaVerdeLane::ViaVerdeLane(int numCrossings) : Lane(numCrossings) {}
