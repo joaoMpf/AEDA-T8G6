@@ -16,7 +16,7 @@ using namespace std;
 
 class Trip {
 private:
-    pair<string, double> begin, end;
+    pair<string, double> begin, end; //Toll name and toll Price
     Time *beginTime;
     Time *endTime;
     bool finished = false;

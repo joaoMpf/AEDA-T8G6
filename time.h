@@ -1,5 +1,6 @@
 #ifndef AEDA_T8G6_TIME_H
 #define AEDA_T8G6_TIME_H
+
 #include <ctime>
 #include <string>
 #include <ostream>
@@ -9,19 +10,24 @@ using namespace std;
 ///Contains info such as day, month, year, hour, minute, second
 class Time {
 private:
-    int day,month,year,hour, minute, second;
+    int day, month, year, hour, minute, second;
     time_t theTime = time(NULL);
     struct tm *aTime = localtime(&theTime);
 public:
-    Time(){
-        day=aTime->tm_mday;
-        month=aTime->tm_mon;
-        year=aTime->tm_year;
-        hour=aTime->tm_hour;
-        minute=aTime->tm_min;
-        second=aTime->tm_sec;
+    Time() {
+        day = aTime->tm_mday;
+        month = aTime->tm_mon + 1;
+        year = aTime->tm_year + 1900;
+        hour = aTime->tm_hour + 1;
+        minute = aTime->tm_min;
+        second = aTime->tm_sec;
     }
-    Time(int h, int m, int s): hour(h), minute(m), second(s){};
+
+    Time(int h, int m, int s) : hour(h), minute(m), second(s) {
+        day = 0;
+        month = 0;
+        year = 0;
+    };
 
     Time(int day, int month, int year, int hour, int minute, int second);
 
@@ -62,7 +68,7 @@ public:
 
     void setSecond(int second);
 
-    Time& operator=(const Time &rhs);
+    Time &operator=(const Time &rhs);
 
     ///Returns ostream with Time
     ///

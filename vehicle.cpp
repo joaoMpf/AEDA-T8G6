@@ -104,12 +104,14 @@ Trip *Vehicle::getLastTrip() {
 ostream &operator<<(ostream &os, const Vehicle &vehicle) {
     os << vehicle.getLicensePlate() << " " << vehicle.getCategory() << " " << vehicle.isViaVerde() << " "
        << vehicle.trips.size();
-    if (!vehicle.trips.empty())
+    if (!vehicle.trips.empty()) {
+        os << endl;
         for (int i = 0; i < vehicle.trips.size(); ++i) {
             os << *vehicle.trips[i];
             if (i != vehicle.trips.size() - 1)
                 os << endl;
         }
+    }
     return os;
 }
 

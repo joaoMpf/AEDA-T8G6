@@ -278,19 +278,19 @@ void menu::operatePassToll(Client *client, bool exit) {
         }
         if (!exit) {
             lane->addVehicle(vehicle->getLicensePlate(), 0.0);
-            vehicle->startTrip(toll, new Time);
+            vehicle->startTrip(toll, new Time());
             return;
         } else {
-            float price; //CALCULAR PREÇO
+            double price; //CALCULAR PREÇO
             Trip *lastTrip = vehicle->getLastTrip();
             if (lastTrip == nullptr || lastTrip->isFinished()) {
                 cout << "THIS VEHICLE IS NOT IN TRANSIT, CANNOT EXIT\n";
                 continue;
             }
-            price = toll->getPrice() - lastTrip->getBegin().second;
+            price = abs(toll->getPrice() - lastTrip->getBegin().second);
             vehicle->addPayment(price);
             if (vehicle->isViaVerde()) {
-                vehicle->endTrip(toll, new Time);
+                vehicle->endTrip(toll, new Time());
                 return;
             }
             lane->addVehicle(vehicle->getLicensePlate(), price);

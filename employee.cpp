@@ -47,4 +47,5 @@ void Employee::setSsNumber(int ssNumber) {
     ss_number = ssNumber;
 }
 
-Employee::Employee() {}
+Employee::Employee() {working = false;
+}

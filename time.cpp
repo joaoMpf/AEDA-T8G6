@@ -21,6 +21,9 @@ void Time::setTime(int h, int m, int s) {
 
 Time &Time::operator=(const Time &rhs) {
     setTime(rhs.getHour(), rhs.getMinute(), rhs.getSecond());
+    setYear(rhs.year);
+    setMonth(rhs.month);
+    setDay(rhs.day);
     return *this;
 }
 
