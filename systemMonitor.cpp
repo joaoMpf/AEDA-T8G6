@@ -122,7 +122,7 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
     if (tollfs.is_open()) {
         string name, location, highway_name;
         bool type;
-        int numLanes, numTolls, pos;
+        int numLanes, numTolls, pos, numCrossings;
         double price;
         bool viaVerde;
         while (tollfs >> highway_name >> numTolls) {
@@ -131,33 +131,39 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                 vector<Lane *> lanes;
                 tollfs >> type >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
-                    tollfs >> viaVerde;
+                    tollfs >> viaVerde >> numCrossings;
                     if (!viaVerde && type) {
+                        bool working;
                         queue<pair<string, double>> vehicleQueue;
-                        int numCrossings, vehicleQueueSize, employeeSS, oldEmployeesSize;
+                        int vehicleQueueSize, employeeSS, oldEmployeesSize;
                         string licensePlate;
-                        tollfs >> numCrossings >> vehicleQueueSize;
+                        tollfs >> vehicleQueueSize;
                         pair<string, double> pair;
                         for (int j = 0; j < vehicleQueueSize; j++) {
                             tollfs >> pair.first >> pair.second;
                             vehicleQueue.push(pair);
                         }
-                        tollfs >> oldEmployeesSize;
-                        Employee *employee;
-                        vector<Employee *> oldEmployees;
 
+                        Employee *employee;
+                        tollfs >> working;
+                        if (working) {
+                            tollfs >> employeeSS;
+                            employee = employees[findEmployee(new Employee("", employeeSS))];
+                        }
+
+                        tollfs >> oldEmployeesSize;
+                        vector<Employee *> oldEmployees;
                         for (int j = 0; j < oldEmployeesSize; j++) {
                             tollfs >> employeeSS;
                             employee = employees[findEmployee(new Employee("", employeeSS))];
                             oldEmployees.push_back(employee);
                         }
-                        if (oldEmployeesSize == 0) employee = nullptr;
 
                         lanes.push_back(new NormalExitLane(numCrossings, vehicleQueue, employee, oldEmployees));
                     } else if (viaVerde) {
-                        lanes.push_back(new ViaVerdeLane());
+                        lanes.push_back(new ViaVerdeLane(numCrossings));
                     } else {
-                        lanes.push_back(new NormalLane());
+                        lanes.push_back(new NormalLane(numCrossings));
                     }
                 }
                 if (type)//type = true -> is exit toll
@@ -517,12 +523,12 @@ bool SystemMonitor::confirmation() {
 }
 
 int SystemMonitor::countDigit(int n) {
-    int count = 0;
+    int cnt = 0;
     while (n != 0) {
         n = n / 10;
-        ++count;
+        ++cnt;
     }
-    return count;
+    return cnt;
 
 }
 
