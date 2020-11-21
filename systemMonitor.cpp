@@ -132,7 +132,7 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
                 tollfs >> type >> name >> location >> numLanes >> pos >> price;
                 for (int i = 0; i < numLanes; i++) {
                     tollfs >> viaVerde >> numCrossings;
-                    if (!viaVerde && type) {
+                    if (!viaVerde & type) {
                         bool working;
                         queue<pair<string, double>> vehicleQueue;
                         int vehicleQueueSize, employeeSS, oldEmployeesSize;
@@ -1216,16 +1216,17 @@ void SystemMonitor::viewLastEmployees(Toll *pToll) {
 
 void SystemMonitor::finishLoadingClients() {
     if (!clients.empty())
-        for (int i = 0; i < clients.size() - 1; i++) {
-            if (!clients[i]->getVehicles().empty()) {
+        for (auto & client : clients) {
+            if (!client->getVehicles().empty()) {
                 vector<Vehicle *> vecVehicles;
-                for (int j = 0; j < clients[i]->getVehicles().size(); j++) {
-                    Vehicle *vehicle = getVehicle(clients[i]->getVehicles()[j]->getLicensePlate());
+                for (auto & vehic : client->getVehicles()) {
+                    Vehicle *vehicle = getVehicle(vehic->getLicensePlate());
                     if (vehicle != nullptr)
                         vecVehicles.push_back(vehicle);
                     else cout << "Error loading client vehicle!\n";
+                    cout << *vehicle << endl;
                 }
-                clients[i]->setVehicles(vecVehicles);
+                client->setVehicles(vecVehicles);
             }
         }
 }

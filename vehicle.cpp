@@ -96,6 +96,8 @@ vector<Trip *> Vehicle::getTrips() {
 }
 
 Trip *Vehicle::getLastTrip() {
+    if(trips.empty())
+        return nullptr;
     return trips[trips.size() - 1];
 }
 
@@ -119,7 +121,6 @@ istream &operator>>(istream &is, Vehicle &vehicle) {
         vehicle.setLicensePlate(licensePlate);
         vehicle.setCategory(category);
         if (viaVerde) vehicle.changeViaVerde();
-
         vector<Trip *> trips;
         for (int i = 0; i < numTrips; ++i) {
             Trip *trip = new Trip();

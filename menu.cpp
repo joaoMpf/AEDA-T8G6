@@ -278,7 +278,13 @@ void menu::operatePassToll(Client *client, bool exit) {
             return;
         } else {
             float price; //CALCULAR PREÇO
-            price = toll->getPrice() - vehicle->getLastTrip()->getBegin().second;
+            Trip *lastTrip = vehicle->getLastTrip();
+            if(lastTrip == nullptr || lastTrip->isFinished())
+            {
+                cout << "THIS VEHICLE IS NOT IN TRANSIT, CANNOT EXIT\n";
+                continue;
+            }
+            price = toll->getPrice() - lastTrip->getBegin().second;
             vehicle->addPayment(price);
             if (vehicle->isViaVerde()) {
                 vehicle->endTrip(toll, new Time);
