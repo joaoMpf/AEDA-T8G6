@@ -8,7 +8,7 @@ using namespace std;
 
 ///Contains info about an employee, such as name, ss_number and working status
 ///
-///The private member "working" will be 1 if the employee is working, or 0 otherwize
+///The private attribute "working" will be true if the employee is working, or false otherwise
 
 class Employee {
 private:

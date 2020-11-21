@@ -130,7 +130,7 @@ public:
     void setTrips(const vector<Trip *> &trips);
 };
 
-///Thrown when Vehicle creatin is cancelled
+///Thrown when Vehicle creation is cancelled
 class CreatingVehicleException : exception {
 public:
     static void showMessage() {
