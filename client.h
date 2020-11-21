@@ -9,14 +9,18 @@
 
 class Client {
 private:
+    ///Client's name
     string name;
+    ///Client's nif
     int nif;
+    ///vector of pointers to Vehicle
     vector<Vehicle *> vehicles;
 
 public:
+    ///Creates Client with undefined private attributes
     Client();
 
-    ///Creates a Client with name and nif
+    ///Creates Client with name and nif
     ///
     /// \param name
     /// \param nif
@@ -89,20 +93,33 @@ public:
     ///Prints Client's name, nif and number of Vehicles
     void printInfo();
 
-    ///Returns ostream with name, nif, and Vehicle(s) licence plate(s)
+    ///Returns ostream with name, nif, and Vehicle(s) license plate(s)
     ///
     /// \param os
     /// \param client
     /// \return
     friend ostream &operator<<(ostream &os, const Client &client);
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Returns istream with name, nif, and Vehicle(s) license plate(s)
+    ///
+    /// \param is
+    /// \param client
+    /// \return
     friend istream &operator>>(istream &is, Client &client);
 
+    ///Sets Client's name
+    ///
+    /// \param name
     void setName(const string &name);
 
+    ///Sets Client's NIF
+    ///
+    /// \param nif
     void setNif(int nif);
 
+    ///Sets Client's Vehicles
+    ///
+    /// \param vehicles
     void setVehicles(const vector<Vehicle *> &vehicles);
 };
 

@@ -6,3 +6,15 @@ HIGHWAY-TEST 2
 1 EXIT-TOLL-TEST LOCATION 2 100 2
 0 0 0 0 0 
 0 0 0 0 0 
+
+highwayName1 2
+1 nome1 localizacao1 3 0 0
+0 5 4 XX-XX-XX 0 PP-OO-PP 1.6 PP-OO-PP 1.6 55-LL-55 1.6 1 501236489 1 412563897 
+1 15
+1 7
+0 nome2 localizacao2 2 10 1.6
+0 5
+0 10
+highwayName2 1
+1 nome3 localizacao3 0 0 0
+
