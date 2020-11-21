@@ -88,14 +88,60 @@ ostream &operator<<(ostream &os, const Toll &toll) {
        << toll.position << " " << toll.price;
     if (!toll.lanes.empty()) {
         os << endl;
-        for (auto lane : toll.lanes) {
-            os << *lane;
-            if (toll.lanes.size() > 1)
+        for (int i = 0; i < toll.lanes.size(); ++i) {
+            os << *toll.lanes[i];
+            if (i < toll.lanes.size() - 1)
                 os << endl;
         }
     }
     return os;
 }
+
+istream &operator>>(istream &is, Toll &toll) {
+    return toll.loadFromFile(is);
+}
+
+
+istream &Toll::loadFromFile(istream &is) {
+    string name, location;
+    int numLanes, pos;
+    double price;
+    vector<Lane *> lanes;
+    is >> name >> location >> numLanes >> pos >> price;
+    lanes.reserve(numLanes);
+    for (int i = 0; i < numLanes; i++) {
+        lanes.push_back(loadLaneFromFile(is));
+    }
+    setName(name);
+    setLocation(location);
+    setLanes(lanes);
+    setPosition(pos);
+    setPrice(price);
+    return is;
+}
+
+void Toll::setName(const string &name) {
+    Toll::name = name;
+}
+
+void Toll::setLocation(const string &location) {
+    Toll::location = location;
+}
+
+void Toll::setLanes(const vector<Lane *> &lanes) {
+    Toll::lanes = lanes;
+}
+
+void Toll::setPosition(int position) {
+    Toll::position = position;
+}
+
+void Toll::setPrice(double price) {
+    Toll::price = price;
+}
+
+Toll::Toll() {}
+
 
 bool InToll::isExitToll() const {
     return false;
@@ -108,5 +154,39 @@ bool OutToll::isExitToll() const {
 InToll::InToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const double &price) :
         Toll(n, loc, l, pos, price) {}
 
+Lane *InToll::loadLaneFromFile(istream &is) {
+    bool viaVerde;
+
+    is >> viaVerde;
+    if (viaVerde) {
+        ViaVerdeLane *viaVerdeLane = new ViaVerdeLane();
+        is >> *viaVerdeLane;
+        return viaVerdeLane;
+    } else {
+        NormalLane *normalLane = new NormalLane();
+        is >> *normalLane;
+        return normalLane;
+    }
+}
+
+InToll::InToll() = default;
+
 OutToll::OutToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const double &price) :
         Toll(n, loc, l, pos, price) {}
+
+OutToll::OutToll() = default;
+
+Lane *OutToll::loadLaneFromFile(istream &is) {
+    bool viaVerde;
+
+    is >> viaVerde;
+    if (viaVerde) {
+        ViaVerdeLane *viaVerdeLane = new ViaVerdeLane();
+        is >> *viaVerdeLane;
+        return viaVerdeLane;
+    } else {
+        NormalExitLane *normalExitLane = new NormalExitLane();
+        is >> *normalExitLane;
+        return normalExitLane;
+    }
+}

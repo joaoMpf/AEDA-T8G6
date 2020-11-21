@@ -18,6 +18,8 @@ private:
     string name;
     vector<Toll *> tolls;
 public:
+    Highway();
+
     ///Creates Highway with name n
     Highway(string n) : name(n) {}
 
@@ -25,6 +27,8 @@ public:
     ///
     /// \return Highway name
     const string &getName() const;
+
+    void setName(const string &name);
 
     ///Prints Tolls with index;
     ///
@@ -73,7 +77,7 @@ public:
     /// @see Toll::operator<<
     friend ostream &operator<<(ostream &os, const Highway &highway);
 
-    void printTollNumbered(const vector<Toll *>::const_iterator &it, int i) const;
+    friend istream &operator>>(istream &is, Highway &highway);
 };
 
 
