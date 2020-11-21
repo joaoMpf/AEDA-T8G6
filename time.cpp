@@ -30,7 +30,7 @@ Time &Time::operator=(const Time &rhs) {
 string Time::getDate() const {
     stringstream ss;
 
-    ss << day << "/" << month << "/" << year;
+    ss << day << "/" << month << "/" << year << " " << hour << ":" << minute << ":" << second;
     return ss.str();
 }
 

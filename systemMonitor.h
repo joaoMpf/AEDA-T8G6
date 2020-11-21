@@ -348,6 +348,9 @@ public:
 
     ///Finishes Loading Clients
     void finishLoadingClients(); //????
+    ifstream &saveToFile(ifstream &tollfs) const;
+
+    void finishLoadingLanes();
 };
 
 class ConfirmationExitException : exception {

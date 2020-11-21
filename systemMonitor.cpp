@@ -93,7 +93,8 @@ void SystemMonitor::load() {
     loadVectorFromFile(employeesFileName, employees);
     loadVectorFromFile(clientsFileName, clients);
     finishLoadingClients();
-    loadTolls(tollsFileName);
+    loadVectorFromFile(tollsFileName, highways);
+    finishLoadingLanes();
 }
 
 template<class T>
@@ -122,57 +123,22 @@ void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into ve
     ifstream tollfs(tollsFileName);
 
     if (tollfs.is_open()) {
-        string name, location, highway_name;
-        bool type;
-        int numLanes, numTolls, pos, numCrossings;
-        double price;
-        bool viaVerde;
+        string highway_name;
+        int numTolls;
         while (tollfs >> highway_name >> numTolls) {
             Highway *highway = new Highway(highway_name);
-            while (numTolls > 0) {
-                vector<Lane *> lanes;
-                tollfs >> type >> name >> location >> numLanes >> pos >> price;
-                for (int i = 0; i < numLanes; i++) {
-                    tollfs >> viaVerde >> numCrossings;
-                    if (!viaVerde & type) {
-                        bool working;
-                        queue<pair<string, double>> vehicleQueue;
-                        int vehicleQueueSize, employeeSS, oldEmployeesSize;
-                        string licensePlate;
-                        tollfs >> vehicleQueueSize;
-                        pair<string, double> pair;
-                        for (int j = 0; j < vehicleQueueSize; j++) {
-                            tollfs >> pair.first >> pair.second;
-                            vehicleQueue.push(pair);
-                        }
-
-                        Employee *currentEmployee = nullptr;
-                        tollfs >> working;
-                        if (working) {
-                            tollfs >> employeeSS;
-                            currentEmployee = employees[findEmployee(new Employee("", employeeSS))];
-                        }
-
-                        Employee *employee;
-                        tollfs >> oldEmployeesSize;
-                        vector<Employee *> oldEmployees;
-                        for (int j = 0; j < oldEmployeesSize; j++) {
-                            tollfs >> employeeSS;
-                            employee = employees[findEmployee(new Employee("", employeeSS))];
-                            oldEmployees.push_back(employee);
-                        }
-
-                        lanes.push_back(new NormalExitLane(numCrossings, vehicleQueue, currentEmployee, oldEmployees));
-                    } else if (viaVerde) {
-                        lanes.push_back(new ViaVerdeLane(numCrossings));
-                    } else {
-                        lanes.push_back(new NormalLane(numCrossings));
-                    }
-                }
+            bool type;
+            while (numTolls > 0 && tollfs >> type) {
                 if (type)//type = true -> is exit toll
-                    highway->addToll(new OutToll(name, location, lanes, pos, price));
-                else
-                    highway->addToll(new InToll(name, location, lanes, pos, price));
+                {
+                    OutToll *outToll = new OutToll();
+                    tollfs >> *outToll;
+                    highway->addToll(outToll);
+                } else {
+                    InToll *inToll = new InToll();
+                    tollfs >> *inToll;
+                    highway->addToll(inToll);
+                }
                 numTolls--;
             }
             highways.push_back(highway);
@@ -1229,4 +1195,18 @@ void SystemMonitor::finishLoadingClients() {
                 client->setVehicles(vecVehicles);
             }
         }
+}
+
+void SystemMonitor::finishLoadingLanes() {
+    if (!employees.empty())
+        for (auto &employee : employees)
+            if (employee->isWorking())
+                for (auto &highway : highways)
+                    for (auto &toll : highway->getTolls())
+                        for (auto &lane : toll->getLanes())
+                            if (lane->getEmployee() != nullptr)
+                                if (*lane->getEmployee() == *employee)
+                                    lane->setEmployee(employee);
+
+
 }

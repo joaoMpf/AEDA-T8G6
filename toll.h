@@ -22,15 +22,17 @@ protected:
     double price; //price corresponds to the distance between this toll and the previous one
 
 public:
+    Toll();
+
     ///Creates a Toll with name, location, lanes, position and price\n
     ///lanes is a vector of pointers to Lane
     ///@see Lane
     Toll(string n, string loc, vector<Lane *> l, int pos, double pri) :
             name(std::move(n)), location(std::move(loc)), lanes(std::move(l)),
-            position(std::move(pos)), price(pri){};
+            position(std::move(pos)), price(pri) {};
 
 
-    ~Toll(){};
+    ~Toll() {};
 
     ///Returns Toll name
     ///
@@ -47,7 +49,7 @@ public:
     /// \return Toll's Lanes
     const vector<Lane *> &getLanes() const;
 
-    virtual bool isExitToll() const {return false;};
+    virtual bool isExitToll() const { return false; };
 
     ///Returns Recommended Lane
     ///
@@ -86,6 +88,16 @@ public:
     /// \param i index
     void removeLaneAt(int i);
 
+    void setName(const string &name);
+
+    void setLocation(const string &location);
+
+    void setLanes(const vector<Lane *> &lanes);
+
+    void setPosition(int position);
+
+    void setPrice(double price);
+
     ///Returns ostream with Toll info
     ///
     /// \param os ostream
@@ -93,13 +105,17 @@ public:
     /// \return ostream with the Toll's type, name, location, number of lanes, position and price
     friend ostream &operator<<(ostream &os, const Toll &toll);
 
+    friend istream &operator>>(istream &is, Toll &toll);
+
     void addLane(ViaVerdeLane *lane);
 
     void printTollNumbered(int i) const;
 
-    void PrintLaneNumbered(int i);
-
     void viewLanes();
+
+    istream &loadFromFile(istream &is);
+
+    virtual Lane *loadLaneFromFile(istream &istream) = 0;
 };
 
 ///Entry Toll
@@ -107,10 +123,13 @@ public:
 ///Child of Toll
 class InToll : public Toll {
 public:
+    InToll();
+
     InToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const double &price);
 
-public:
     bool isExitToll() const override;
+
+    Lane *loadLaneFromFile(istream &is) override;
 };
 
 ///Exit Toll
@@ -118,10 +137,13 @@ public:
 ///Child of Toll
 class OutToll : public Toll {
 public:
+    OutToll();
+
     OutToll(const string &n, const string &loc, const vector<Lane *> &l, const int &pos, const double &price);
 
-private:
     bool isExitToll() const override;
+
+    Lane *loadLaneFromFile(istream &is) override;
 };
 
 
