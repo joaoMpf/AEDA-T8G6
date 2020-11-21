@@ -30,7 +30,7 @@ public:
     ///
     /// \param numCrossings
     /// \param vehicleQueue
-    Lane(int numCrossings, const queue<pair<string, double>> &vehicleQueue);
+    Lane(int numCrossings, const queue<pair<string, double>> vehicleQueue);
 
     ///Returns Number of Crossings
     ///
@@ -109,7 +109,7 @@ public:
 
     NormalLane(int numCrossings) : Lane(numCrossings) {}
 
-    NormalLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
+    NormalLane(int numCrossings, const queue<pair<string, double>> vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
 
 };
 
@@ -120,7 +120,7 @@ private:
     vector<Employee *> lastEmployees;
 
 public:
-    NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
+    NormalExitLane(int numCrossings, const queue<pair<string, double>> vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
 

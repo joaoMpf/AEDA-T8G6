@@ -15,7 +15,7 @@ void Lane::addVehicle(string licensePlate, double price) {
     vehicleQueue.push(pair<string, double>(licensePlate, price));
 }
 
-Lane::Lane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : numCrossings(numCrossings),
+Lane::Lane(int numCrossings, const queue<pair<string, double>> vehicleQueue) : numCrossings(numCrossings),
                                                                                 vehicleQueue(vehicleQueue) {}
 
 bool Lane::operator<(const Lane &rhs) const {
@@ -89,7 +89,7 @@ const vector<Employee *> &NormalExitLane::getLastEmployees() const {
     return lastEmployees;
 }
 
-NormalExitLane::NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
+NormalExitLane::NormalExitLane(int numCrossings, const queue<pair<string, double>> vehicleQueue, Employee *employee,
                                const vector<Employee *> &lastEmployees) : NormalLane(numCrossings, vehicleQueue),
                                                                           employee(employee),
                                                                           lastEmployees(lastEmployees) {}
