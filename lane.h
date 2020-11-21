@@ -24,11 +24,13 @@ public:
     ///Creates a Lane with 0 crossings
     Lane() { this->numCrossings = 0; }
 
+    Lane(int numCrossings);
+
     ///Creates a Lane with numCrossings crossings and a queue with <licensePlate, price> pairs
     ///
     /// \param numCrossings
     /// \param vehicleQueue
-    Lane(int numCrossings, queue<pair<string, double>> vehicleQueue);
+    Lane(int numCrossings, const queue<pair<string, double>> &vehicleQueue);
 
     ///Returns Number of Crossings
     ///
@@ -62,12 +64,12 @@ public:
     ///Returns pointer to Employee
     ///
     /// \return pointer to Employee
-    virtual Employee *getEmployee();
+    virtual Employee *getEmployee(){return nullptr;}
 
     ///Returns number of Vehicles in queue
     ///
     /// \return number of Vehicles in queue
-    int numberVehiclesWaiting();
+    int numberVehiclesWaiting(){ return vehicleQueue.size();}
 
     ///Set Employee
     ///
@@ -78,7 +80,7 @@ public:
 
     bool operator<(const Lane &rhs) const;
 
-    void addToEmployeeList(Employee* employee1){};
+    virtual void addToEmployeeList(Employee* employee1) {};
 
     bool operator>(const Lane &rhs) const;
 
@@ -94,6 +96,8 @@ public:
     friend ostream &operator<<(ostream &os, const Lane &lane);
 
     friend istream &operator>>(istream &is, Lane &lane);
+
+    virtual ostream &saveToFile(ostream &os) const;
 };
 
 ///Child of Lane
@@ -103,7 +107,9 @@ public:
 
     }
 
-    NormalLane(int numCrossings, queue<pair<string, double>> vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
+    NormalLane(int numCrossings) : Lane(numCrossings) {}
+
+    NormalLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
 
 };
 
@@ -114,7 +120,7 @@ private:
     vector<Employee *> lastEmployees;
 
 public:
-    NormalExitLane(int numCrossings, queue<pair<string, double>> vehicleQueue, Employee *employee,
+    NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
     bool isNormalExitLane()  {return true;}
 
@@ -128,15 +134,17 @@ public:
     /// \param employee pointer to Employee
     void setEmployee(Employee *employee);
 
-    vector<Employee*> getLastEmployees();
+    vector<Employee*> getLastEmployees(){return lastEmployees;}
 
-    void addToEmployeeList(Employee* employee1);;
+    void addToEmployeeList(Employee* employee1) override{lastEmployees.push_back(employee);};
 
 
     ///Returns vector of pointers to Employee
     ///
     /// \return
     const vector<Employee *> &getLastEmployees() const;
+
+    ostream &saveToFile(ostream &os) const override;
 };
 
 ///Child of Lane
@@ -144,6 +152,8 @@ class ViaVerdeLane : public Lane {
 
 public:
     ViaVerdeLane();
+
+    ViaVerdeLane(int numCrossings);
 
     /// Passes Vehicle through ViaVerdeLane
     ///

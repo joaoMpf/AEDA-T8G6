@@ -15,7 +15,7 @@ void Lane::addVehicle(string licensePlate, double price) {
     vehicleQueue.push(pair<string, double>(licensePlate, price));
 }
 
-Lane::Lane(int numCrossings, queue<pair<string, double>> vehicleQueue) : numCrossings(numCrossings),
+Lane::Lane(int numCrossings, const queue<pair<string, double>> &vehicleQueue) : numCrossings(numCrossings),
                                                                                 vehicleQueue(vehicleQueue) {}
 
 bool Lane::operator<(const Lane &rhs) const {
@@ -35,7 +35,6 @@ bool Lane::operator>=(const Lane &rhs) const {
 }
 
 bool Lane::passVehicle() {
-
     if (!vehicleQueue.empty()) {
         vehicleQueue.pop();
         return true;
@@ -44,15 +43,7 @@ bool Lane::passVehicle() {
 }
 
 ostream &operator<<(ostream &os, const Lane &lane) {
-    os << lane.numCrossings << " " << lane.vehicleQueue.size();
-    if (!lane.vehicleQueue.empty()) {
-        queue<pair<string, double>> copy(lane.vehicleQueue);
-        while (!copy.empty()) {
-            os << " " << copy.front().first << " " << copy.front().second;
-            copy.pop();
-        }
-    }
-    return os;
+    return lane.saveToFile(os);
 }
 
 istream &operator>>(istream &is, Lane &lane) {
@@ -71,9 +62,19 @@ istream &operator>>(istream &is, Lane &lane) {
     return is;
 }
 
-int Lane::numberVehiclesWaiting() { return vehicleQueue.size();}
+ostream &Lane::saveToFile(ostream &os) const {
+    os << isViaVerde() << " " << numCrossings << " " << vehicleQueue.size();
+    if (!vehicleQueue.empty()) {
+        queue<pair<string, double>> copy(vehicleQueue);
+        while (!copy.empty()) {
+            os << " " << copy.front().first << " " << copy.front().second;
+            copy.pop();
+        }
+    }
+    return os;
+}
 
-Employee *Lane::getEmployee() {return nullptr;}
+Lane::Lane(int numCrossings) : numCrossings(numCrossings) {}
 
 
 void NormalExitLane::setEmployee(Employee *employee1) {
@@ -88,14 +89,25 @@ const vector<Employee *> &NormalExitLane::getLastEmployees() const {
     return lastEmployees;
 }
 
-NormalExitLane::NormalExitLane(int numCrossings, queue<pair<string, double>> vehicleQueue, Employee *employee,
-                                const vector<Employee *> &lastEmployees) : NormalLane(numCrossings, vehicleQueue),
+NormalExitLane::NormalExitLane(int numCrossings, const queue<pair<string, double>> &vehicleQueue, Employee *employee,
+                               const vector<Employee *> &lastEmployees) : NormalLane(numCrossings, vehicleQueue),
                                                                           employee(employee),
                                                                           lastEmployees(lastEmployees) {}
 
-void NormalExitLane::addToEmployeeList(Employee *employee1) {lastEmployees.push_back(employee);}
-
-vector<Employee *> NormalExitLane::getLastEmployees() {return lastEmployees;}
+ostream &NormalExitLane::saveToFile(ostream &os) const {
+    Lane::saveToFile(os);
+    bool hasCurrentEmployee = (employee == nullptr);
+    os << " " << hasCurrentEmployee << " ";
+    if (hasCurrentEmployee)
+        os << employee->getSsNumber() << " ";
+    os << lastEmployees.size() << " ";
+    if (!lastEmployees.empty()) {
+        for (auto lastEmployee : lastEmployees) {
+            os << lastEmployee->getSsNumber() << " ";
+        }
+    }
+    return os;
+}
 
 void ViaVerdeLane::addVehicle(string licensePlate, double price) {
     Lane::addVehicle(licensePlate, price);
@@ -103,3 +115,5 @@ void ViaVerdeLane::addVehicle(string licensePlate, double price) {
 }
 
 ViaVerdeLane::ViaVerdeLane() {}
+
+ViaVerdeLane::ViaVerdeLane(int numCrossings) : Lane(numCrossings) {}
