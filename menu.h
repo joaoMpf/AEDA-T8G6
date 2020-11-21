@@ -6,7 +6,9 @@
 
 using namespace std;
 
-///Class used for used interface
+///Class used for user interface
+///
+///@see systemMonitor
 class menu {
 private:
     SystemMonitor *systemMonitor;
