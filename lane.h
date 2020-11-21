@@ -67,7 +67,7 @@ public:
     ///Returns number of Vehicles in queue
     ///
     /// \return number of Vehicles in queue
-    int numberVehiclesWaiting(){ return vehicleQueue.size()/2;}
+    int numberVehiclesWaiting(){ return vehicleQueue.size();}
 
     ///Set Employee
     ///
