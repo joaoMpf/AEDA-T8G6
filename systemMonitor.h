@@ -350,6 +350,7 @@ public:
     void finishLoadingClients(); //????
 };
 
+///Thrown when an input is cancelled
 class ConfirmationExitException : exception {
 public:
     static void showMessage() {

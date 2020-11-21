@@ -12,16 +12,23 @@ using namespace std;
 
 class Employee {
 private:
+    ///Employee's name
     string name;
+    ///Employee's ss number
     int ss_number;
+    ///Employee's working status
+    ///
+    ///true if employee is working, false otherwise
     bool working; //IF EMPLOYEE IS WORKING IN A LANE, VALUE TRUE
 
 public:
+    ///Creates Employee with undefined private attributes
     Employee();
 
     ///Creates an Employee with name and ss_number and sets working status
     Employee(string n, int ss,bool work=false): name(n), ss_number(ss),working(work){};
 
+    ///Destructor
     ~Employee(){};
 
     ///Returns Employee's name
@@ -57,13 +64,21 @@ public:
     /// \return ostream with Employee's name and ss number
     friend ostream &operator<<(ostream &os, const Employee &employee);
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Return istream with name and ss_number
+    ///
+    /// \param is
+    /// \param employee
+    /// \return istream with name and ss_number
     friend istream &operator>>(istream &is, Employee &employee);
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Sets Employee name
+    ///
+    /// \param name
     void setName(const string &name);
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Sets Employee ss number
+    ///
+    /// \param ssNumber
     void setSsNumber(int ssNumber);
 };
 

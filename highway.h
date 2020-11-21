@@ -15,7 +15,9 @@
 ///@param tolls vector with pointers to Toll of this highway
 class Highway {
 private:
+    ///Highway name
     string name;
+    ///vector of pointers to Toll
     vector<Toll *> tolls;
 public:
     ///Creates Highway with name n
@@ -58,6 +60,10 @@ public:
     /// \return Highways tolls
     vector<Toll *> &getTolls();
 
+    ///Returns number of Tolls specified by the bool
+    ///
+    /// \param exit
+    /// \return
     int getTollsSize(bool exit);
 
     ///Erases Toll at index i
@@ -73,6 +79,10 @@ public:
     /// @see Toll::operator<<
     friend ostream &operator<<(ostream &os, const Highway &highway);
 
+    ///Prints Tolls with index
+    ///
+    /// \param it iterator
+    /// \param i index
     void printTollNumbered(const vector<Toll *>::const_iterator &it, int i) const;
 };
 
