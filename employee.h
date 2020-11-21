@@ -25,6 +25,8 @@ public:
     ///Creates Employee with undefined private attributes
     Employee();
 
+    Employee(int ssNumber);
+
     ///Creates an Employee with name and ss_number and sets working status
     Employee(string n, int ss,bool work=false): name(n), ss_number(ss),working(work){};
 

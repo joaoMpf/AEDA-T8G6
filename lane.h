@@ -61,33 +61,38 @@ public:
     ///@see ViaVerdeLane::addVehicle(string licensePlate, double price)
     virtual void addVehicle(string licensePlate, double price);
 
+
     ///Returns true if it is a ViaVerde Lane
-    bool isViaVerde() const { return false; }
+    virtual bool isViaVerde() const { return false; }
 
     ///Returns true if it is a Normal Lane
-    bool isNormalExitLane() {return false;}
+    virtual bool isNormalExitLane() {return false;}
+
+    virtual bool isViaVerde() const { return false; }
+
+    virtual bool isNormalExitLane() { return false; }
 
 
     ///Returns pointer to Employee
     ///
     /// \return pointer to Employee
-    virtual Employee *getEmployee(){return nullptr;}
+    virtual Employee *getEmployee() { return nullptr; }
 
     ///Returns number of Vehicles in queue
     ///
     /// \return number of Vehicles in queue
-    int numberVehiclesWaiting(){ return vehicleQueue.size();}
+    int numberVehiclesWaiting() { return vehicleQueue.size(); }
 
     ///Set Employee
     ///
     /// \param employee
-    virtual void setEmployee(Employee *employee){};
+    virtual void setEmployee(Employee *employee) {};
 
-    virtual vector<Employee*> getLastEmployees(){ return vector<Employee *>(); };
+    virtual vector<Employee *> getLastEmployees() { return vector<Employee *>(); };
 
     bool operator<(const Lane &rhs) const;
 
-    virtual void addToEmployeeList(Employee* employee1) {};
+    virtual void addToEmployeeList(Employee *employee1) {};
 
     bool operator>(const Lane &rhs) const;
 
@@ -114,8 +119,11 @@ public:
     ///Allows lane to be saved to file
     virtual ostream &saveToFile(ostream &os) const;
 
-    ///Prints Lane with it's index
-    void PrintLaneNumbered(int i);
+    ///Allows lane to be loaded from file
+    virtual istream &loadFromFile(istream &is);
+
+    ///Prints Lane with index
+    void PrintLaneNumbered(int i) const;
 };
 
 ///Child of Lane
@@ -149,23 +157,27 @@ public:
     NormalExitLane(int numCrossings, const queue<pair<string, double>> vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
 
+    NormalExitLane();
+
     ///Checks if it is a Normal Exit Lane
-    bool isNormalExitLane()  {return true;}
+    bool isNormalExitLane() override { return true; }
+
 
     ///Return pointer to Employee working in NormalExitLane
     ///
     /// \return pointer to Employee working in NormalExitLane
-    Employee *getEmployee() ;
+    Employee *getEmployee();
 
     ///Changes Employee working in NormalExitLane
     ///
     /// \param employee pointer to Employee
     void setEmployee(Employee *employee);
 
-    vector<Employee*> getLastEmployees(){return lastEmployees;}
+    ///Returns vector of pointers to Employee
+    vector<Employee *> getLastEmployees() { return lastEmployees; }
 
     ///Adds Employee to vector lastEmployees
-    void addToEmployeeList(Employee* employee1) override{lastEmployees.push_back(employee);};
+    void addToEmployeeList(Employee *employee1) override { lastEmployees.push_back(employee); };
 
     ///Returns vector of pointers to Employee
     ///
@@ -173,6 +185,20 @@ public:
     const vector<Employee *> &getLastEmployees() const;
 
     ostream &saveToFile(ostream &os) const override;
+
+    istream &loadFromFile(istream &is) override;
+
+    istream &loadVehicleQueueFromFile(istream &is);
+
+    istream &loadCurrentEmployeeFromFile(istream &is);
+
+    istream &loadLastEmployeesFromFile(istream &is);
+
+    ostream &saveVehicleQueueToFile(ostream &os) const;
+
+    ostream &saveCurrentEmployeeToFile(ostream &os) const;
+
+    ostream &saveLastEmployeesToFile(ostream &os) const;
 };
 
 ///Child of Lane
@@ -197,7 +223,7 @@ public:
     void addVehicle(string licensePlate, double price);
 
     ///Checks if it is a Via Verde Lane
-    bool isViaVerde() { return true; }
+    bool isViaVerde() const { return true; }
 };
 
 #endif //AEDA_T8G6_LANE_H

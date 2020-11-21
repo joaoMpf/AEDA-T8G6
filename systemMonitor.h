@@ -348,6 +348,9 @@ public:
 
     ///Finishes Loading Clients
     void finishLoadingClients(); //????
+    ifstream &saveToFile(ifstream &tollfs) const;
+
+    void finishLoadingLanes();
 };
 
 ///Thrown when an input is cancelled

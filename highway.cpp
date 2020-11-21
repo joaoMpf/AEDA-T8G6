@@ -66,6 +66,30 @@ ostream &operator<<(ostream &os, const Highway &highway) {
     return os;
 }
 
+istream &operator>>(istream &is, Highway &highway) {
+    string highway_name;
+    int numTolls;
+    if (is >> highway_name >> numTolls) {
+        highway.setName(highway_name);
+
+        bool type;
+        while (numTolls > 0 && is >> type) {
+            if (type)//type = true -> is exit toll
+            {
+                OutToll *outToll = new OutToll();
+                is >> *outToll;
+                highway.addToll(outToll);
+            } else {
+                InToll *inToll = new InToll();
+                is >> *inToll;
+                highway.addToll(inToll);
+            }
+            numTolls--;
+        }
+    }
+    return is;
+}
+
 int Highway::getTollsSize(bool exit) {
     int cnt = 0;
     for (auto x:tolls) {
@@ -75,3 +99,10 @@ int Highway::getTollsSize(bool exit) {
     }
     return cnt;
 }
+
+void Highway::setName(const string &name) {
+    Highway::name = name;
+}
+
+Highway::Highway() {}
+
