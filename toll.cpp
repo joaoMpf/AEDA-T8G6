@@ -72,7 +72,7 @@ void Toll::removeLaneAt(int i) {
 
 void Toll::printTollNumbered(int i) const {
     cout << i << ": " << getName() << endl;
-    cout << "number of crossings: " << getName() << endl;
+    cout << "LOCATION: " << getLocation() << endl;
     if (isExitToll()) cout << "EXIT TOLL\n\n";
     else cout << "ENTRY TOLL\n\n";
 }

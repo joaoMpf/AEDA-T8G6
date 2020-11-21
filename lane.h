@@ -41,7 +41,7 @@ public:
     ///
     /// \return true if successful, false otherwise
     ///@note This function will return false when vehicleQueue is empty
-    bool passVehicle();
+    string passVehicle();
 
     ///Adds Crossing
     ///increments numCrossings\n

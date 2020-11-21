@@ -31,12 +31,14 @@ bool Lane::operator>=(const Lane &rhs) const {
     return !(*this < rhs);
 }
 
-bool Lane::passVehicle() {
+string Lane::passVehicle() {
+    string lp;
     if (!vehicleQueue.empty()) {
+        lp=vehicleQueue.front().first;
         vehicleQueue.pop();
-        return true;
+        return lp;
     }
-    return false;
+    return "0";
 }
 
 ostream &operator<<(ostream &os, const Lane &lane) {
