@@ -303,38 +303,51 @@ public:
     /// \param pToll pointer to Toll
     void viewLanes(Toll *pToll);
 
-    ///Allows caller to remove lane from Toll
+    ///Allows Manager to remove lane from Toll
     ///
     /// \param pToll pointer to Toll
     void removeLane(Toll *pToll);
 
+    ///Allows Manager to Change Lane where an Employee is working
+    ///
+    /// \param pToll pointer to Toll
     void changeLaneEmployee(Toll *pToll);
 
-    void loadVehicles(const string &vehiclesFileName);
+    void loadVehicles(const string &vehiclesFileName);//REMOVER?
 
-    void loadEmployees(const string &employeesFileName);
+    void loadEmployees(const string &employeesFileName);//REMOVER?
 
-    void loadClients(const string &clientsFileName);
+    void loadClients(const string &clientsFileName);//REMOVER?
 
-    void loadTolls(const string &tollsFileName);
+    void loadTolls(const string &tollsFileName);//REMOVER?
 
     void managerAddEmployee();
 
     void managerRemoveEmployee();
 
+    /// Change Employee's Lane
     void changeEmployeeLane();
 
+    /// Displays Employees Numbered
+    ///
+    /// Calls printEmployeesNumbered()
     void viewEmployees();
 
+    ///Template function to save to files
     template<class T>
     void saveVectorToFile(const string &vectorFileName, vector<T *> &vec) const;
 
+    ///Shows Employee history for this Lane
+    ///
+    /// \param pToll pointer Toll
     void viewLastEmployees(Toll *pToll);
 
+    ///Template function to load from files
     template<class T>
     void loadVectorFromFile(string &vectorFileName, vector<T *> &vec);
 
-    void finishLoadingClients();
+    ///Finishes Loading Clients
+    void finishLoadingClients(); //????
 };
 
 class ConfirmationExitException : exception {
