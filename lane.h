@@ -17,13 +17,18 @@ using namespace std;
 
 class Lane {
 protected:
+    ///Number of Crossing
+    ///
+    ///This is the number of Vehicles that passed this lane
     int numCrossings;
+    ///Queue of Vehicles
     queue<pair<string, double>> vehicleQueue; //pair<licensePlate, price>
 
 public:
     ///Creates a Lane with 0 crossings
     Lane() { this->numCrossings = 0; }
 
+    ///Creates a Lane with chosen numCrossings
     Lane(int numCrossings);
 
     ///Creates a Lane with numCrossings crossings and a queue with <licensePlate, price> pairs
@@ -41,7 +46,7 @@ public:
     ///
     /// \return true if successful, false otherwise
     ///@note This function will return false when vehicleQueue is empty
-    bool passVehicle();
+    string passVehicle();
 
     ///Adds Crossing
     ///increments numCrossings\n
@@ -56,9 +61,14 @@ public:
     ///@see ViaVerdeLane::addVehicle(string licensePlate, double price)
     virtual void addVehicle(string licensePlate, double price);
 
+
+    ///Returns true if it is a ViaVerde Lane
     virtual bool isViaVerde() const { return false; }
 
-    virtual bool isNormalExitLane() { return false; }
+    ///Returns true if it is a Normal Lane
+    virtual bool isNormalExitLane() {return false;}
+
+    virtual bool isViaVerde() { return false; }
 
 
     ///Returns pointer to Employee
@@ -97,12 +107,20 @@ public:
     /// \return ostream with the pairs <licensePlate, price> in queue
     friend ostream &operator<<(ostream &os, const Lane &lane);
 
+    ///Returns istream with the pairs <licensePlate, price> in queue
+    ///
+    /// \param is istream
+    /// \param lane
+    /// \return
     friend istream &operator>>(istream &is, Lane &lane);
 
+    ///Allows lane to be saved to file
     virtual ostream &saveToFile(ostream &os) const;
 
+    ///Allows lane to be loaded from file
     virtual istream &loadFromFile(istream &is);
 
+    ///Prints Lane with index
     void PrintLaneNumbered(int i) const;
 };
 
@@ -122,16 +140,26 @@ public:
 ///Child of NormalLane
 class NormalExitLane : public NormalLane {
 private:
+    ///pointer to Employee that is working in
     Employee *employee;
+    ///vector of pointers to Employee
     vector<Employee *> lastEmployees;
 
 public:
-    NormalExitLane();
-
+    /// Creates Normal Exit Lane
+    ///
+    /// \param numCrossings
+    /// \param vehicleQueue
+    /// \param employee
+    /// \param lastEmployees
     NormalExitLane(int numCrossings, const queue<pair<string, double>> vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
 
+    NormalExitLane();
+
+    ///Checks if it is a Normal Exit Lane
     bool isNormalExitLane() override { return true; }
+
 
     ///Return pointer to Employee working in NormalExitLane
     ///
@@ -143,12 +171,13 @@ public:
     /// \param employee pointer to Employee
     void setEmployee(Employee *employee);
 
+    ///Returns vector of pointers to Employee
     vector<Employee *> getLastEmployees() { return lastEmployees; }
 
     void setLastEmployees(vector<Employee *> lastE);
 
+    ///Adds Employee to vector lastEmployees
     void addToEmployeeList(Employee *employee1) override { lastEmployees.push_back(employee); };
-
 
     ///Returns vector of pointers to Employee
     ///
@@ -176,8 +205,12 @@ public:
 class ViaVerdeLane : public Lane {
 
 public:
+    ///Creates Via Verde Lane
     ViaVerdeLane();
 
+    ///Creates Via Verde Lane with chosen number of crossings
+    ///
+    /// \param numCrossings
     ViaVerdeLane(int numCrossings);
 
     /// Passes Vehicle through ViaVerdeLane
@@ -189,6 +222,7 @@ public:
     ///@see addCrossing()
     void addVehicle(string licensePlate, double price);
 
+    ///Checks if it is a Via Verde Lane
     bool isViaVerde() const { return true; }
 };
 

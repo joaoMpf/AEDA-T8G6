@@ -590,7 +590,7 @@ void SystemMonitor::showCosts(Client *client) {
                     cout << "FROM: " << (y)->getBegin().first << endl;
                     cout << "TO: " << (y)->getEnd().first << endl;
                     cout << "WHEN: " << (y)->getEndTime()->getDate() << endl;
-                    cout << "PRICE PAID: " << (y)->getPrice() << endl;
+                    cout << "PRICE PAID: " << (y)->getPrice() << endl<<endl;
                 }
             } else {
                 cout << "NO TRIPS TO SHOW" << endl << endl;
@@ -777,6 +777,8 @@ void SystemMonitor::managerAddToll(Highway *phighway, bool exit) {
         }
     }
     double price;
+
+
     while (true) {
         cout << "ENTER TOLL PRICE : \n";
         cin >> price;
@@ -791,6 +793,7 @@ void SystemMonitor::managerAddToll(Highway *phighway, bool exit) {
             return;
         }
     }
+
     vector<Lane *> l;
     if (exit) phighway->addToll(new OutToll(name, location, l, position, price));
     else phighway->addToll(new InToll(name, location, l, position, price));
@@ -859,8 +862,14 @@ Toll *SystemMonitor::selectToll(Highway *pHighway) {
 }
 
 void SystemMonitor::managerAddLane(Toll *pToll, bool viaVerde) {
-    if (!pToll->isExitToll()) pToll->addLane(new Lane);
-    if (viaVerde) pToll->addLane(new ViaVerdeLane);
+    if (!pToll->isExitToll()&&!viaVerde) {
+        pToll->addLane(new Lane);
+        return;
+    }
+    if (viaVerde) {
+        pToll->addLane(new ViaVerdeLane);
+        return;
+    }
     else {
         if (pToll->isExitToll()) {
             while (true) {

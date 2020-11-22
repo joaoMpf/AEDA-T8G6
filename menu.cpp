@@ -103,9 +103,12 @@ void menu::monitorEmployee() {
                  << "NO VEHICLES TO PASS\n"
                  << "0 - GO BACK\n\n";
         }
+        string lp;
         switch (SystemMonitor::getNumberInput()) {
             case '1':
-                if (lane->passVehicle()) {
+                lp=lane->passVehicle();
+                if (lp!="0") {
+                    systemMonitor->getVehicle(lp)->endTrip(toll,new Time);
                     lane->addCrossing();
                     cout << "VEHICLE PASSED";
                 } else cout << "NO VEHICLE'S TO PASS";
@@ -293,6 +296,7 @@ void menu::operatePassToll(Client *client, bool exit) {
                 vehicle->endTrip(toll, new Time());
                 return;
             }
+
             lane->addVehicle(vehicle->getLicensePlate(), price);
             return;
 

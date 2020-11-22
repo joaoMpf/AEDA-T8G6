@@ -355,6 +355,7 @@ public:
     void finishLoadingLanes();
 };
 
+///Thrown when an input is cancelled
 class ConfirmationExitException : exception {
 public:
     static void showMessage() {
