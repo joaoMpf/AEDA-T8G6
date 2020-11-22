@@ -224,6 +224,8 @@ public:
     ostream &saveCurrentEmployeeToFile(ostream &os) const;
 
     ostream &saveLastEmployeesToFile(ostream &os) const;
+
+
 };
 
 ///Child of Lane

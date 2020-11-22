@@ -148,7 +148,7 @@ public:
     ///Displays Client's trips and their prices
     ///
     /// \param client pointer to Client
-    void showCosts(Client *client);
+    void showCostsClient(Client *client);
 
     ///Allows Client to change info about their Vehicles
     ///
@@ -270,7 +270,7 @@ public:
     int selectHighway();
 
     ///Allows Manager to Add Toll to Highway
-    void managerAddToll(Highway *phighway,bool exit);
+    void managerAddToll(Highway *phighway,bool exit) const;
 
     ///Shows Highway Tolls
     void viewHighwayTolls(Highway *phighway);
@@ -349,6 +349,30 @@ public:
 
     ///Finishes Loading Lanes
     void finishLoadingLanes();
+
+    bool showClientVehicleTrips(Client *client, int c) const;
+
+    void updateVehicleViaVerde(Vehicle *vehicle) const;
+
+    void showCostsTrip(const Trip *pTrip) const;
+
+    void showCostsVehicle(Vehicle *pVehicle) const;
+
+    static string getTollNameInput() ;
+
+    static string getTollLocationInput() ;
+
+    static int getTollPositionInput() ;
+
+    static double getTollPriceInput() ;
+
+    void addNormalExitLane(Toll *pToll);
+
+    void createNormalExitLaneWithoutEmployee(Toll *pToll) const;
+
+    void createNormalExitLaneWithEmployee(Toll *pToll, Employee *employee) const;
+
+    void removeEmployeeLane(Employee *employee);
 };
 
 ///Thrown when an input is cancelled

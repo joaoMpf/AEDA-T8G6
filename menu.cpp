@@ -324,7 +324,7 @@ Highway *menu::getHighway() {
 
 void menu::manageCosts(Client *client) {
     while (true) {
-        systemMonitor->showCosts(client);
+        systemMonitor->showCostsClient(client);
 
         cout << "ENTER 0 TO GO BACK" << endl;
         if (SystemMonitor::getNumberInput() == '0') {

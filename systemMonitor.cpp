@@ -271,28 +271,6 @@ Vehicle *SystemMonitor::getVehicle(const string &licensePlate) {
     return nullptr;
 }
 
-//Vehicle *SystemMonitor::getVehicle(const string &licensePlate) {
-//    Vehicle *vehicle;
-//
-//    if (findVehicle(licensePlate) != -1)
-//        throw VehicleInCirculationException();
-//    vehicle = findVehicleClients(licensePlate);
-//    if (vehicle != nullptr)
-//        return vehicle;
-//
-//    return firstTimeClient(licensePlate);
-//}
-//
-//Vehicle *SystemMonitor::firstTimeClient(const string &licensePlate) {
-//    cout << "\nVEHICLE IS NOT IN THE SYSTEM\n";
-//    int category = categoryInput();
-//
-//    addVehicle(new Vehicle(licensePlate, category));
-//
-//    if (findVehicle(licensePlate) != -1)
-//        throw VehicleInCirculationException();
-//}
-
 void SystemMonitor::addVehicle(Vehicle *vehicle) {
     vehicles.push_back(vehicle);
 }
@@ -352,9 +330,7 @@ void SystemMonitor::addVehicleClient(Client *client) {
     bool viaVerde; //true se tiver via verde
 
     try {
-        category = categoryInput() - '0';
-        if (category == 0)
-            throw CreatingVehicleException();
+        category = categoryInput();
 
         viaVerde = viaVerdeInput();
 
@@ -366,7 +342,7 @@ void SystemMonitor::addVehicleClient(Client *client) {
     }
     Vehicle *vehicle = new Vehicle(licensePlate, category, viaVerde);
     client->addVehicle(vehicle);
-    vehicles.push_back(vehicle);
+    addVehicle(vehicle);
 }
 
 int SystemMonitor::categoryInput() const {
@@ -376,9 +352,9 @@ int SystemMonitor::categoryInput() const {
         category = getNumberInput();
 
         if (category == '0')
-            return 0;
+            throw CreatingVehicleException();
         if (category > '0' && category < '6')
-            return category;
+            return category - '0';
     }
 }
 
@@ -535,22 +511,27 @@ void SystemMonitor::viewVehicles(Client *client) {
             case '0':
                 return;
             default:
-                if (isdigit(c) || c < 1 || c > client->getVehicles().size()) {
-                    cout << endl;
-                    client->getVehicles()[(c - '0') - 1]->printTrips();
-                    cout << endl << endl;
-                    break;
-                } else {
-                    cout << endl << "NOT A VALID INPUT" << endl << endl;
-                }
+                if (showClientVehicleTrips(client, c))
+                    return;
         }
 
     }
 }
 
+bool SystemMonitor::showClientVehicleTrips(Client *client, int c) const {
+    if (isdigit(c) || c < 1 || c > client->getVehicles().size()) {
+        cout << endl;
+        client->getVehicles()[(c - '0') - 1]->printTrips();
+        cout << endl << endl;
+        return true;
+    }
+    cout << endl << "NOT A VALID INPUT" << endl << endl;
+    return false;
+}
+
 void SystemMonitor::updateVehicles(Client *client) {
     vector<Vehicle *> vehicles = client->getVehicles();
-    bool viaverde;
+
     while (true) {
         cout << "WHICH VEHICLE DO YOU WANT TO UPDATE THE VIA-VERDE'S STATUS:" << endl;
         client->printVehicles();
@@ -560,21 +541,10 @@ void SystemMonitor::updateVehicles(Client *client) {
                 return;
             default:
                 if (isdigit(c)) {
+                    Vehicle *vehicle = *vehicles.begin() + (atoi(&c) - 1);
 
-                    viaverde = (*vehicles.begin() + (atoi(&c) - 1))->isViaVerde();
-                    if (viaverde) {
-                        cout << endl << "DO YOU WISH TO REMOVE THIS VEHICLE'S VIA VERDE? (PRESS Y/N FOR YES OR NO)";
-                    } else {
-                        cout << endl << "DO YOU WISH TO ADD VIA VERDE TO THIS VEHICLE? (PRESS Y/N FOR YES OR NO)";
-                    }
-                    if (toupper(getNumberInput()) == 'Y') {
-                        (*vehicles.begin() + (atoi(&c) - 1))->changeViaVerde();
-                        cout << endl << endl << "DONE" << endl << endl;
-                        return;
-                    } else {
-                        cout << endl << endl << "NO CHANGE WAS DONE" << endl << endl;
-                        return;
-                    }
+                    updateVehicleViaVerde(vehicle);
+                    return;
                 } else {
                     cout << endl << "NOT A VALID INPUT" << endl << endl;
                 }
@@ -583,23 +553,45 @@ void SystemMonitor::updateVehicles(Client *client) {
     }
 }
 
-void SystemMonitor::showCosts(Client *client) {
+void SystemMonitor::updateVehicleViaVerde(Vehicle *vehicle) const {
+    cout << endl << (vehicle->isViaVerde()
+                     ? "DO YOU WISH TO REMOVE THIS VEHICLE'S VIA VERDE? (PRESS Y/N FOR YES OR NO)"
+                     : "DO YOU WISH TO ADD VIA VERDE TO THIS VEHICLE? (PRESS Y/N FOR YES OR NO)");
+    if (toupper(getNumberInput()) == 'Y') {
+        vehicle->changeViaVerde();
+        cout << endl << endl << "DONE" << endl << endl;
+        return;
+    } else {
+        cout << endl << endl << "NO CHANGE WAS DONE" << endl << endl;
+        return;
+    }
+}
+
+void SystemMonitor::showCostsClient(Client *client) {
     if (!(client->getVehicles().empty())) {
-        for (auto x:(client->getVehicles())) {
-            cout << "VEHICLE " << (x)->getLicensePlate() << endl << endl;
-            if (!x->getTrips().empty()) {
-                for (auto y:(x->getTrips())) {
-                    cout << "FROM: " << (y)->getBegin().first << endl;
-                    cout << "TO: " << (y)->getEnd().first << endl;
-                    cout << "WHEN: " << (y)->getEndTime()->getDate() << endl;
-                    cout << "PRICE PAID: " << (y)->getPrice() << endl << endl;
-                }
-            } else {
-                cout << "NO TRIPS TO SHOW" << endl << endl;
-            }
+        for (auto pVehicle : client->getVehicles()) {
+            showCostsVehicle(pVehicle);
         }
     } else cout << "NO VEHICLES TO SHOW" << endl << endl;
 
+}
+
+void SystemMonitor::showCostsVehicle(Vehicle *pVehicle) const {
+    cout << "VEHICLE " << (pVehicle)->getLicensePlate() << endl << endl;
+    if (!pVehicle->getTrips().empty()) {
+        for (auto pTrip : pVehicle->getTrips()) {
+            showCostsTrip(pTrip);
+        }
+    } else {
+        cout << "NO TRIPS TO SHOW" << endl << endl;
+    }
+}
+
+void SystemMonitor::showCostsTrip(const Trip *pTrip) const {
+    cout << "FROM: " << (pTrip)->getBegin().first << endl;
+    cout << "TO: " << (pTrip)->getEnd().first << endl;
+    cout << "WHEN: " << (pTrip)->getEndTime()->getDate() << endl;
+    cout << "PRICE PAID: " << (pTrip)->getPrice() << endl << endl;
 }
 
 void SystemMonitor::changeNIF(Client *client) {
@@ -686,9 +678,8 @@ void SystemMonitor::managerRemoveHighway() {
             cin >> i;
             try {
                 if (confirmation()) {
-                    if (i > 0 && i <= highways.size()) {
+                    if (i > 0 && i <= highways.size())
                         highways.erase(highways.begin() + (i - 1));
-                    }
                     cout << "HIGHWAY ERASED SUCCESSFULLY\n";
                     return;
                 } else continue;
@@ -732,75 +723,99 @@ int SystemMonitor::selectHighway() {
 
 }
 
-void SystemMonitor::managerAddToll(Highway *phighway, bool exit) {
+void SystemMonitor::managerAddToll(Highway *phighway, bool exit) const {
 
     string name, location;
-    while (true) {
-        cout << "ENTER TOLL NAME: \n";
-        cin >> name;
-
-        try {
-            if (confirmation()) {
-                break;
-            } else continue;
-        }
-        catch (ConfirmationExitException &exception) {
-            ConfirmationExitException::showMessage();
-            return;
-        }
-    }
-    while (true) {
-        cout << "ENTER TOLL LOCATION: \n";
-        cin >> location;
-
-        try {
-            if (confirmation()) {
-                break;
-            } else continue;
-        }
-        catch (ConfirmationExitException &exception) {
-            ConfirmationExitException::showMessage();
-            return;
-        }
-    }
     int position;
-    while (true) {
-        cout << "ENTER TOLL POSITION : \n";
-        cin >> position;
-
-        try {
-            if (confirmation()) {
-                break;
-            } else continue;
-        }
-        catch (ConfirmationExitException &exception) {
-            ConfirmationExitException::showMessage();
-            return;
-        }
-    }
     double price;
 
+    try {
+        name = getTollNameInput();
 
-    while (true) {
-        cout << "ENTER TOLL PRICE : \n";
-        cin >> price;
+        location = getTollLocationInput();
 
-        try {
-            if (confirmation()) {
-                break;
-            } else continue;
-        }
-        catch (ConfirmationExitException &exception) {
-            ConfirmationExitException::showMessage();
-            return;
-        }
+        position = getTollPositionInput();
+
+        price = getTollPriceInput();
+    }
+    catch (ConfirmationExitException &exception) {
+        ConfirmationExitException::showMessage();
+        return;
     }
 
     vector<Lane *> l;
     if (exit) phighway->addToll(new OutToll(name, location, l, position, price));
     else phighway->addToll(new InToll(name, location, l, position, price));
     cout << "\n\nTOLL ADDED SUCCESSFULLY\n ";
-    return;
+}
+
+double SystemMonitor::getTollPriceInput() {
+    while (true) {
+        double price;
+        cout << "ENTER TOLL PRICE : \n";
+        cin >> price;
+
+        try {
+            if (confirmation()) {
+                return price;
+            } else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            throw ConfirmationExitException();
+        }
+    }
+}
+
+int SystemMonitor::getTollPositionInput() {
+    while (true) {
+        int position;
+        cout << "ENTER TOLL POSITION : \n";
+        cin >> position;
+
+        try {
+            if (confirmation()) {
+                return position;
+            } else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            throw ConfirmationExitException();
+        }
+    }
+}
+
+string SystemMonitor::getTollLocationInput() {
+    while (true) {
+        string location;
+        cout << "ENTER TOLL LOCATION: \n";
+        cin >> location;
+
+        try {
+            if (confirmation()) {
+                return location;
+            } else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            throw ConfirmationExitException();
+
+        }
+    }
+}
+
+string SystemMonitor::getTollNameInput() {
+    while (true) {
+        string name;
+        cout << "ENTER TOLL NAME: \n";
+        cin >> name;
+
+        try {
+            if (confirmation()) {
+                return name;
+            } else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            throw ConfirmationExitException();
+        }
+    }
 }
 
 
@@ -873,67 +888,59 @@ void SystemMonitor::managerAddLane(Toll *pToll, bool viaVerde) {
         return;
     } else {
         if (pToll->isExitToll()) {
-            while (true) {
-                cout << "DO YOU WANT TO ADD AN EMPLOYEE TO THIS LANE NOW?\n"
-                        "YOU CAN DO IT LATER AT THE EMPLOYEE MENU (PRESS Y/N FOR YES OR NO)\n";
-                char ans;
-                while (true) {
-                    cin >> ans;
-                    if (toupper(ans) == 'Y') {
-                        Employee *employee = selectEmployee();
-                        if (employee->isWorking()) {
-                            cout << "THIS EMPLOYEE IS ALREADY WORKING IN A LANE DO YOU WANT TO MOVE HIM?\n";
-                            while (true) {
-
-                                cin >> ans;
-                                if (toupper(ans) == 'Y') {
-                                    Lane *oldLane = findEmployeeLane(employee);
-                                    oldLane->setEmployee(nullptr);
-                                    queue<pair<string, double>> vehicleQueue;
-                                    vector<Employee *> lastEmployees;
-                                    employee->changeWorkStatus();
-                                    pToll->addLane(new NormalExitLane(0, vehicleQueue, employee, lastEmployees));
-                                    cout << "LANE WAS CREATED\n\n";
-                                    return;
-                                } else if (toupper(ans) == 'N') {
-                                    cout
-                                            << "LANE WAS CREATED. YOU CAN ALWAYS ADD AN EMPLOYER LATER IN THE EMPLOYEE MENU.\n";
-                                    queue<pair<string, double>> vehicleQueue;
-                                    vector<Employee *> lastEmployees;
-                                    pToll->addLane(new NormalExitLane(0, vehicleQueue, nullptr, lastEmployees));
-                                    return;
-                                } else if (ans == '0') return;
-                                cin.clear();
-                                cin.ignore(10000, '\n');
-                                cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
-                            }
-
-
-                        } else {
-                            queue<pair<string, double>> vehicleQueue;
-                            vector<Employee *> lastEmployees;
-                            employee->changeWorkStatus();
-                            pToll->addLane(new NormalExitLane(0, vehicleQueue, employee, lastEmployees));
-                            cout << "LANE WAS CREATED\n\n";
-                            return;
-                        }
-                    } else if (toupper(ans) == 'N') {
-                        cout << "LANE WAS CREATED. YOU CAN ALWAYS ADD AN EMPLOYER LATER IN THE EMPLOYEE MENU.\n";
-                        queue<pair<string, double>> vehicleQueue;
-                        vector<Employee *> lastEmployees;
-                        pToll->addLane(new NormalExitLane(0, vehicleQueue, nullptr, lastEmployees));
-                        return;
-                    } else if (ans == '0') {
-                        return;
-                    }
-                    cin.clear();
-                    cin.ignore(10000, '\n');
-                    cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
-                }
-            }
-
+            addNormalExitLane(pToll);
         }
     }
+}
+
+void SystemMonitor::addNormalExitLane(Toll *pToll) {
+    cout << "DO YOU WANT TO ADD AN EMPLOYEE TO THIS LANE NOW?\n"
+            "YOU CAN DO IT LATER AT THE EMPLOYEE MENU (PRESS Y/N FOR YES OR NO)\n";
+    char ans;
+    Employee *employee = nullptr;
+    while (true) {
+        cin >> ans;
+        if (toupper(ans) == 'Y') {
+            employee = selectEmployee();
+            if (employee->isWorking()) {
+                cout << "THIS EMPLOYEE IS ALREADY WORKING IN A LANE DO YOU WANT TO MOVE HIM?\n";
+                try {
+                    if (confirmation())
+                        removeEmployeeLane(employee);
+                    else
+                        employee = nullptr;
+                } catch (ConfirmationExitException &exception) {
+                    ConfirmationExitException::showMessage();
+                    return;
+                }
+            }
+        }
+        if (toupper(ans) == 'Y' || toupper(ans) == 'N') {
+            cout << "YOU CAN ALWAYS ADD OR CHANGE AN EMPLOYER LATER IN THE EMPLOYEE MENU.\n";
+            createNormalExitLaneWithEmployee(pToll, employee);
+            return;
+        }
+        if (ans == '0') {
+            return;
+        }
+
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cout << "ENTER A VALID INPUT (Y/N) OR 0 TO RETURN\n";
+    }
+}
+
+void SystemMonitor::removeEmployeeLane(Employee *employee) {
+    Lane *oldLane = findEmployeeLane(employee);
+    oldLane->setEmployee(nullptr);
+}
+
+void SystemMonitor::createNormalExitLaneWithEmployee(Toll *pToll, Employee *employee) const {
+    queue<pair<string, double>> vehicleQueue;
+    vector<Employee *> lastEmployees;
+    employee->changeWorkStatus();
+    pToll->addLane(new NormalExitLane(0, vehicleQueue, employee, lastEmployees));
+    cout << "LANE WAS CREATED\n\n";
 }
 
 void SystemMonitor::printEmployeesNumbered() {
@@ -1078,10 +1085,11 @@ void SystemMonitor::managerRemoveEmployee() {
 }
 
 void SystemMonitor::changeEmployeeLane() {
-    if(employees.empty()) {
+    if (employees.empty()) {
         cout << "NO EMPLOYEES TO CHANGE LANE\n";
         return;
-    }    if(highways.empty()) {
+    }
+    if (highways.empty()) {
         cout << "NO HIGHWAYS TO INSERT EMPLOYEES\n";
         return;
     }
@@ -1224,8 +1232,7 @@ void SystemMonitor::finishLoadingLanes() {
                         for (auto &lane : toll->getLanes()) {
                             if (lane->isNormalExitLane()) {
                                 if (lane->getEmployee() != nullptr) {
-                                    Employee *employee;
-                                    employee = getEmployee(lane->getEmployee()->getSsNumber());
+                                    Employee *employee = getEmployee(lane->getEmployee()->getSsNumber());
                                     if (employee != nullptr)
                                         lane->setEmployee(employee);
                                     else
