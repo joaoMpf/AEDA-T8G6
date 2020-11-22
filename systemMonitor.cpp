@@ -865,11 +865,11 @@ Toll *SystemMonitor::selectToll(Highway *pHighway) {
 
 void SystemMonitor::managerAddLane(Toll *pToll, bool viaVerde) {
     if (!pToll->isExitToll() && !viaVerde) {
-        pToll->addLane(new Lane);
+        pToll->addLane(new NormalLane());
         return;
     }
     if (viaVerde) {
-        pToll->addLane(new ViaVerdeLane);
+        pToll->addLane(new ViaVerdeLane());
         return;
     } else {
         if (pToll->isExitToll()) {
@@ -1078,6 +1078,13 @@ void SystemMonitor::managerRemoveEmployee() {
 }
 
 void SystemMonitor::changeEmployeeLane() {
+    if(employees.empty()) {
+        cout << "NO EMPLOYEES TO CHANGE LANE\n";
+        return;
+    }    if(highways.empty()) {
+        cout << "NO HIGHWAYS TO INSERT EMPLOYEES\n";
+        return;
+    }
     Employee *employee = selectEmployee();
     Highway *highway = highways[selectHighway()];
     Toll *pToll;
