@@ -1095,7 +1095,7 @@ void SystemMonitor::changeEmployeeLane() {
         cin >> i;
         if (i == 0) return;
         if (i > 0 && i <= highway->getTolls().size()) {
-            pToll = highway->getTollAt(i - 1, true);
+            pToll = highway->getTollAt(i, true);
             break;
         } else cout << "ENTER A VALID NUMBER\n";
         cin.clear();
