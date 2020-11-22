@@ -1,6 +1,6 @@
 highwayName1 2
 1 nome1 localizacao1 3 0 0
-0 5 4 XX-XX-XX 0 PP-OO-PP 1.6 PP-OO-PP 1.6 55-LL-55 1.6 1 501236489 1 412563897 
+0 6 3 PP-OO-PP 1.6 PP-OO-PP 1.6 55-LL-55 1.6 1 501236489 1 412563897 
 1 15
 1 7
 0 nome2 localizacao2 2 10 1.6

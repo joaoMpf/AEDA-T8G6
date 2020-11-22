@@ -176,6 +176,10 @@ istream &NormalExitLane::loadVehicleQueueFromFile(istream &is) {
 
 NormalExitLane::NormalExitLane() {}
 
+void NormalExitLane::setLastEmployees(vector<Employee *> lastE) {
+    NormalExitLane::lastEmployees = lastE;
+}
+
 void ViaVerdeLane::addVehicle(string licensePlate, double price) {
     Lane::addVehicle(licensePlate, price);
     addCrossing();

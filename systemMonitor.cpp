@@ -111,41 +111,41 @@ void SystemMonitor::loadVectorFromFile(string &vectorFileName, vector<T *> &vec)
     file.close();
 }
 
-void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into vector
-//exemplo ficheiro portagens:
-//highwayName numTolls
-//tipo nome1 localização numeroDeVias pos price
-//numPassagens veiculo preco veiculo preco ...
-//tipo nome2 localização numeroDeVias pos price
-//numPassagens veiculo preco
-//...
-//tipo nomex localização numeroDeVias pos price
-    ifstream tollfs(tollsFileName);
-
-    if (tollfs.is_open()) {
-        string highway_name;
-        int numTolls;
-        while (tollfs >> highway_name >> numTolls) {
-            Highway *highway = new Highway(highway_name);
-            bool type;
-            while (numTolls > 0 && tollfs >> type) {
-                if (type)//type = true -> is exit toll
-                {
-                    OutToll *outToll = new OutToll();
-                    tollfs >> *outToll;
-                    highway->addToll(outToll);
-                } else {
-                    InToll *inToll = new InToll();
-                    tollfs >> *inToll;
-                    highway->addToll(inToll);
-                }
-                numTolls--;
-            }
-            highways.push_back(highway);
-        }
-        tollfs.close();
-    } else throw invalid_argument("Not able to open tolls file");
-}
+//void SystemMonitor::loadTolls(const string &tollsFileName) {//load tolls into vector
+////exemplo ficheiro portagens:
+////highwayName numTolls
+////tipo nome1 localização numeroDeVias pos price
+////numPassagens veiculo preco veiculo preco ...
+////tipo nome2 localização numeroDeVias pos price
+////numPassagens veiculo preco
+////...
+////tipo nomex localização numeroDeVias pos price
+//    ifstream tollfs(tollsFileName);
+//
+//    if (tollfs.is_open()) {
+//        string highway_name;
+//        int numTolls;
+//        while (tollfs >> highway_name >> numTolls) {
+//            Highway *highway = new Highway(highway_name);
+//            bool type;
+//            while (numTolls > 0 && tollfs >> type) {
+//                if (type)//type = true -> is exit toll
+//                {
+//                    OutToll *outToll = new OutToll();
+//                    tollfs >> *outToll;
+//                    highway->addToll(outToll);
+//                } else {
+//                    InToll *inToll = new InToll();
+//                    tollfs >> *inToll;
+//                    highway->addToll(inToll);
+//                }
+//                numTolls--;
+//            }
+//            highways.push_back(highway);
+//        }
+//        tollfs.close();
+//    } else throw invalid_argument("Not able to open tolls file");
+//}
 
 //void SystemMonitor::loadClients(const string &clientsFileName) {//load employees into vector
 ////exemplo ficheiro client:
@@ -1198,15 +1198,40 @@ void SystemMonitor::finishLoadingClients() {
 }
 
 void SystemMonitor::finishLoadingLanes() {
-    if (!employees.empty())
-        for (auto &employee : employees)
-            if (employee->isWorking())
-                for (auto &highway : highways)
-                    for (auto &toll : highway->getTolls())
-                        for (auto &lane : toll->getLanes())
-                            if (lane->getEmployee() != nullptr)
-                                if (*lane->getEmployee() == *employee)
-                                    lane->setEmployee(employee);
+    if (!employees.empty() && !highways.empty())
+        for (auto &highway : highways)
+            if (!highway->getTolls().empty())
+                for (auto &toll : highway->getTolls())
+                    if (!toll->getLanes().empty())
+                        for (auto &lane : toll->getLanes()) {
+                            if (lane->isNormalExitLane()) {
+                                if (lane->getEmployee() != nullptr) {
+                                    Employee *employee;
+                                    employee = getEmployee(lane->getEmployee()->getSsNumber());
+                                    if (employee != nullptr)
+                                        lane->setEmployee(employee);
+                                    else
+                                        lane->setEmployee(nullptr);
+                                }
+                                if (!lane->getLastEmployees().empty()) {
+                                    Employee *employee;
+                                    vector<Employee *> lastEmployees;
+                                    for (int i = 0; i < lane->getLastEmployees().size(); ++i) {
+                                        if (lane->getLastEmployees()[i] != nullptr) {
+                                            employee = getEmployee(lane->getLastEmployees()[i]->getSsNumber());
+                                            if (employee != nullptr)
+                                                lastEmployees.push_back(employee);
+                                        }
+                                    }
+                                    lane->setLastEmployees(lastEmployees);
+                                }
+                            }
+                        }
+}
 
-
+Employee *SystemMonitor::getEmployee(int ssNumber) {
+    int i = sequentialSearch(employees, new Employee(ssNumber));
+    if (i == -1)
+        return nullptr;
+    return employees[i];
 }

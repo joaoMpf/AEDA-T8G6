@@ -70,6 +70,8 @@ public:
 
     bool removeEmployee(const Employee* &employee); //Definir operator == em Employee
 
+    Employee *getEmployee(int ssNumber);
+
     ///If found, returns postion of Employee in vector, else it returns -1
     ///
     /// \param cemployee
