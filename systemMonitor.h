@@ -80,12 +80,24 @@ public:
 
     void sortEmployees();//REMOVER?
 
-    const vector<Client *> &getClients() const;//REMOVER?
+    const vector<Client *> &getClients() const;
 
-    void addClient(Client* client); //REMOVER?
+    ///Adds Client to clients vector
+    ///
+    /// \param client
+    void addClient(Client* client);
 
-    bool removeClient(const Client* client);//REMOVER?
+    ///Removes Client from clients vector
+    ///
+    /// \param client
+    /// \return true if removed, false, otherwise
+    bool removeClient(const Client* client);
 
+    ///Searches for Client in clients vector
+    ///
+    /// \param client
+    /// \return true if found, false, otherwise
+    ///
     int findClient(const Client *client);
 
     void sortClients();//REMOVER?
@@ -154,9 +166,6 @@ public:
     ///@warning Only valid format is "XX-XX-XX"!
     static string licensePlateInput();
 
-    ///
-    Vehicle * firstTimeClient(const string& licensePlate);
-
     ///Client Login
     ///
     /// \return pointer to Client
@@ -219,9 +228,6 @@ public:
     /// \return pointer to Employee
     Employee *loginEmployee();
 
-    ///Prints a Clients Vehicles list
-    void printVehiclesListed(Client *client);
-
     ///Allows Client to change name
     void changeName(Client *client);
 
@@ -257,8 +263,6 @@ public:
     ///@see printHighwaysNumbered()
     void managerViewHighways();
 
-    void manageExistingHighways();//REMOVER?
-
     ///Highway selection
     ///
     /// \return index of selected highway
@@ -267,8 +271,6 @@ public:
 
     ///Allows Manager to Add Toll to Highway
     void managerAddToll(Highway *phighway,bool exit);
-
-    void managerManageToll(Highway *phighway);//REMOVER? TEM O MESMO NOME
 
     ///Shows Highway Tolls
     void viewHighwayTolls(Highway *phighway);
@@ -315,16 +317,10 @@ public:
     /// \param pToll pointer to Toll
     void changeLaneEmployee(Toll *pToll);
 
-    void loadVehicles(const string &vehiclesFileName);//REMOVER?
-
-    void loadEmployees(const string &employeesFileName);//REMOVER?
-
-    void loadClients(const string &clientsFileName);//REMOVER?
-
-    void loadTolls(const string &tollsFileName);//REMOVER?
-
+    ///Allows Manager to add an Employee
     void managerAddEmployee();
 
+    ///Allows Manager to remove an Employee
     void managerRemoveEmployee();
 
     /// Change Employee's Lane
@@ -350,8 +346,8 @@ public:
 
     ///Finishes Loading Clients
     void finishLoadingClients();
-    ifstream &saveToFile(ifstream &tollfs) const;
 
+    ///Finishes Loading Lanes
     void finishLoadingLanes();
 };
 
