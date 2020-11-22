@@ -6,8 +6,8 @@ const string &Vehicle::getLicensePlate() const {
 
 Vehicle::Vehicle() { viaVerde = false; }
 
-void Vehicle::setLicensePlate(const string &licensePlate) {
-    Vehicle::licensePlate = licensePlate;
+void Vehicle::setLicensePlate(const string &licensePlate1) {
+    Vehicle::licensePlate = licensePlate1;
 }
 
 int Vehicle::getCategory() const {
@@ -147,10 +147,10 @@ istream &operator>>(istream &is, Vehicle &vehicle) {
     return is;
 }
 
-void Vehicle::setCategory(int category) {
-    Vehicle::category = category;
+void Vehicle::setCategory(int category1) {
+    Vehicle::category = category1;
 }
 
-void Vehicle::setTrips(const vector<Trip *> &trips) {
-    Vehicle::trips = trips;
+void Vehicle::setTrips(const vector<Trip *> &trips1) {
+    Vehicle::trips = trips1;
 }
