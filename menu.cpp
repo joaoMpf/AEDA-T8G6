@@ -186,7 +186,7 @@ void menu::manageVehicles(Client *client) {
              << "\nPlease enter number:\n"
              << "1 - ADD VEHICLES\n"
              << "2 - REMOVE VEHICLES\n"
-             << "3 - VIEW VEHICLES\n"
+             << "3 - VIEW VEHICLES AND TRIPS\n"
              << "4 - UPDATE VEHICLES\n"
              << "0 - GO BACK\n";
 

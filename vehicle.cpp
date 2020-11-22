@@ -6,8 +6,8 @@ const string &Vehicle::getLicensePlate() const {
 
 Vehicle::Vehicle() { viaVerde = false; }
 
-void Vehicle::setLicensePlate(const string &licensePlate) {
-    Vehicle::licensePlate = licensePlate;
+void Vehicle::setLicensePlate(const string &licensePlate1) {
+    Vehicle::licensePlate = licensePlate1;
 }
 
 int Vehicle::getCategory() const {
@@ -46,20 +46,21 @@ double Vehicle::endTrip(Toll *toll, Time *time) {
 }
 
 void Vehicle::printTrips() {
-    if (!trips.empty()) {
-        for (auto x:trips) {
-            cout << "Trip Info:\n"
-                 << "Started at: " <<
-                 x->getBeginTime()->getHour() << ":" <<
-                 x->getBeginTime()->getMinute() << ":"
-                 << x->getBeginTime()->getSecond() << endl
-                 << "Ended at: " <<
-                 x->getEndTime()->getHour() << ":" <<
-                 x->getEndTime()->getMinute() << ":"
-                 << x->getEndTime()->getSecond() << endl;
+    if (!getTrips().empty()) {
+        for (auto y:(getTrips())) {
+            cout << "FROM: " << (y)->getBegin().first << endl;
+            cout << "TO: " << (y)->getEnd().first << endl;
+            cout << "WHEN: " << (y)->getEndTime()->getDate() << endl;
+            cout << "PRICE PAID: " << (y)->getPrice() << endl << endl;
         }
     } else {
         cout << "NO TRIPS TO SHOW" << endl << endl;
+    }
+    int i;
+    while (true) {
+        cout << "PRESS 0 TO LEAVE\n";
+        cin >> i;
+        if (i == 0) return;
     }
 }
 
@@ -146,10 +147,10 @@ istream &operator>>(istream &is, Vehicle &vehicle) {
     return is;
 }
 
-void Vehicle::setCategory(int category) {
-    Vehicle::category = category;
+void Vehicle::setCategory(int category1) {
+    Vehicle::category = category1;
 }
 
-void Vehicle::setTrips(const vector<Trip *> &trips) {
-    Vehicle::trips = trips;
+void Vehicle::setTrips(const vector<Trip *> &trips1) {
+    Vehicle::trips = trips1;
 }
