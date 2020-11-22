@@ -66,7 +66,7 @@ ostream &Lane::saveToFile(ostream &os) const {
 
 Lane::Lane(int numCrossings) : numCrossings(numCrossings) {}
 
-void Lane::PrintLaneNumbered(int i) const {
+void Lane::printLaneNumbered(int i) const {
     cout << "LANE " << i << ":\n";
     cout << "VIA VERDE: ";
     if (isViaVerde()) {

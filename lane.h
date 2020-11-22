@@ -121,7 +121,7 @@ public:
     virtual istream &loadFromFile(istream &is);
 
     ///Prints Lane with index
-    void PrintLaneNumbered(int i) const;
+    void printLaneNumbered(int i) const;
 };
 
 ///Child of Lane
