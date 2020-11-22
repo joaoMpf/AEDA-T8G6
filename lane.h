@@ -92,6 +92,8 @@ public:
 
     virtual void addToEmployeeList(Employee *employee1) {};
 
+    virtual void setLastEmployees(vector<Employee *> lastE) {};
+
     bool operator>(const Lane &rhs) const;
 
     bool operator<=(const Lane &rhs) const;
@@ -171,6 +173,8 @@ public:
 
     ///Returns vector of pointers to Employee
     vector<Employee *> getLastEmployees() { return lastEmployees; }
+
+    void setLastEmployees(vector<Employee *> lastE);
 
     ///Adds Employee to vector lastEmployees
     void addToEmployeeList(Employee *employee1) override { lastEmployees.push_back(employee); };
