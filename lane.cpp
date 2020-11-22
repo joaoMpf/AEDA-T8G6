@@ -36,7 +36,7 @@ bool Lane::operator>=(const Lane &rhs) const {
 string Lane::passVehicle() {
     string lp;
     if (!vehicleQueue.empty()) {
-        lp=vehicleQueue.front().first;
+        lp = vehicleQueue.front().first;
         vehicleQueue.pop();
         return lp;
     }
@@ -44,7 +44,9 @@ string Lane::passVehicle() {
 }
 
 ostream &operator<<(ostream &os, const Lane &lane) {
-    return lane.saveToFile(os);
+    lane.saveToFile(os);
+    delete &lane;
+    return os;
 }
 
 istream &operator>>(istream &is, Lane &lane) {

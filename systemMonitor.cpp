@@ -63,10 +63,11 @@ void SystemMonitor::save() {
     string clientsFileName = "clients.txt";
     string tollsFileName = "tolls.txt";
 
-    saveVectorToFile(vehiclesFileName, vehicles);
-    saveVectorToFile(employeesFileName, employees);
-    saveVectorToFile(clientsFileName, clients);
     saveVectorToFile(tollsFileName, highways);
+    saveVectorToFile(employeesFileName, employees);
+
+    saveVectorToFile(clientsFileName, clients);
+    saveVectorToFile(vehiclesFileName, vehicles);
 }
 
 template<class T>
@@ -90,9 +91,10 @@ void SystemMonitor::load() {
     string tollsFileName = "tolls.txt";
 
     loadVectorFromFile(vehiclesFileName, vehicles);
-    loadVectorFromFile(employeesFileName, employees);
     loadVectorFromFile(clientsFileName, clients);
     finishLoadingClients();
+
+    loadVectorFromFile(employeesFileName, employees);
     loadVectorFromFile(tollsFileName, highways);
     finishLoadingLanes();
 }
@@ -103,11 +105,11 @@ void SystemMonitor::loadVectorFromFile(string &vectorFileName, vector<T *> &vec)
     if (file.is_open()) {
         T *newElement = new T();
         while (file >> *newElement) {
-//            cout << *newElement << endl;
             vec.push_back(newElement);
             newElement = new T();
         }
-    } else throw invalid_argument("Not able to open " + vectorFileName + " file");
+        delete newElement;
+    } else cout << ("Not able to open " + vectorFileName + " file");
     file.close();
 }
 
@@ -590,7 +592,7 @@ void SystemMonitor::showCosts(Client *client) {
                     cout << "FROM: " << (y)->getBegin().first << endl;
                     cout << "TO: " << (y)->getEnd().first << endl;
                     cout << "WHEN: " << (y)->getEndTime()->getDate() << endl;
-                    cout << "PRICE PAID: " << (y)->getPrice() << endl<<endl;
+                    cout << "PRICE PAID: " << (y)->getPrice() << endl << endl;
                 }
             } else {
                 cout << "NO TRIPS TO SHOW" << endl << endl;
@@ -862,15 +864,14 @@ Toll *SystemMonitor::selectToll(Highway *pHighway) {
 }
 
 void SystemMonitor::managerAddLane(Toll *pToll, bool viaVerde) {
-    if (!pToll->isExitToll()&&!viaVerde) {
+    if (!pToll->isExitToll() && !viaVerde) {
         pToll->addLane(new Lane);
         return;
     }
     if (viaVerde) {
         pToll->addLane(new ViaVerdeLane);
         return;
-    }
-    else {
+    } else {
         if (pToll->isExitToll()) {
             while (true) {
                 cout << "DO YOU WANT TO ADD AN EMPLOYEE TO THIS LANE NOW?\n"
@@ -1197,8 +1198,9 @@ void SystemMonitor::finishLoadingClients() {
                 vector<Vehicle *> vecVehicles;
                 for (auto &vehic : client->getVehicles()) {
                     Vehicle *vehicle = getVehicle(vehic->getLicensePlate());
+                    delete vehic;
                     if (vehicle != nullptr)
-                        vecVehicles.push_back(getVehicle(vehic->getLicensePlate()));
+                        vecVehicles.push_back(vehicle);
                     else cout << "Error loading client vehicle!\n";
                 }
                 client->setVehicles(vecVehicles);
@@ -1228,6 +1230,7 @@ void SystemMonitor::finishLoadingLanes() {
                                     for (int i = 0; i < lane->getLastEmployees().size(); ++i) {
                                         if (lane->getLastEmployees()[i] != nullptr) {
                                             employee = getEmployee(lane->getLastEmployees()[i]->getSsNumber());
+                                            delete lane->getLastEmployees()[i];
                                             if (employee != nullptr)
                                                 lastEmployees.push_back(employee);
                                         }

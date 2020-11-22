@@ -41,6 +41,7 @@ Time::Time(int day, int month, int year, int hour, int minute, int second) : day
 ostream &operator<<(ostream &os, const Time &time1) {
     os << time1.day << " " << time1.month << " " << time1.year << " " << time1.hour << " " << time1.minute << " "
        << time1.second;
+    delete &time1;
     return os;
 }
 

@@ -78,6 +78,7 @@ ostream &operator<<(ostream &os, const Client &client) {
         for (auto vehicle : client.vehicles)
             os << vehicle->getLicensePlate() << " ";
     }
+    delete &client;
     return os;
 }
 

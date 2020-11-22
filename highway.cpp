@@ -63,6 +63,7 @@ ostream &operator<<(ostream &os, const Highway &highway) {
             if (i != highway.tolls.size() - 1)
                 os << endl;
         }
+    delete &highway;
     return os;
 }
 

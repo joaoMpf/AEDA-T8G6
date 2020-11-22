@@ -93,23 +93,22 @@ void Toll::viewLanes() {
     for (int i = 0; i < getLanes().size(); ++i) {
         getLanes()[i]->printLaneNumbered(i + 1);
     }
-    if(this->isExitToll()) {
+    if (this->isExitToll()) {
         while (true) {
             int j;
             cout << "SELECT A LANE TO VIEW ITS PAST EMPLOYEES OR ENTER 0 TO GO BACK\n\n";
             cin >> j;
             if (j == 0) return;
-            else if (getLanes()[j-1]->isNormalExitLane()&&j > 0 && j <= getLanes().size() ) {
-                if (getLanes()[j-1]->getLastEmployees().size()==0){
-                    cout<<"NO EMPLOYEE HISTORY TO SHOW\n";
+            else if (getLanes()[j - 1]->isNormalExitLane() && j > 0 && j <= getLanes().size()) {
+                if (getLanes()[j - 1]->getLastEmployees().size() == 0) {
+                    cout << "NO EMPLOYEE HISTORY TO SHOW\n";
                     return;
                 }
                 for (auto x:getLanes()[j - 1]->getLastEmployees()) {
                     cout << x->getName() << endl;
                     cout << x->getSsNumber() << endl << endl;
                 }
-            }
-            else cout << "ONLY NORMAL EXIT LANES HAVE EMPLOYEES\n";
+            } else cout << "ONLY NORMAL EXIT LANES HAVE EMPLOYEES\n";
         }
     }
 
@@ -126,6 +125,8 @@ ostream &operator<<(ostream &os, const Toll &toll) {
                 os << endl;
         }
     }
+
+    delete &toll;
     return os;
 }
 
@@ -139,16 +140,17 @@ istream &Toll::loadFromFile(istream &is) {
     int numLanes, pos;
     double price;
     vector<Lane *> lanes;
-    is >> name >> location >> numLanes >> pos >> price;
-    lanes.reserve(numLanes);
-    for (int i = 0; i < numLanes; i++) {
-        lanes.push_back(loadLaneFromFile(is));
+    if (is >> name >> location >> numLanes >> pos >> price) {
+        lanes.reserve(numLanes);
+        for (int i = 0; i < numLanes; i++) {
+            lanes.push_back(loadLaneFromFile(is));
+        }
+        setName(name);
+        setLocation(location);
+        setLanes(lanes);
+        setPosition(pos);
+        setPrice(price);
     }
-    setName(name);
-    setLocation(location);
-    setLanes(lanes);
-    setPosition(pos);
-    setPrice(price);
     return is;
 }
 
@@ -175,7 +177,6 @@ void Toll::setPrice(double price) {
 Toll::Toll() {}
 
 
-
 bool InToll::isExitToll() const {
     return false;
 }
@@ -190,16 +191,18 @@ InToll::InToll(const string &n, const string &loc, const vector<Lane *> &l, cons
 Lane *InToll::loadLaneFromFile(istream &is) {
     bool viaVerde;
 
-    is >> viaVerde;
-    if (viaVerde) {
-        ViaVerdeLane *viaVerdeLane = new ViaVerdeLane();
-        is >> *viaVerdeLane;
-        return viaVerdeLane;
-    } else {
-        NormalLane *normalLane = new NormalLane();
-        is >> *normalLane;
-        return normalLane;
+    if (is >> viaVerde) {
+        if (viaVerde) {
+            ViaVerdeLane *viaVerdeLane = new ViaVerdeLane();
+            is >> *viaVerdeLane;
+            return viaVerdeLane;
+        } else {
+            NormalLane *normalLane = new NormalLane();
+            is >> *normalLane;
+            return normalLane;
+        }
     }
+    return nullptr;
 }
 
 InToll::InToll() = default;

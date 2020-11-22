@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <iostream>
+#include <cstdio>
 #include "lane.h"
 #include "algorithm"
 
@@ -115,9 +116,7 @@ public:
 
     istream &loadFromFile(istream &is);
 
-    virtual Lane *loadLaneFromFile(istream &istream) = 0;
-
-
+    virtual Lane *loadLaneFromFile(istream &istream) { return nullptr; };
 };
 
 ///Entry Toll

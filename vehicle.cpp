@@ -41,7 +41,7 @@ double Vehicle::endTrip(Toll *toll, Time *time) {
     trips[trips.size() - 1]->setEnd(toll->getName(), toll->getPrice());
     trips[trips.size() - 1]->setEndTime(time);
 
-    double price = toll->getPrice() * (1+0.1*(this->getCategory()-1));
+    double price = toll->getPrice() * (1 + 0.1 * (this->getCategory() - 1));
     return price;
 }
 
@@ -113,6 +113,7 @@ ostream &operator<<(ostream &os, const Vehicle &vehicle) {
                 os << endl;
         }
     }
+    delete &vehicle;
     return os;
 }
 

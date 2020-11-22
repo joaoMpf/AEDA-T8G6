@@ -56,6 +56,8 @@ double Trip::getPrice() const {
 ostream &operator<<(ostream &os, const Trip &trip) {
     os << trip.begin.first << " " << trip.begin.second << " " << trip.end.first << " " << trip.end.second << " "
        << *trip.beginTime << " " << *trip.endTime << " " << trip.finished << " " << trip.pricePaid;
+
+    delete &trip;
     return os;
 }
 

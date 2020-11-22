@@ -19,6 +19,7 @@ bool Employee::isWorking() {
 
 ostream &operator<<(ostream &os, const Employee &employee) {
     os << employee.name << " " << employee.ss_number << " " << employee.working;
+    delete &employee;
     return os;
 }
 
@@ -47,7 +48,8 @@ void Employee::setSsNumber(int ssNumber) {
     ss_number = ssNumber;
 }
 
-Employee::Employee() {working = false;
+Employee::Employee() {
+    working = false;
 }
 
 Employee::Employee(int ssNumber) : ss_number(ssNumber) {}
