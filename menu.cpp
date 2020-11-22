@@ -264,6 +264,7 @@ void menu::operatePassToll(Client *client, bool exit) {
         if (!exit) {
             lane->addVehicle(vehicle->getLicensePlate(), 0.0);
             vehicle->startTrip(toll, new Time());
+            lane->addCrossing();
             return;
         } else {
             double price; //CALCULAR PREÇO
@@ -274,10 +275,12 @@ void menu::operatePassToll(Client *client, bool exit) {
             }
             if (vehicle->isViaVerde()) {
                 vehicle->endTrip(toll, new Time());
+                lane->addCrossing();
                 return;
             }
 
             lane->addVehicle(vehicle->getLicensePlate(), price);
+            lane->addCrossing();
             return;
 
         }
