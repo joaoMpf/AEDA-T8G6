@@ -68,7 +68,7 @@ public:
     ///Returns true if it is a Normal Lane
     virtual bool isNormalExitLane() {return false;}
 
-    virtual bool isViaVerde() { return false; }
+
 
 
     ///Returns pointer to Employee
@@ -130,6 +130,7 @@ public:
     NormalLane() {
 
     }
+    virtual bool isNormalExitLane() {return false;}
 
     NormalLane(int numCrossings) : Lane(numCrossings) {}
 

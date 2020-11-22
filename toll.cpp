@@ -1,5 +1,8 @@
 #include "toll.h"
 #include <algorithm>
+#ifdef _WIN32
+inline int getchar_unlocked() { return _getchar_nolock(); }
+#endif
 
 const string &Toll::getName() const {
     return name;
@@ -44,11 +47,13 @@ Lane *Toll::getRecommendedLane(bool isViaVerde) {
 vector<Lane *> Toll::getTypeLanes(bool isViaVerde) {
     vector<Lane *> typeLanes;
 
-    if (!lanes.empty())
-        for (auto lane : lanes)
-            if (lane->isViaVerde() == isViaVerde)
+    if (!lanes.empty()) {
+        for (auto lane : lanes) {
+            if (lane->isViaVerde() == isViaVerde) {
                 typeLanes.push_back(lane);
-
+            }
+        }
+    }
     sort(typeLanes.begin(), typeLanes.end()); //sort so lane with less cars appears first
     return typeLanes;
 }
