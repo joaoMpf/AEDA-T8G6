@@ -777,26 +777,26 @@ void SystemMonitor::managerAddToll(Highway *phighway, bool exit) {
         }
     }
     double price;
-    if(exit) {
 
-        while (true) {
-            cout << "ENTER TOLL PRICE : \n";
-            cin >> price;
 
-            try {
-                if (confirmation()) {
-                    break;
-                } else continue;
-            }
-            catch (ConfirmationExitException &exception) {
-                ConfirmationExitException::showMessage();
-                return;
-            }
+    while (true) {
+        cout << "ENTER TOLL PRICE : \n";
+        cin >> price;
+
+        try {
+            if (confirmation()) {
+                break;
+            } else continue;
+        }
+        catch (ConfirmationExitException &exception) {
+            ConfirmationExitException::showMessage();
+            return;
         }
     }
+
     vector<Lane *> l;
     if (exit) phighway->addToll(new OutToll(name, location, l, position, price));
-    else phighway->addToll(new InToll(name, location, l, position, 0));
+    else phighway->addToll(new InToll(name, location, l, position, price));
     cout << "\n\nTOLL ADDED SUCCESSFULLY\n ";
     return;
 }
