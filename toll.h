@@ -116,6 +116,8 @@ public:
     istream &loadFromFile(istream &is);
 
     virtual Lane *loadLaneFromFile(istream &istream) = 0;
+
+
 };
 
 ///Entry Toll

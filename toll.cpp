@@ -78,9 +78,30 @@ void Toll::printTollNumbered(int i) const {
 }
 
 void Toll::viewLanes() {
+
     for (int i = 0; i < getLanes().size(); ++i) {
         getLanes()[i]->PrintLaneNumbered(i + 1);
     }
+    if(this->isExitToll()) {
+        while (true) {
+            int j;
+            cout << "SELECT A LANE TO VIEW ITS PAST EMPLOYEES OR ENTER 0 TO GO BACK\n\n";
+            cin >> j;
+            if (j == 0) return;
+            else if (getLanes()[j-1]->isNormalExitLane()&&j > 0 && j <= getLanes().size() ) {
+                if (getLanes()[j-1]->getLastEmployees().size()==0){
+                    cout<<"NO EMPLOYEE HISTORY TO SHOW\n";
+                    return;
+                }
+                for (auto x:getLanes()[j - 1]->getLastEmployees()) {
+                    cout << x->getName() << endl;
+                    cout << x->getSsNumber() << endl << endl;
+                }
+            }
+            else cout << "ONLY NORMAL EXIT LANES HAVE EMPLOYEES\n";
+        }
+    }
+
 }
 
 ostream &operator<<(ostream &os, const Toll &toll) {
@@ -141,6 +162,7 @@ void Toll::setPrice(double price) {
 }
 
 Toll::Toll() {}
+
 
 
 bool InToll::isExitToll() const {

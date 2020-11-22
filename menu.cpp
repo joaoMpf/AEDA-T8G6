@@ -442,7 +442,7 @@ void menu::managerManageToll(Highway *highway) {
                  << "2 - ADD VIA VERDE EXIT LANE\n"
                  << "3 - CHANGE EXIT LANE EMPLOYEES\n"
                  << "4 - REMOVE LANE\n"
-                 << "5 - VIEW EXIT LANES\n"
+                 << "5 - VIEW EXIT LANES AND PAST EMPLOYEES\n"
                  << "6 - VIEW TOLL PAST EMPLOYEES\n"
                  << "0 - GO BACK\n";
         } else {
