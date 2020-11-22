@@ -68,9 +68,7 @@ public:
     ///Returns true if it is a Normal Lane
     virtual bool isNormalExitLane() {return false;}
 
-    virtual bool isViaVerde() const { return false; }
-
-    virtual bool isNormalExitLane() { return false; }
+    virtual bool isViaVerde() { return false; }
 
 
     ///Returns pointer to Employee
@@ -95,8 +93,6 @@ public:
     virtual void addToEmployeeList(Employee *employee1) {};
 
     bool operator>(const Lane &rhs) const;
-
-    virtual bool isViaVerde() {return false;};
 
     bool operator<=(const Lane &rhs) const;
 

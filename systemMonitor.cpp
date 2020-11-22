@@ -590,7 +590,7 @@ void SystemMonitor::showCosts(Client *client) {
                     cout << "FROM: " << (y)->getBegin().first << endl;
                     cout << "TO: " << (y)->getEnd().first << endl;
                     cout << "WHEN: " << (y)->getEndTime()->getDate() << endl;
-                    cout << "PRICE PAID: " << (y)->getPrice() << endl;
+                    cout << "PRICE PAID: " << (y)->getPrice() << endl<<endl;
                 }
             } else {
                 cout << "NO TRIPS TO SHOW" << endl << endl;
