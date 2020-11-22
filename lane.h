@@ -28,6 +28,8 @@ public:
     ///Creates a Lane with 0 crossings
     Lane() { this->numCrossings = 0; }
 
+    virtual ~Lane() = default;
+
     ///Creates a Lane with chosen numCrossings
     Lane(int numCrossings);
 
@@ -52,7 +54,7 @@ public:
     ///increments numCrossings\n
     ///
     /// \return poped price pair
-    void addCrossing(); //Chamar função para tirar próximo veiculo da queue
+    void addCrossing();
 
     ///Adds the pair licensePlate, price to the queue
     ///
@@ -66,7 +68,7 @@ public:
     virtual bool isViaVerde() const { return false; }
 
     ///Returns true if it is a Normal Lane
-    virtual bool isNormalExitLane() {return false;}
+    [[nodiscard]] virtual bool isNormalExitLane() const = 0;
 
     virtual bool isViaVerde() { return false; }
 
@@ -135,10 +137,13 @@ public:
 
     NormalLane(int numCrossings, const queue<pair<string, double>> vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
 
+    ///Checks if it is a Normal Exit Lane
+    bool isNormalExitLane() const override { return false; }
+
 };
 
 ///Child of NormalLane
-class NormalExitLane : public NormalLane {
+class NormalExitLane : public Lane {
 private:
     ///pointer to Employee that is working in
     Employee *employee;
@@ -158,7 +163,7 @@ public:
     NormalExitLane();
 
     ///Checks if it is a Normal Exit Lane
-    bool isNormalExitLane() override { return true; }
+    bool isNormalExitLane() const override { return true; }
 
 
     ///Return pointer to Employee working in NormalExitLane
@@ -224,6 +229,9 @@ public:
 
     ///Checks if it is a Via Verde Lane
     bool isViaVerde() const { return true; }
+
+    ///Checks if it is a Normal Exit Lane
+    bool isNormalExitLane() const override { return false; }
 };
 
 #endif //AEDA_T8G6_LANE_H
