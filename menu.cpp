@@ -272,8 +272,6 @@ void menu::operatePassToll(Client *client, bool exit) {
                 cout << "THIS VEHICLE IS NOT IN TRANSIT, CANNOT EXIT\n";
                 continue;
             }
-            price = abs(toll->getPrice() - lastTrip->getBegin().second);
-            vehicle->addPayment(price);
             if (vehicle->isViaVerde()) {
                 vehicle->endTrip(toll, new Time());
                 return;

@@ -42,6 +42,7 @@ double Vehicle::endTrip(Toll *toll, Time *time) {
     trips[trips.size() - 1]->setEndTime(time);
 
     double price = toll->getPrice() * (1 + 0.1 * (this->getCategory() - 1));
+    trips[trips.size() - 1]->setPrice(price);
     return price;
 }
 
