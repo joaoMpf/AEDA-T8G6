@@ -92,6 +92,8 @@ public:
 
     virtual void addToEmployeeList(Employee *employee1) {};
 
+    virtual void setLastEmployees(vector<Employee *> lastE) {};
+
     bool operator>(const Lane &rhs) const;
 
     bool operator<=(const Lane &rhs) const;
@@ -119,7 +121,7 @@ public:
     virtual istream &loadFromFile(istream &is);
 
     ///Prints Lane with index
-    void PrintLaneNumbered(int i) const;
+    void printLaneNumbered(int i) const;
 };
 
 ///Child of Lane
@@ -171,6 +173,8 @@ public:
 
     ///Returns vector of pointers to Employee
     vector<Employee *> getLastEmployees() { return lastEmployees; }
+
+    void setLastEmployees(vector<Employee *> lastE);
 
     ///Adds Employee to vector lastEmployees
     void addToEmployeeList(Employee *employee1) override { lastEmployees.push_back(employee); };

@@ -27,7 +27,18 @@ Lane *Toll::getRecommendedLane(bool isViaVerde) {
     if (recommendedLanes.empty())
         return nullptr;
 
-    return recommendedLanes[0];
+    int c = -1;
+    while (c < 0 || c >= recommendedLanes.size()) {
+        for (int i = 0; i < recommendedLanes.size(); ++i) {
+            cout << "NUMBER OF CROSSINGS TODAY: " << recommendedLanes[i]->getNumCrossings() << endl;
+            recommendedLanes[i]->printLaneNumbered(i);
+        }
+        cout << "WE RECOMMEND LANE 0 THAT HAS THE FEWEST CROSSINGS FOR TODAY\n";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin.clear();
+        c = getchar_unlocked() - '0';
+    }
+    return recommendedLanes[c];
 }
 
 vector<Lane *> Toll::getTypeLanes(bool isViaVerde) {
@@ -80,7 +91,7 @@ void Toll::printTollNumbered(int i) const {
 void Toll::viewLanes() {
 
     for (int i = 0; i < getLanes().size(); ++i) {
-        getLanes()[i]->PrintLaneNumbered(i + 1);
+        getLanes()[i]->printLaneNumbered(i + 1);
     }
     if(this->isExitToll()) {
         while (true) {

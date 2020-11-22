@@ -66,7 +66,7 @@ ostream &Lane::saveToFile(ostream &os) const {
 
 Lane::Lane(int numCrossings) : numCrossings(numCrossings) {}
 
-void Lane::PrintLaneNumbered(int i) const {
+void Lane::printLaneNumbered(int i) const {
     cout << "LANE " << i << ":\n";
     cout << "VIA VERDE: ";
     if (isViaVerde()) {
@@ -177,6 +177,10 @@ istream &NormalExitLane::loadVehicleQueueFromFile(istream &is) {
 }
 
 NormalExitLane::NormalExitLane() {}
+
+void NormalExitLane::setLastEmployees(vector<Employee *> lastE) {
+    NormalExitLane::lastEmployees = lastE;
+}
 
 void ViaVerdeLane::addVehicle(string licensePlate, double price) {
     Lane::addVehicle(licensePlate, price);
