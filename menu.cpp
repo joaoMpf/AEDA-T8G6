@@ -12,7 +12,7 @@ menu::menu() {
     this->systemMonitor = new SystemMonitor();
     mainMenu();
     systemMonitor->~SystemMonitor();
-    delete systemMonitor;
+    free(systemMonitor);
 }
 
 void menu::mainMenu() {
@@ -306,7 +306,7 @@ Highway *menu::getHighway() {
 
 void menu::manageCosts(Client *client) {
     while (true) {
-        SystemMonitor::showCosts(client);
+        systemMonitor->showCostsClient(client);
 
         cout << "ENTER 0 TO GO BACK" << endl;
         if (SystemMonitor::getNumberInput() == '0') {

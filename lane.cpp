@@ -85,7 +85,7 @@ Employee *NormalExitLane::getEmployee() {
 }
 
 NormalExitLane::NormalExitLane(int numCrossings, const queue<pair<string, double>> vehicleQueue, Employee *employee,
-                               const vector<Employee *> &lastEmployees) : Lane (numCrossings, vehicleQueue),
+                               const vector<Employee *> &lastEmployees) : Lane(numCrossings, vehicleQueue),
                                                                           employee(employee),
                                                                           lastEmployees(lastEmployees) {}
 
@@ -118,7 +118,7 @@ ostream &NormalExitLane::saveCurrentEmployeeToFile(ostream &os) const {
 }
 
 ostream &NormalExitLane::saveVehicleQueueToFile(ostream &os) const {
-        os << " " << vehicleQueue.size();
+    os << " " << vehicleQueue.size();
     if (!vehicleQueue.empty()) {
         queue<pair<string, double>> copy(vehicleQueue);
         while (!copy.empty()) {
@@ -152,11 +152,14 @@ istream &NormalExitLane::loadLastEmployeesFromFile(istream &is) {
 istream &NormalExitLane::loadCurrentEmployeeFromFile(istream &is) {
     bool hasCurrentEmployee;
     int ssNumber;
-    if (is >> hasCurrentEmployee)
+    if (is >> hasCurrentEmployee) {
         if (hasCurrentEmployee) {
             is >> ssNumber;
             employee = new Employee(ssNumber);
+        } else {
+            employee = nullptr;
         }
+    }
     return is;
 }
 

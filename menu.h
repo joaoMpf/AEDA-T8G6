@@ -71,10 +71,11 @@ public:
 
     /// Displays Client's Trips and their costs
     ///
-    /// Calls systemMonitor::showCosts(Client *client)
+    /// Calls systemMonitor::showCostsClient(Client *client)
     /// \param pClient
-    ///@see systemMonitor::showCosts(Client *client)
-    static void manageCosts(Client *pClient);
+
+    ///@see systemMonitor::showCostsClient(Client *client)
+    void manageCosts(Client *pClient);
 
     /// Allows Client to manage their info
     ///
