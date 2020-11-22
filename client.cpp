@@ -6,10 +6,6 @@ const string &Client::getName() const {
     return name;
 }
 
-int Client::getNif() const {
-    return nif;
-}
-
 bool Client::operator==(const Client &rhs) const {
     return nif == rhs.nif;
 }

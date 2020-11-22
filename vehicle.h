@@ -9,9 +9,6 @@
 
 using namespace std;
 
-enum vehicleClass {
-    classe1 = 1, classe2 = 2, classe3 = 3, classe4 = 4, classe5 = 5
-};
 
 ///Contains info about a Vehicle such as license plate, category, ViaVerde status and trips
 ///
@@ -53,7 +50,7 @@ public:
     Vehicle(const string &licensePlate);
 
     ///Destructor
-    ~Vehicle() {}
+    ~Vehicle() = default;
 
     ///Returns price
     ///

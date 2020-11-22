@@ -13,7 +13,7 @@ bool Employee::operator==(const Employee &rhs) const {
     return ss_number == rhs.ss_number;
 }
 
-bool Employee::isWorking() {
+bool Employee::isWorking() const {
     return working;
 }
 
@@ -40,8 +40,8 @@ istream &operator>>(istream &is, Employee &employee) {
     return is;
 }
 
-void Employee::setName(const string &name) {
-    Employee::name = name;
+void Employee::setName(const string &name1) {
+    Employee::name = name1;
 }
 
 void Employee::setSsNumber(int ssNumber) {

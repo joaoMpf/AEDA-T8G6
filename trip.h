@@ -55,7 +55,7 @@ public:
     ///Checks if trip is finished
     ///
     /// \return true if trip is finished, false otherwise
-    bool isFinished();
+    bool isFinished() const;
 
     /// Returns price paid
     ///
@@ -76,11 +76,6 @@ public:
     ///
     /// \return pair to end distance and price
     pair<string, double> getEnd() const;
-
-    /// Returns pointer to begin Time
-    ///
-    /// \return pointer to begin Time
-    Time *getBeginTime() const;
 
     /// Returns pointer to end Time
     ///

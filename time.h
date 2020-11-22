@@ -11,7 +11,7 @@ using namespace std;
 class Time {
 private:
     int day, month, year, hour, minute, second;
-    time_t theTime = time(NULL);
+    time_t theTime = time(nullptr);
     ///Used to get current time
     struct tm *aTime = localtime(&theTime);
 public:

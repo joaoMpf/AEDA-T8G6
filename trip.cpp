@@ -29,15 +29,11 @@ pair<string, double> Trip::getBegin() const {
     return begin;
 }
 
-Time *Trip::getBeginTime() const {
-    return beginTime;
-}
-
 pair<string, double> Trip::getEnd() const {
     return end;
 }
 
-bool Trip::isFinished() {
+bool Trip::isFinished() const {
     return finished;
 }
 
@@ -75,6 +71,4 @@ istream &operator>>(istream &is, Trip &trip) {
     return is;
 }
 
-Trip::Trip() {
-
-}
+Trip::Trip() = default;

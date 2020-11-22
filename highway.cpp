@@ -77,11 +77,11 @@ istream &operator>>(istream &is, Highway &highway) {
         while (numTolls > 0 && is >> type) {
             if (type)//type = true -> is exit toll
             {
-                OutToll *outToll = new OutToll();
+                auto *outToll = new OutToll();
                 is >> *outToll;
                 highway.addToll(outToll);
             } else {
-                InToll *inToll = new InToll();
+                auto *inToll = new InToll();
                 is >> *inToll;
                 highway.addToll(inToll);
             }
@@ -101,9 +101,9 @@ int Highway::getTollsSize(bool exit) {
     return cnt;
 }
 
-void Highway::setName(const string &name) {
-    Highway::name = name;
+void Highway::setName(const string &name1) {
+    Highway::name = name1;
 }
 
-Highway::Highway() {}
+Highway::Highway() = default;
 

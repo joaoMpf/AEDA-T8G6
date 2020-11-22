@@ -1,7 +1,13 @@
-highwayName1 2
-1 nome1 localizacao1 1 0 0
-0 5 1 XX-XX-XX 0 1 412563897 1
-412563897
-0 nome2 localizacao2 0 10 1.6
-highwayName2 1
-1 nome3 localizacao3 0 0 0
+A1 4
+0 ENTRADA-PORTO PORTO 2 0 0
+0 0
+1 0
+1 SAIDA-LISBOA LISBOA 2 300 25
+1 0
+0 0 0 0 0 
+0 ENTRADA-LISBOA LISBOA 2 300 25
+1 0
+0 0
+1 SAIDA-PORTO PORTO 2 0 0
+1 0
+0 0 0 0 0 

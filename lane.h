@@ -32,7 +32,7 @@ public:
     virtual ~Lane() = default;
 
     ///Creates a Lane with chosen numCrossings
-    Lane(int numCrossings);
+    explicit Lane(int numCrossings);
 
     ///Creates a Lane with numCrossings crossings and a queue with <licensePlate, price> pairs
     ///
@@ -96,7 +96,7 @@ public:
     bool operator<(const Lane &rhs) const;
 
     ///Adds Employee to vector lastEmployees
-    virtual void addToEmployeeList(Employee *employee1) {};
+    virtual void addToEmployeeList() {};
 
     ///Sets last Employees
     virtual void setLastEmployees(vector<Employee *> lastE) {};
@@ -202,12 +202,7 @@ public:
     void setLastEmployees(vector<Employee *> lastE);
 
     ///Adds Employee to vector lastEmployees
-    void addToEmployeeList(Employee *employee1) override { lastEmployees.push_back(employee); };
-
-    ///Returns vector of pointers to Employee
-    ///
-    /// \return
-    const vector<Employee *> &getLastEmployees() const;
+    void addToEmployeeList() override;;
 
     ostream &saveToFile(ostream &os) const override;
 

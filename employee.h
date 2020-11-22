@@ -25,13 +25,13 @@ public:
     ///Creates Employee with undefined private attributes
     Employee();
 
-    Employee(int ssNumber);
+    explicit Employee(int ssNumber);
 
     ///Creates an Employee with name and ss_number and sets working status
     Employee(string n, int ss,bool work=false): name(n), ss_number(ss),working(work){};
 
     ///Destructor
-    ~Employee(){};
+    ~Employee()= default;;
 
     ///Returns Employee's name
     ///
@@ -52,7 +52,7 @@ public:
     ///Returns true, if the Employee is working, false otherwise
     ///
     /// \return true, if the Employee is working, false otherwise
-    bool isWorking();
+    bool isWorking() const;
 
     ///Changes the boolean member working
     ///
