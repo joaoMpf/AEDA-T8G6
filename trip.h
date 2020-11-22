@@ -16,10 +16,17 @@ using namespace std;
 
 class Trip {
 private:
-    pair<string, double> begin, end; //Toll name and toll Price
+    ///Pair of Begin Toll name and Begin Toll price
+    pair<string, double> begin; //Toll name and toll Price
+    ///Pair of End Toll name and End Toll price
+    pair<string, double> end;
+    ///Pointer to Begin Time
     Time *beginTime;
+    ///Pointer to End Time
     Time *endTime;
+    ///Indicates if the Trip is finished
     bool finished = false;
+    ///Price Paid
     double pricePaid;
 public:
 

@@ -25,7 +25,7 @@ private:
     vector<Trip *> trips;
 
 public:
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Creates Vehicle with undefined attributes
     Vehicle();
 
     /// Creates Vehicle with license plate, category and ViaVerde status
@@ -123,10 +123,16 @@ public:
     /// \return ostream with Vehicle's info
     friend ostream &operator<<(ostream &os, const Vehicle &vehicle);
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Returns istream with Vehicle's info
+    ///
+    /// \param is
+    /// \param vehicle
+    /// \return Returns istream with Vehicle's info
     friend istream &operator>>(istream &is, Vehicle &vehicle);
 
-    //FALTA COMENTAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Sets Vehicle's Trips
+    ///
+    /// \param trips
     void setTrips(const vector<Trip *> &trips);
 };
 
