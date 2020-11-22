@@ -578,7 +578,7 @@ int SystemMonitor::selectHighway() {
 
 }
 
-void SystemMonitor::managerAddToll(Highway *phighway, bool exit) const {
+void SystemMonitor::managerAddToll(Highway *phighway, bool exit) {
 
     string name, location;
     int position;

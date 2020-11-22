@@ -61,8 +61,6 @@ public:
     /// \return vector of pointers to Highway
     vector<Highway* > getHighways();
 
-    //Definir operator == em Employee
-
     Employee *getEmployee(int ssNumber);
 
     ///If found, returns postion of Employee in vector, else it returns -1
@@ -71,16 +69,12 @@ public:
     /// \return position of Employee, if  found, else, -1
     int findEmployee(const Employee* cemployee);
 
-    //REMOVER?
-
     ///Searches for Client in clients vector
     ///
     /// \param client
     /// \return true if found, false, otherwise
     ///
     int findClient(const Client *client);
-
-    //REMOVER?
 
     ///Prints Highways numbered
     ///
@@ -106,7 +100,7 @@ public:
     ///Displays a certain Client's Vehicles
     ///
     /// \param client pointer to Client
-    static void viewVehicles(Client *client);
+    void viewVehicles(Client *client);
 
     ///Displays Client's trips and their prices
     ///
@@ -117,7 +111,7 @@ public:
     ///Allows Client to change info about their Vehicles
     ///
     /// \param client pointer to Client
-    static void updateVehicles(Client *client);
+    void updateVehicles(Client *client);
 
     ///Adds pointer to Highway to highways vector
     ///
@@ -234,7 +228,7 @@ public:
     int selectHighway();
 
     ///Allows Manager to Add Toll to Highway
-    static void managerAddToll(Highway *phighway,bool exit);
+    void managerAddToll(Highway *phighway,bool exit);
 
     ///Shows Highway Tolls
     static void viewHighwayTolls(Highway *phighway);
@@ -337,6 +331,8 @@ public:
     void createNormalExitLaneWithEmployee(Toll *pToll, Employee *employee) const;
 
     void removeEmployeeLane(Employee *employee);
+
+    void addVehicle(Vehicle *vehicle);
 };
 
 ///Thrown when an input is cancelled

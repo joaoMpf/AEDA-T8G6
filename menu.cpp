@@ -180,10 +180,10 @@ void menu::manageVehicles(Client *client) {
                 SystemMonitor::removeVehicle(client);
                 break;
             case '3':
-                SystemMonitor::viewVehicles(client);
+                systemMonitor->viewVehicles(client);
                 break;
             case '4':
-                SystemMonitor::updateVehicles(client);
+                systemMonitor->updateVehicles(client);
                 break;
             case back:
                 return;
@@ -390,10 +390,10 @@ void menu::manageExistingHighways(Highway *highway) {
              << "0 - GO BACK\n";
         switch (SystemMonitor::getNumberInput()) {
             case '1':
-                SystemMonitor::managerAddToll(highway, false);
+                systemMonitor->managerAddToll(highway, false);
                 break;
             case '2':
-                SystemMonitor::managerAddToll(highway, true);
+                systemMonitor->managerAddToll(highway, true);
                 break;
             case '3':
                 SystemMonitor::managerRemoveToll(highway);
