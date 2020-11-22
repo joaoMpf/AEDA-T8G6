@@ -36,11 +36,6 @@ public:
     /// \return Client's name
     const string &getName() const;
 
-    ///Returns Client's nif
-    ///
-    /// \return Client's nif
-    int getNif() const;
-
     ///Returns pointer vector with Client's Vehicles
     ///
     /// \return vector with Client's Vehicles

@@ -20,7 +20,6 @@ protected:
     string name;
     ///Toll location
     string location;
-//    int code;
     ///Lanes of the Toll
     vector<Lane *> lanes;
     ///Position within the Highway
@@ -42,7 +41,7 @@ public:
             position(std::move(pos)), price(pri) {};
 
     ///Destructor
-    ~Toll() {};
+    ~Toll() = default;
 
     ///Returns Toll name
     ///
@@ -51,7 +50,7 @@ public:
 
     ///Returns Toll location
     ///
-    /// \return Toll ocation
+    /// \return Toll location
     const string &getLocation() const;
 
     ///Returns Toll's Lanes
@@ -79,11 +78,6 @@ public:
     ///Returns Normal Lanes
     vector<Lane *> getNormalLanes();
 
-    ///Returns Toll's position within the highway (in km)
-    ///
-    /// \return Toll position (km)
-    int getPosition() const;
-
     ///Returns Toll price
     ///
     /// \return price
@@ -100,13 +94,13 @@ public:
 
     ///Sets Toll Name
     ///
-    /// \param name
-    void setName(const string &name);
+    /// \param basicString
+    void setName(const string &basicString);
 
     ///Sets Toll Location
     ///
-    /// \param location
-    void setLocation(const string &location);
+    /// \param basicString
+    void setLocation(const string &basicString);
 
     ///Sets Toll Lanes
     ///
@@ -115,13 +109,13 @@ public:
 
     ///Sets Toll Position
     ///
-    /// \param position
-    void setPosition(int position);
+    /// \param i
+    void setPosition(int i);
 
     ///Sets Toll Price
     ///
-    /// \param price
-    void setPrice(double price);
+    /// \param d
+    void setPrice(double d);
 
     ///Returns ostream with Toll info
     ///
@@ -147,7 +141,7 @@ public:
     void printTollNumbered(int i) const;
 
     ///Shows Toll's Lanes
-    void viewLanes();
+    void viewLanes() const;
 
     istream &loadFromFile(istream &is);
 

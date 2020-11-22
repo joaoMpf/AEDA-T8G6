@@ -52,26 +52,26 @@ istream &operator>>(istream &is, Time &time) {
     return is;
 }
 
-void Time::setDay(int day) {
-    Time::day = day;
+void Time::setDay(int day1) {
+    Time::day = day1;
 }
 
-void Time::setMonth(int month) {
-    Time::month = month;
+void Time::setMonth(int month1) {
+    Time::month = month1;
 }
 
-void Time::setYear(int year) {
-    Time::year = year;
+void Time::setYear(int year1) {
+    Time::year = year1;
 }
 
-void Time::setHour(int hour) {
-    Time::hour = hour;
+void Time::setHour(int hour1) {
+    Time::hour = hour1;
 }
 
-void Time::setMinute(int minute) {
-    Time::minute = minute;
+void Time::setMinute(int minute1) {
+    Time::minute = minute1;
 }
 
-void Time::setSecond(int second) {
-    Time::second = second;
+void Time::setSecond(int second1) {
+    Time::second = second1;
 }

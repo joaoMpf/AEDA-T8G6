@@ -61,14 +61,7 @@ public:
     /// \return vector of pointers to Highway
     vector<Highway* > getHighways();
 
-    ///Return vector of pointers to Employee
-    ///
-    /// \return vector of pointers to Employee
-    const vector<Employee *> &getEmployees() const;
-
-    bool addEmployee( Employee* employee);
-
-    bool removeEmployee(const Employee* &employee); //Definir operator == em Employee
+    //Definir operator == em Employee
 
     Employee *getEmployee(int ssNumber);
 
@@ -78,20 +71,7 @@ public:
     /// \return position of Employee, if  found, else, -1
     int findEmployee(const Employee* cemployee);
 
-    void sortEmployees();//REMOVER?
-
-    const vector<Client *> &getClients() const;
-
-    ///Adds Client to clients vector
-    ///
-    /// \param client
-    void addClient(Client* client);
-
-    ///Removes Client from clients vector
-    ///
-    /// \param client
-    /// \return true if removed, false, otherwise
-    bool removeClient(const Client* client);
+    //REMOVER?
 
     ///Searches for Client in clients vector
     ///
@@ -100,21 +80,7 @@ public:
     ///
     int findClient(const Client *client);
 
-    void sortClients();//REMOVER?
-
-    ///Starts Vehicle Trip
-    ///
-    /// \param vehicle
-    /// \param toll points to Begin Toll
-    /// \param time
-    static void startTrip(Vehicle* vehicle, Toll* toll, Time* time);
-
-    ///Ends Vehicle Trip
-    ///
-    /// \param vehicle
-    /// \param toll points to End Toll
-    /// \param time
-    static void endTrip(Vehicle* vehicle, Toll* toll, Time* time);
+    //REMOVER?
 
     ///Prints Highways numbered
     ///
@@ -134,26 +100,24 @@ public:
     /// \return Returns pointer to Vehicle with this license plate
     Vehicle* getVehicle(const string& licensePlate);
 
-    ///Adds pointer to Vehicle to vehicles
-    void addVehicle(Vehicle* vehicle);
-
     ///Removes pointer to Vehicle from vehicles
-    void removeVehicle(Client *client);
+    static void removeVehicle(Client *client);
 
     ///Displays a certain Client's Vehicles
     ///
     /// \param client pointer to Client
-    void viewVehicles(Client *client);
+    static void viewVehicles(Client *client);
 
     ///Displays Client's trips and their prices
     ///
     /// \param client pointer to Client
+
     void showCostsClient(Client *client);
 
     ///Allows Client to change info about their Vehicles
     ///
     /// \param client pointer to Client
-    void updateVehicles(Client *client);
+    static void updateVehicles(Client *client);
 
     ///Adds pointer to Highway to highways vector
     ///
@@ -183,7 +147,7 @@ public:
     ///Category Input Menu
     ///
     /// \return category
-    int categoryInput() const;
+    static int categoryInput() ;
 
     ///ViaVerde Input Menu
     static bool viaVerdeInput();
@@ -229,7 +193,7 @@ public:
     Employee *loginEmployee();
 
     ///Allows Client to change name
-    void changeName(Client *client);
+    static void changeName(Client *client);
 
     ///Allows Client to change NIF
     void changeNIF(Client *client);
@@ -270,19 +234,19 @@ public:
     int selectHighway();
 
     ///Allows Manager to Add Toll to Highway
-    void managerAddToll(Highway *phighway,bool exit) const;
+    static void managerAddToll(Highway *phighway,bool exit);
 
     ///Shows Highway Tolls
-    void viewHighwayTolls(Highway *phighway);
+    static void viewHighwayTolls(Highway *phighway);
 
     ///Allows Manager to remove Toll from Highway
-    void managerRemoveToll(Highway *phighway);
+    static void managerRemoveToll(Highway *phighway);
 
     ///Toll selection from Highway
     ///
     /// \param pHighway pointer to Highway
     /// \return pointer to chosen Highway
-    Toll* selectToll(Highway *pHighway);
+    static Toll* selectToll(Highway *pHighway);
 
     ///Allows Manager to add a Lane to Toll
     ///
@@ -310,7 +274,7 @@ public:
     ///Allows Manager to remove lane from Toll
     ///
     /// \param pToll pointer to Toll
-    void removeLane(Toll *pToll);
+    static void removeLane(Toll *pToll);
 
     ///Allows Manager to Change Lane where an Employee is working
     ///
@@ -338,7 +302,7 @@ public:
     ///Shows Employee history for this Lane
     ///
     /// \param pToll pointer Toll
-    void viewLastEmployees(Toll *pToll);
+    static void viewLastEmployees(Toll *pToll);
 
     ///Template function to load from files
     template<class T>

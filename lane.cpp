@@ -84,10 +84,6 @@ Employee *NormalExitLane::getEmployee() {
     return employee;
 }
 
-const vector<Employee *> &NormalExitLane::getLastEmployees() const {
-    return lastEmployees;
-}
-
 NormalExitLane::NormalExitLane(int numCrossings, const queue<pair<string, double>> vehicleQueue, Employee *employee,
                                const vector<Employee *> &lastEmployees) : Lane(numCrossings, vehicleQueue),
                                                                           employee(employee),
@@ -181,11 +177,13 @@ istream &NormalExitLane::loadVehicleQueueFromFile(istream &is) {
     return is;
 }
 
-NormalExitLane::NormalExitLane() {}
+NormalExitLane::NormalExitLane() = default;
 
 void NormalExitLane::setLastEmployees(vector<Employee *> lastE) {
     NormalExitLane::lastEmployees = lastE;
 }
+
+void NormalExitLane::addToEmployeeList() { lastEmployees.push_back(employee); }
 
 void ViaVerdeLane::addVehicle(string licensePlate, double price) {
     Lane::addVehicle(licensePlate, price);

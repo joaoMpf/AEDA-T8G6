@@ -73,6 +73,7 @@ public:
     ///
     /// Calls systemMonitor::showCostsClient(Client *client)
     /// \param pClient
+
     ///@see systemMonitor::showCostsClient(Client *client)
     void manageCosts(Client *pClient);
 
@@ -113,7 +114,7 @@ public:
     /// \param exit this is true for exit Toll, false otherwise
     /// \param highway Highway where Toll is located
     /// \return pointer to chosen Toll
-    Toll *getTollInput(bool exit, Highway *highway) const;
+    static Toll *getTollInput(bool exit, Highway *highway) ;
 
     ///Displays Employee Manangement Menu
     ///
@@ -133,10 +134,6 @@ enum employee_menu {
 
 enum operate_toll {
     entry_toll = '1', exit_toll
-};
-
-enum monitor_tolls_menu {
-    choose_toll_monitor = '1'
 };
 
 
