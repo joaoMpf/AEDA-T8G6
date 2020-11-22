@@ -28,6 +28,7 @@ public:
     ///Creates a Lane with 0 crossings
     Lane() { this->numCrossings = 0; }
 
+    ///Destructor
     virtual ~Lane() = default;
 
     ///Creates a Lane with chosen numCrossings
@@ -67,7 +68,7 @@ public:
     ///Returns true if it is a ViaVerde Lane
     virtual bool isViaVerde() const { return false; }
 
-    ///Returns true if it is a Normal Lane
+    ///Returns true if it is a Normal Exit Lane
     [[nodiscard]] virtual bool isNormalExitLane() const = 0;
 
 
@@ -88,18 +89,25 @@ public:
     /// \param employee
     virtual void setEmployee(Employee *employee) {};
 
+    ///Returns vector with Last Employees
     virtual vector<Employee *> getLastEmployees() { return vector<Employee *>(); };
 
+    ///Compares number of crossings between 2 Lanes
     bool operator<(const Lane &rhs) const;
 
+    ///Adds Employee to vector lastEmployees
     virtual void addToEmployeeList(Employee *employee1) {};
 
+    ///Sets last Employees
     virtual void setLastEmployees(vector<Employee *> lastE) {};
 
+    ///Compares number of crossings between 2 Lanes
     bool operator>(const Lane &rhs) const;
 
+    ///Compares number of crossings between 2 Lanes
     bool operator<=(const Lane &rhs) const;
 
+    ///Compares number of crossings between 2 Lanes
     bool operator>=(const Lane &rhs) const;
 
     ///Returns ostream with the pairs <licensePlate, price> in queue
@@ -129,13 +137,23 @@ public:
 ///Child of Lane
 class NormalLane : public Lane {
 public:
-    NormalLane() {
+    ///Creates a NormalLane
+    NormalLane() {}
 
-    }
+    ///Checks if Lane is a NormalExitLane
     virtual bool isNormalExitLane() {return false;}
 
+    ///Creates NormalLane with chosen number of crossings
+    ///
+    /// \param numCrossings
+    ///@see Lane(int numCrossings)
     NormalLane(int numCrossings) : Lane(numCrossings) {}
 
+    ///Creates NormalLane with chosen number of crossings and a vehicle queue
+    ///
+    /// \param numCrossings
+    /// \param vehicleQueue
+    ///@see Lane(int numCrossings, const queue<pair<string, double>> vehicleQueue)
     NormalLane(int numCrossings, const queue<pair<string, double>> vehicleQueue) : Lane(numCrossings, vehicleQueue) {}
 
     ///Checks if it is a Normal Exit Lane
@@ -158,6 +176,7 @@ public:
     /// \param vehicleQueue
     /// \param employee
     /// \param lastEmployees
+    ///@see Lane(int numCrossings, const queue<pair<string, double>> vehicleQueue)
     NormalExitLane(int numCrossings, const queue<pair<string, double>> vehicleQueue, Employee *employee,
                    const vector<Employee *> &lastEmployees);
 

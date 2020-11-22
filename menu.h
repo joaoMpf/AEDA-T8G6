@@ -87,8 +87,15 @@ public:
     ///4 - VIEW HIGHWAY LIST\n
     void manageHighways();
 
+    ///Allows Manager to change Existing Highways
+    ///
+    /// \param highway
+    ///It allows Manager to manage Highways' Tolls and Lanes
     void manageExistingHighways(Highway* highway);
 
+    ///Allows Manager to change Toll information
+    ///
+    /// \param highway
     void managerManageToll(Highway *highway);
 
     ///Displays Highways numbered and allows user to choose a Highway
