@@ -997,7 +997,7 @@ void SystemMonitor::changeEmployeeLane() {
                 if (lane->getEmployee() != nullptr) {
                     lane->getEmployee()->changeWorkStatus();
                 }
-                employee->changeWorkStatus();
+                //employee->changeWorkStatus();
                 lane->setEmployee(employee);
                 lane->addToEmployeeList();
 
