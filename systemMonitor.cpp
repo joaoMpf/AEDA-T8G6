@@ -868,7 +868,7 @@ void SystemMonitor::changeLaneEmployee(Toll *pToll) {
                     lane->getEmployee()->changeWorkStatus();
                 }
 
-                employee->changeWorkStatus();
+                //employee->changeWorkStatus();
                 lane->setEmployee(employee);
                 lane->addToEmployeeList();
                 return;
