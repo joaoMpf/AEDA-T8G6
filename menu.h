@@ -57,6 +57,9 @@ public:
     /// 4 - MANAGE INFO\n
     void clientManager();
 
+    ///Allows Client to manage their Vehicles
+    ///
+    /// \param client 
     void manageVehicles(Client *client);
 
     ///Allows Client to start or end a Trip

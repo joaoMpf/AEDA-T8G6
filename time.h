@@ -12,8 +12,12 @@ class Time {
 private:
     int day, month, year, hour, minute, second;
     time_t theTime = time(NULL);
+    ///Used to get current time
     struct tm *aTime = localtime(&theTime);
 public:
+    ///Creates Time instance with current time
+    ///
+    ///Calls localtime to get current time
     Time() {
         day = aTime->tm_mday;
         month = aTime->tm_mon + 1;
@@ -23,6 +27,7 @@ public:
         second = aTime->tm_sec;
     }
 
+    ///Creates Time instance set at h:m:s
     Time(int h, int m, int s) : hour(h), minute(m), second(s) {
         day = 0;
         month = 0;
@@ -68,6 +73,10 @@ public:
 
     void setSecond(int second);
 
+    ///Equality operator
+    ///
+    /// \param rhs
+    ///@note All private members must be equal to return true
     Time &operator=(const Time &rhs);
 
     ///Returns ostream with Time
@@ -75,7 +84,6 @@ public:
     /// \param os
     /// \param time1
     /// \return ostream with Time in the format: day month year hour minute second
-
     friend ostream &operator<<(ostream &os, const Time &time1);
 
     /// Sets Time with info in istream

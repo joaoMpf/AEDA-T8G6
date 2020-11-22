@@ -16,13 +16,22 @@ using namespace std;
 ///@see Lane
 class Toll {
 protected:
-    string name, location;
+    ///Toll name
+    string name;
+    ///Toll location
+    string location;
 //    int code;
+    ///Lanes of the Toll
     vector<Lane *> lanes;
+    ///Position within the Highway
+    ///
+    ///@note for example, a Toll might be at kilometer 0 of the Highway or at kilometer 20 of the Highway
     int position; // this is the position within the highway ex: position = 0km, or 15km, etc
-    double price; //price corresponds to the distance between this toll and the previous one
+    ///Price corresponds to the distance between the beginning of Highway until current toll
+    double price;
 
 public:
+    ///Creates Toll with undefined private attributes
     Toll();
 
     ///Creates a Toll with name, location, lanes, position and price\n
@@ -32,7 +41,7 @@ public:
             name(std::move(n)), location(std::move(loc)), lanes(std::move(l)),
             position(std::move(pos)), price(pri) {};
 
-
+    ///Destructor
     ~Toll() {};
 
     ///Returns Toll name
@@ -89,14 +98,29 @@ public:
     /// \param i index
     void removeLaneAt(int i);
 
+    ///Sets Toll Name
+    ///
+    /// \param name
     void setName(const string &name);
 
+    ///Sets Toll Location
+    ///
+    /// \param location
     void setLocation(const string &location);
 
+    ///Sets Toll Lanes
+    ///
+    /// \param lanes
     void setLanes(const vector<Lane *> &lanes);
 
+    ///Sets Toll Position
+    ///
+    /// \param position
     void setPosition(int position);
 
+    ///Sets Toll Price
+    ///
+    /// \param price
     void setPrice(double price);
 
     ///Returns ostream with Toll info
@@ -106,12 +130,23 @@ public:
     /// \return ostream with the Toll's type, name, location, number of lanes, position and price
     friend ostream &operator<<(ostream &os, const Toll &toll);
 
+    ///Returns istream with Toll info
+    ///
+    /// \param is istream
+    /// \param toll
+    /// \return istream with the Toll's type, name, location, number of lanes, position and price
     friend istream &operator>>(istream &is, Toll &toll);
 
+    ///Adds ViaVerdeLane to Toll
     void addLane(ViaVerdeLane *lane);
 
+    ///Prints Toll with index
+    ///
+    /// \param i index
+    ///@note Prints toll at index i of the Highway's tolls vector
     void printTollNumbered(int i) const;
 
+    ///Shows Toll's Lanes
     void viewLanes();
 
     istream &loadFromFile(istream &is);

@@ -24,19 +24,11 @@ string
 ostream
 -
 
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/highway.cpp
-highway.h
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/highway.h
-
 C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/highway.h
 ostream
 -
 toll.h
 C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/toll.h
-
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.cpp
-lane.h
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.h
 
 C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.h
 employee.h
@@ -102,12 +94,6 @@ ctime
 string
 -
 
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/toll.cpp
-toll.h
-C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/toll.h
-algorithm
--
-
 C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/toll.h
 utility
 -
@@ -132,6 +118,8 @@ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/time.h
 toll.h
 C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/toll.h
 iostream
+-
+utility
 -
 
 C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/vehicle.cpp

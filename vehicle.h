@@ -19,9 +19,13 @@ enum vehicleClass {
 
 class Vehicle {
 private:
+    ///Vehicle's license plate
     string licensePlate;
+    ///Vehicle's category
     int category;
+    ///Vehicle's ViaVerde status
     bool viaVerde; //true se tiver via verde
+    ///Vehicle Trips
     vector<Trip *> trips;
 
 public:
@@ -48,6 +52,7 @@ public:
     /// \param licensePlate
     Vehicle(const string &licensePlate);
 
+    ///Destructor
     ~Vehicle() {}
 
     ///Returns price
@@ -73,15 +78,26 @@ public:
     ///Changes ViaVerde status
     void changeViaVerde();
 
-    //FALTA COMENTAR/APAGAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Sets Vehicle's license plate
+    ///
+    /// \param licensePlate
     void setLicensePlate(const string &licensePlate);
 
+    ///Sets Vehicle's category
+    ///
+    /// \param category
     void setCategory(int category);
 
-    //FALTA COMENTAR
+    ///Checks if 2 vehicles are equal
+    ///
+    /// \param rhs
+    /// \return true if the license plate is the same
     bool operator==(const Vehicle &rhs) const;
 
-    //FALTA COMENTAR/APAGAR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    ///Checks if 2 vehicles are different
+    ///
+    /// \param rhs
+    /// \return true if license plates are different
     bool operator!=(const Vehicle &rhs) const;
 
     ///Returns Vehicle's category
