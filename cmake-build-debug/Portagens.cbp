@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/bst.h">
+			<Option target="Portagens"/>
+		</Unit>
 		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/client.cpp">
 			<Option target="Portagens"/>
 		</Unit>
@@ -96,6 +99,12 @@
 			<Option target="Portagens"/>
 		</Unit>
 		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/highway.h">
+			<Option target="Portagens"/>
+		</Unit>
+		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/intervention.cpp">
+			<Option target="Portagens"/>
+		</Unit>
+		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/intervention.h">
 			<Option target="Portagens"/>
 		</Unit>
 		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.cpp">
@@ -120,6 +129,12 @@
 			<Option target="Portagens"/>
 		</Unit>
 		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/systemMonitor.h">
+			<Option target="Portagens"/>
+		</Unit>
+		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/technician.cpp">
+			<Option target="Portagens"/>
+		</Unit>
+		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/technician.h">
 			<Option target="Portagens"/>
 		</Unit>
 		<Unit filename="C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/time.cpp">
