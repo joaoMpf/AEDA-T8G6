@@ -4,24 +4,24 @@
 
 #include "intervention.h"
 
-Intervention::Intervention(int date[3], int duration, Toll *toll, int interventionType) : duration(duration),
+Intervention::Intervention(int date[3], double duration, Toll *toll, int interventionType) : duration(duration),
                                                                                         toll(toll), type(type) {
     this->date[0] = date[0];
     this->date[1] = date[1];
     this->date[2] = date[2];
 }
 
-Revision::Revision(int *date, int duration, Toll *toll, int interventionType) : Intervention(date, duration, toll,
+Revision::Revision(int *date, double duration, Toll *toll, int interventionType) : Intervention(date, duration, toll,
                                                                                              interventionType) {}
 
-Repair::Repair(int *date, int duration, Toll *toll, int interventionType) : Intervention(date, duration, toll,
+Repair::Repair(int *date, double duration, Toll *toll, int interventionType) : Intervention(date, duration, toll,
                                                                                          interventionType) {}
 
-ElectronicRepair::ElectronicRepair(int *date, int duration, Toll *toll, int interventionType) : Repair(date, duration,
+ElectronicRepair::ElectronicRepair(int *date, double duration, Toll *toll, int interventionType) : Repair(date, duration,
                                                                                                        toll,
                                                                                                        interventionType) {}
 
-InformaticRepair::InformaticRepair(int *date, int duration, Toll *toll, int interventionType) : Repair(date, duration,
+InformaticRepair::InformaticRepair(int *date, double duration, Toll *toll, int interventionType) : Repair(date, duration,
                                                                                                        toll,
                                                                                                        interventionType) {}
 

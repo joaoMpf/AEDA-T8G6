@@ -19,7 +19,13 @@ class Technician {
     ///Vector of pointers to previous Interventions
     vector<Intervention*> previousInterventions;
     ///Performance is the average repair time in hours
-    int performance;
+    double performance;
+public:
+    Technicial(){}
+    Technician(int type):specialty(type){}
+    int getSpecialty() const {return specialty;}
+    void addIntervention(Intervention* intervention1);
+    double getPerformance(){return performance;}
 };
 
 class RevisionTechnician: public Technician{

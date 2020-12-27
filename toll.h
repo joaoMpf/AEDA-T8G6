@@ -7,8 +7,11 @@
 #include <cstdio>
 #include "lane.h"
 #include "algorithm"
+#include "technician.h"
 
 using namespace std;
+
+typedef priority_queue<Technician> TechnicianQueue;
 
 ///Contains info about a Toll, such as name, location, position, price and lanes
 ///
@@ -28,6 +31,8 @@ protected:
     int position; // this is the position within the highway ex: position = 0km, or 15km, etc
     ///Price corresponds to the distance between the beginning of Highway until current toll
     double price;
+    ///Technicians associated to this toll
+    TechnicianQueue technicians;
 
 public:
     ///Creates Toll with undefined private attributes
@@ -65,6 +70,21 @@ public:
     /// \param isViaVerde
     /// \return pointer to Lane
     Lane *getRecommendedLane(bool isViaVerde);
+
+    ///Adds a new Technician
+    ///
+    /// \param technicianSpecialty specifies the technicians' specialty
+    void addNewTechnician(int technicianSpecialty);
+
+    ///Adds back a technician who was working
+    ///
+    /// \param technician1 is the technician in question
+    void addTechnician(Technician technician1);
+
+    ///Returns a technician for a repair if no technician is available returns NULL
+    ///
+    /// \param technicianSpecialty specifies the technicians' specialty
+    Technician getTechnician(int technicianSpecialty);
 
     ///Returns ViaVerde Lanes or Normal Lanes as specified by isViaVerde
     ///

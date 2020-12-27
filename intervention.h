@@ -18,33 +18,34 @@ private:
     ///Initial Date in the format [day, month, year]
     int date[3]; // [dia, mes, ano]
     ///Duration in hours
-    int duration; //
+    double duration; //
     ///Pointer to Toll
     Toll* toll;
     ///Uses enumerate InterventionType
     InterventionType type;
 public:
-    Intervention(int *date, int duration, Toll *toll, int type);
+    Intervention(int *date, double duration, Toll *toll, int type);
+    double getDuration(){return duration;}
 };
 
 class Revision: public Intervention{
 public:
-    Revision(int *date, int duration, Toll *toll, int interventionType);
+    Revision(int *date, double duration, Toll *toll, int interventionType);
 };
 
 class Repair: public Intervention{
 public:
-    Repair(int *date, int duration, Toll *toll, int interventionType);
+    Repair(int *date, double duration, Toll *toll, int interventionType);
 };
 
 class ElectronicRepair: public Repair{
 public:
-    ElectronicRepair(int *date, int duration, Toll *toll, int interventionType);
+    ElectronicRepair(int *date, double duration, Toll *toll, int interventionType);
 };
 
 class InformaticRepair: public Repair{
 public:
-    InformaticRepair(int *date, int duration, Toll *toll, int interventionType);
+    InformaticRepair(int *date, double duration, Toll *toll, int interventionType);
 };
 
 
