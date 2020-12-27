@@ -88,9 +88,9 @@ void menu::monitorEmployee() {
         string lp;
         switch (SystemMonitor::getNumberInput()) {
             case '1':
-                lp=lane->passVehicle();
-                if (lp!="0") {
-                    systemMonitor->getVehicle(lp)->endTrip(toll,new Time);
+                lp = lane->passVehicle();
+                if (lp != "0") {
+                    systemMonitor->getVehicle(lp)->endTrip(toll, new Time);
                     lane->addCrossing();
                     cout << "VEHICLE PASSED";
                 } else cout << "NO VEHICLE'S TO PASS";
@@ -108,7 +108,8 @@ void menu::monitorManager() {
         cout << "\nMANAGER MENU\n"
              << "\nPlease enter number:\n"
              << "1 - MANAGE HIGHWAYS\n"
-             << "2 - MANAGE EMPLOYEES\n"//FALTA ESTE
+             << "2 - MANAGE EMPLOYEES\n"
+             << "3 - MANAGE ACTIVE CLIENTS (HAS VEHICLE THAT PASSED TOLL)\n"
              << "0 - GO BACK\n";
 
         switch (SystemMonitor::getNumberInput()) {
@@ -117,6 +118,9 @@ void menu::monitorManager() {
                 break;
             case '2':
                 manageEmployees();
+                break;
+            case '3':
+                manageClients();
                 break;
             case back:
                 return;
@@ -264,6 +268,9 @@ void menu::operatePassToll(Client *client, bool exit) {
         if (!exit) {
             lane->addVehicle(vehicle->getLicensePlate(), 0.0);
             vehicle->startTrip(toll, new Time());
+            HashTableClient activeClients = systemMonitor->getActiveClients();
+            activeClients.insert(client);
+            systemMonitor->setActiveClients(activeClients);
             lane->addCrossing();
             return;
         } else {
@@ -282,7 +289,6 @@ void menu::operatePassToll(Client *client, bool exit) {
             lane->addVehicle(vehicle->getLicensePlate(), price);
             lane->addCrossing();
             return;
-
         }
 
     }
@@ -506,6 +512,54 @@ void menu::manageEmployees() {
                 break;
             case '4':
                 systemMonitor->viewEmployees();
+                break;
+            case '0':
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
+}
+
+void menu::manageClients() {
+    while (true) {
+        cout << "\nACTIVE CLIENTS MANAGE MENU:\n\n";
+        cout << "\nPlease enter number:\n"
+             << "1 - SEARCH CLIENT LIST\n"
+             << "2 - VIEW CLIENT LIST\n"
+             << "0 - GO BACK\n";
+        switch (SystemMonitor::getNumberInput()) {
+            case '1':
+                searchActiveClients();
+                break;
+            case '2':
+                systemMonitor->viewAllActiveClients();
+                break;
+            case '0':
+                return;
+            default:
+                cout << "\nPlease enter another number\n";
+        }
+    }
+}
+
+void menu::searchActiveClients() {
+    while (true) {
+        cout << "\nSEARCH ACTIVE CLIENTS MENU:\n\n";
+        cout << "\nPlease enter number:\n"
+             << "1 - SEARCH CLIENT LIST BY NIF\n"
+             << "2 - SEARCH CLIENT LIST BY NAME\n"
+             << "3 - SEARCH CLIENT LIST BY NUMBER OF VEHICLES\n"
+             << "0 - GO BACK\n";
+        switch (SystemMonitor::getNumberInput()) {
+            case '1':
+                systemMonitor->searchActiveClientsByNIF();
+                break;
+            case '2':
+                systemMonitor->searchActiveClientsByName();
+                break;
+            case '3':
+                systemMonitor->searchActiveClientsByNumVehicles();
                 break;
             case '0':
                 return;
