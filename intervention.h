@@ -6,6 +6,7 @@
 #define PORTAGENS_INTERVENTION_H
 
 #include "toll.h"
+#include "time.h"
 
 enum InterventionType{
     RevisionIntervention = 0,
@@ -15,49 +16,70 @@ enum InterventionType{
 
 class Intervention {
 private:
-    ///Initial Date in the format [day, month, year]
-    int date[3]; // [dia, mes, ano]
+    ///Initial Date using class Time
+    ///
+    ///Hour, minute and second are not used here
+    Time* date;
     ///Duration in hours
     double duration; //
     ///Pointer to Toll
     Toll* toll;
     ///Uses enumerate InterventionType
     InterventionType type;
+    ///True is the Intervention was done
+    ///
+    ///Is false when the Intervention is initially scheduled
+    bool done;
 public:
-    Intervention(int *date, double duration, Toll *toll, int type);
+    Intervention(Time *date, Toll * toll, InterventionType type);
+    double setDuration(double dur);
     double getDuration(){return duration;}
+
+    void setDone(bool done);
+
+    Time *getDate() const;
+
+    bool operator<(const Intervention &rhs) const;
+
+    bool operator==(const Intervention &rhs) const;
 };
 
 class Revision: public Intervention{
 public:
-    Revision(int *date, double duration, Toll *toll, int interventionType);
+    Revision(Time *date, Toll *toll, InterventionType type);
 };
 
 class Repair: public Intervention{
 public:
-    Repair(int *date, double duration, Toll *toll, int interventionType);
+    Repair(Time *date, Toll *toll, InterventionType type);
 };
 
 class ElectronicRepair: public Repair{
 public:
-    ElectronicRepair(int *date, double duration, Toll *toll, int interventionType);
+    ElectronicRepair(Time *date, Toll *toll, InterventionType type);
 };
 
 class InformaticRepair: public Repair{
 public:
-    InformaticRepair(int *date, double duration, Toll *toll, int interventionType);
+    InformaticRepair(Time *date, Toll *toll, InterventionType type);
 };
 
 
 class InvalidInterventionDate{
 public:
-    InvalidInterventionDate(int date[3]);
+    InvalidInterventionDate(Time* time);
 };
 
 class InvalidInterventionType{
 public:
     InvalidInterventionType(int type);
+}
 
+class InterventionNotFound{
+private:
+    Intervention* i;
+public:
+    InterventionNotFound(Intervention* i);
 };
 
 #endif //PORTAGENS_INTERVENTION_H

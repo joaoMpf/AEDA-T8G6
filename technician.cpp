@@ -4,9 +4,7 @@
 
 #include "technician.h"
 
-RevisionTechnician::RevisionTechnician() {
-
-}
+RevisionTechnician::RevisionTechnician() {}
 
 EletronicTechnician::EletronicTechnician() {}
 

@@ -4,27 +4,45 @@
 
 #include "intervention.h"
 
-Intervention::Intervention(int date[3], double duration, Toll *toll, int interventionType) : duration(duration),
-                                                                                        toll(toll), type(type) {
-    this->date[0] = date[0];
-    this->date[1] = date[1];
-    this->date[2] = date[2];
+Intervention::Intervention(Time* date, Toll* toll, InterventionType type) : date(date), toll(toll), type(type) {
+    duration = 0; done = false;
 }
 
-Revision::Revision(int *date, double duration, Toll *toll, int interventionType) : Intervention(date, duration, toll,
-                                                                                             interventionType) {}
+double Intervention::setDuration(double dur) {
+    duration = dur;
+}
 
-Repair::Repair(int *date, double duration, Toll *toll, int interventionType) : Intervention(date, duration, toll,
-                                                                                         interventionType) {}
+bool Intervention::operator<(const Intervention &rhs) const {
+    if( *date == *rhs.date)
+        if( this->toll->getName() == rhs.toll->getName())
+            return this->type < rhs.type;
+        else
+            return this->toll->getName() == rhs.toll->getName();
+    else return (*date < *rhs.date);
+}
 
-ElectronicRepair::ElectronicRepair(int *date, double duration, Toll *toll, int interventionType) : Repair(date, duration,
-                                                                                                       toll,
-                                                                                                       interventionType) {}
+bool Intervention::operator==(const Intervention &rhs) const {
+    return date == rhs.date &&
+           toll == rhs.toll &&
+           type == rhs.type;
+}
 
-InformaticRepair::InformaticRepair(int *date, double duration, Toll *toll, int interventionType) : Repair(date, duration,
-                                                                                                       toll,
-                                                                                                       interventionType) {}
+Time *Intervention::getDate() const {
+    return date;
+}
 
-InvalidInterventionDate::InvalidInterventionDate(int date[3]) {}
+void Intervention::setDone(bool done) {
+    Intervention::done = done;
+}
+
+Revision::Revision(Time *date, Toll *toll, InterventionType type = RevisionIntervention): Intervention(date, toll, type){}
+
+Repair::Repair(Time *date, Toll *toll, InterventionType type): Intervention(date, toll, type) {}
+
+InformaticRepair::InformaticRepair(Time *date, Toll *toll, InterventionType type = InformaticIntervention):Repair(date, toll, type) {}
+
+ElectronicRepair::ElectronicRepair(Time *date, Toll *toll, InterventionType type = ElectronicIntervention):Repair(date,toll,type) {}
+
+InvalidInterventionDate::InvalidInterventionDate(Time* time) {}
 
 InvalidInterventionType::InvalidInterventionType(int type) {}

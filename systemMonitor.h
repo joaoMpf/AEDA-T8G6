@@ -8,7 +8,9 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-
+#include "bst.h"
+#include "intervention.h"
+#include "time.h"
 using namespace std;
 
 ///This is the main Class of the system
@@ -23,7 +25,7 @@ private:
     vector<Employee *> employees;
     vector<Client *> clients;
     vector<Vehicle *> vehicles;
-
+    BST<Intervention> interventions;
 public:
     ///Returns pointer to Vehicle with this license plate
     ///
@@ -333,6 +335,10 @@ public:
     void removeEmployeeLane(Employee *employee);
 
     void addVehicle(Vehicle *vehicle);
+
+    void scheduleIntervention(Toll* toll, InterventionType type);
+
+    void completeIntervention(Intervention *intervention);
 };
 
 ///Thrown when an input is cancelled

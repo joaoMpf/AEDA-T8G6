@@ -1,4 +1,5 @@
 #include "systemMonitor.h"
+#include "bst.h"
 
 #ifdef _WIN32
 inline int getchar_unlocked() { return _getchar_nolock(); }
@@ -1115,3 +1116,28 @@ Employee *SystemMonitor::getEmployee(int ssNumber) {
         return nullptr;
     return employees[i];
 }
+
+void SystemMonitor::scheduleIntervention(Toll *toll, InterventionType type) {
+    Time* time = new Time();
+    switch(type)
+    {
+        case RevisionIntervention:
+            interventions.insert(Revision r(time, toll));
+        case ElectronicIntervention:
+            interventions.insert(ElectronicRepair er(time,toll));
+        case InformaticIntervention:
+            interventions.insert(InformaticRepair ir(time,toll));
+    }
+}
+
+void SystemMonitor::completeIntervention(Intervention *intervention) {
+    Intervention findInter = interventions.find(*intervention);
+    if(findInter != *intervention)
+        throw(InterventionNotFound(intervention));
+    Time currTime;
+    double duration = currTime.getDurationHours(intervention->getDate());
+    intervention->setDuration(duration); intervention->setDone(true);
+    interventions.erase(findInter);
+    interventions.insert(*intervention);
+}
+

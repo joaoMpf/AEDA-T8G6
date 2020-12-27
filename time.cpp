@@ -75,3 +75,40 @@ void Time::setMinute(int minute1) {
 void Time::setSecond(int second1) {
     Time::second = second1;
 }
+
+bool Time::operator==(const Time &rhs) const {
+    return day == rhs.day &&
+           month == rhs.month &&
+           year == rhs.year &&
+           hour == rhs.hour &&
+           minute == rhs.minute &&
+           second == rhs.second;
+}
+
+bool Time::operator<(const Time &rhs) const {
+    if (year < rhs.year)
+        return true;
+    if (month < rhs.month)
+        return true;
+    if (day < rhs.day)
+        return true;
+}
+
+double Time::getDurationHours(const Time *previousTime) {
+    Time timeDiff(getDay() - previousTime->getDay(), getMonth() - previousTime->getMonth(), getYear() - previousTime->getYear(),
+                  getHour() - previousTime->getHour(), getMinute() - previousTime->getMinute(), 0);
+    double duration = timeDiff.getYear()*365*34 + timeDiff.getMonth()*30*24 + timeDiff.getDay()*24 + timeDiff.getHour() + timeDiff.getMinute()/60;
+    return duration;
+}
+
+int Time::getDay() const {
+    return day;
+}
+
+int Time::getMonth() const {
+    return month;
+}
+
+int Time::getYear() const {
+    return year;
+}

@@ -54,6 +54,12 @@ public:
     /// \return Second
     int getSecond() const;
 
+    int getDay() const;
+
+    int getMonth() const;
+
+    int getYear() const;
+
     ///Sets time to h:m:s
     ///
     /// \param h hour
@@ -94,6 +100,12 @@ public:
     /// \param time
     /// \return
     friend istream &operator>>(istream &is, Time &time);
+
+    bool operator==(const Time &rhs) const;
+
+    bool operator<(const Time &rhs) const;
+
+    double getDurationHours(const Time *previousTime);
 };
 
 
