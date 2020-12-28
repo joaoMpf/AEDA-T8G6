@@ -123,6 +123,8 @@ public:
     ///3 - CHANGE EMPLOYEE'S WORK LANE\n
     ///4 - VIEW EMPLOYEE LIST\n
     void manageEmployees();
+
+    void repairToll(Highway *pToll, Toll *pToll1);
 };
 
 enum main_menu {

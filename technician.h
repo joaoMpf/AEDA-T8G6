@@ -21,7 +21,7 @@ class Technician {
     ///Performance is the average repair time in hours
     double performance;
 public:
-    Technicial(){}
+    Technician(){}
     Technician(int type):specialty(type){}
     int getSpecialty() const {return specialty;}
     void addIntervention(Intervention* intervention1);

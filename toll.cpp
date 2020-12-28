@@ -12,6 +12,10 @@ const string &Toll::getLocation() const {
     return location;
 }
 
+const int &Toll::getPosition() const{
+    return position;
+}
+
 const vector<Lane *> &Toll::getLanes() const {
     return lanes;
 }
@@ -175,10 +179,6 @@ void Toll::setPrice(double d) {
     Toll::price = d;
 }
 
-void Toll::addNewTechnician(int technicianSpecialty) {
-    Technician technician(technicianSpecialty);
-    technicians.push(technician);
-}
 void Toll::addTechnician(Technician technician1){
     Technician technician;
     vector<Technician> temp;
@@ -200,7 +200,7 @@ void Toll::addTechnician(Technician technician1){
     }
 }
 Technician Toll::getTechnician(int technicianSpecialty) {
-    Technician technician;
+    Technician technician(-1);
     vector<Technician> temp;
     while(!technicians.empty()){
         technician=technicians.top();
@@ -213,10 +213,10 @@ Technician Toll::getTechnician(int technicianSpecialty) {
         }
         temp.push_back(technician);
     }
-    for(auto x:temp){
+    for(auto x:temp) {
         technicians.push(x);
     }
-    return NULL;
+    return technician;
 }
 
 Toll::Toll() = default;

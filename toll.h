@@ -58,6 +58,11 @@ public:
     /// \return Toll location
     const string &getLocation() const;
 
+    ///Returns Toll position
+    ///
+    /// \return Toll position
+    const int &getPosition() const;
+
     ///Returns Toll's Lanes
     ///
     /// \return Toll's Lanes
@@ -70,11 +75,6 @@ public:
     /// \param isViaVerde
     /// \return pointer to Lane
     Lane *getRecommendedLane(bool isViaVerde);
-
-    ///Adds a new Technician
-    ///
-    /// \param technicianSpecialty specifies the technicians' specialty
-    void addNewTechnician(int technicianSpecialty);
 
     ///Adds back a technician who was working
     ///
@@ -166,6 +166,7 @@ public:
     istream &loadFromFile(istream &is);
 
     virtual Lane *loadLaneFromFile(istream &istream) { return nullptr; };
+
 };
 
 ///Entry Toll
