@@ -532,8 +532,12 @@ void menu::repairToll(Highway *pHighway, Toll *pToll) {
              << "3 - INFORMATIC REPAIR\n"
              << "0 - GO BACK\n";
         int choice=SystemMonitor::getNumberInput();
-        if(choice>0&&choice<4)
-            pHighway->repair(choice,pToll);
+        if(choice>0&&choice<4) {
+            pHighway->repair(choice, pToll);
+            systemMonitor->scheduleIntervention(pToll, (InterventionType) choice);
+            Intervention intervention(new Time(), pToll, (InterventionType) choice);
+            systemMonitor->completeIntervention(&intervention);
+        }
         else if(choice==0){
             return;
         }

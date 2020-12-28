@@ -336,9 +336,13 @@ public:
 
     void addVehicle(Vehicle *vehicle);
 
-    void scheduleIntervention(Toll* toll, InterventionType type);
+    Intervention scheduleIntervention(Toll* toll, InterventionType type);
 
     void completeIntervention(Intervention *intervention);
+
+    vector<Intervention> getInterventionsNewestFirst();
+
+    vector<Intervention> getInterventionsOldestFirst();
 };
 
 ///Thrown when an input is cancelled

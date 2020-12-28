@@ -1117,7 +1117,7 @@ Employee *SystemMonitor::getEmployee(int ssNumber) {
     return employees[i];
 }
 
-void SystemMonitor::scheduleIntervention(Toll *toll, InterventionType type) {
+Intervention SystemMonitor::scheduleIntervention(Toll *toll, InterventionType type) {
     Time* time = new Time();
     switch(type)
     {
@@ -1141,3 +1141,21 @@ void SystemMonitor::completeIntervention(Intervention *intervention) {
     interventions.insert(*intervention);
 }
 
+vector<Intervention> SystemMonitor::getInterventionsNewestFirst() {
+    BSTItrIn<Intervention> it(interventions);
+    vector<Intervention> ret;
+    while(!it.isAtEnd()){
+        ret.push_back(it.retrieve());
+        it.advance();
+    }
+    return ret;
+}
+
+vector<Intervention> SystemMonitor::getInterventionsOldestFirst() {
+    vector<Intervention> aux = getInterventionsNewestFirst(), ret;
+    for(vector<Intervention>::reverse_iterator it = aux.rbegin(); it != aux.rend(); it++)
+    {
+        ret.push_back(*it);
+    }
+    return ret;
+}
