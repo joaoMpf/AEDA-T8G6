@@ -32,11 +32,14 @@ void SystemMonitor::save() {
     string vehiclesFileName = "vehicles.txt";
     string employeesFileName = "employees.txt";
     string clientsFileName = "clients.txt";
+    string activeClientsFileName = "activeClients.txt";
     string tollsFileName = "tolls.txt";
 
     saveVectorToFile(tollsFileName, highways);
     saveVectorToFile(employeesFileName, employees);
 
+    vector<Client *> activeClientsVec = getActiveClientsVector();
+    saveVectorToFile(activeClientsFileName, activeClientsVec);
     saveVectorToFile(clientsFileName, clients);
     saveVectorToFile(vehiclesFileName, vehicles);
 }
@@ -59,11 +62,16 @@ void SystemMonitor::load() {
     string vehiclesFileName = "vehicles.txt";
     string employeesFileName = "employees.txt";
     string clientsFileName = "clients.txt";
+    string activeClientsFileName = "activeClients.txt";
     string tollsFileName = "tolls.txt";
 
     loadVectorFromFile(vehiclesFileName, vehicles);
     loadVectorFromFile(clientsFileName, clients);
     finishLoadingClients();
+
+    vector<Client *> activeClientsVec;
+    loadVectorFromFile(activeClientsFileName, activeClientsVec);
+    setActiveClientsFromVector(activeClientsVec);
 
     loadVectorFromFile(employeesFileName, employees);
     loadVectorFromFile(tollsFileName, highways);
@@ -1117,7 +1125,8 @@ void SystemMonitor::finishLoadingClients() {
                     delete vehic;
                     if (vehicle != nullptr) {
                         vecVehicles.push_back(vehicle);
-                        loadActiveClients.insert(client);
+                        if (!vehicle->getTrips().empty())
+                            loadActiveClients.insert(client);
                     } else cout << "Error loading client vehicle!\n";
                 }
                 client->setVehicles(vecVehicles);
@@ -1216,4 +1225,22 @@ void SystemMonitor::searchActiveClientsByNumVehicles() {
         return;
     }
     printActiveClientsNumberedByNumVehciles(numVehicles);
+}
+
+vector<Client *> SystemMonitor::getActiveClientsVector() const {
+    vector<Client *> activeClientsVec;
+    for (const auto &client : activeClients) {
+        Client *pClient = new Client();
+        *pClient = *client;
+        activeClientsVec.push_back(pClient);
+    }
+    return activeClientsVec;
+}
+
+void SystemMonitor::setActiveClientsFromVector(vector<Client *> activeClientsVec) {
+    HashTableClient newActiveClients;
+    for (auto &pClient : activeClientsVec) {
+        newActiveClients.insert(pClient);
+    }
+    setActiveClients(newActiveClients);
 }

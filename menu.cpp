@@ -109,7 +109,7 @@ void menu::monitorManager() {
              << "\nPlease enter number:\n"
              << "1 - MANAGE HIGHWAYS\n"
              << "2 - MANAGE EMPLOYEES\n"
-             << "3 - MANAGE ACTIVE CLIENTS (HAS VEHICLE THAT PASSED TOLL)\n"
+             << "3 - MANAGE ACTIVE CLIENTS (HAD VEHICLE THAT PASSED TOLL)\n"
              << "0 - GO BACK\n";
 
         switch (SystemMonitor::getNumberInput()) {

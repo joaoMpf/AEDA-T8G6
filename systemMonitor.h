@@ -354,11 +354,13 @@ public:
 
     void addVehicle(Vehicle *vehicle);
 
+    vector<Client *> getActiveClientsVector() const;
+
+    void setActiveClientsFromVector(vector<Client *> activeClientsVec);
+
     const HashTableClient &getActiveClients() const;
 
     void setActiveClients(const HashTableClient &activeClients);
-
-    void searchActiveClients();
 
     void viewAllActiveClients();
 
