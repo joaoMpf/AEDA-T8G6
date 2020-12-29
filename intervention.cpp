@@ -4,27 +4,66 @@
 
 #include "intervention.h"
 
-Intervention::Intervention(int date[3], int duration, Toll *toll, int interventionType) : duration(duration),
-                                                                                        toll(toll), type(type) {
+Intervention::Intervention(int date[3], Toll *toll, int interventionType) : duration(0), toll(toll), type(type), done(false) {
     this->date[0] = date[0];
     this->date[1] = date[1];
     this->date[2] = date[2];
 }
 
-Revision::Revision(int *date, int duration, Toll *toll, int interventionType) : Intervention(date, duration, toll,
-                                                                                             interventionType) {}
+int Intervention::getDuration() const {
+    return duration;
+}
 
-Repair::Repair(int *date, int duration, Toll *toll, int interventionType) : Intervention(date, duration, toll,
+bool Intervention::operator==(const Intervention &rhs) const {
+    return date == rhs.date && toll == rhs.toll && type == rhs.type;
+}
+
+bool Intervention::operator<(const Intervention &rhs) const {
+    if( *date == *rhs.date)
+        if( this->toll->getName() == rhs.toll->getName())
+            return this->type < rhs.type;
+        else
+            return this->toll->getName() == rhs.toll->getName();
+    else return (*date < *rhs.date);
+}
+
+bool Intervention::operator!=(const Intervention &rhs) const {
+    return !(*this == rhs);
+}
+
+void Intervention::setDuration(int duration) {
+    Intervention::duration = duration;
+}
+
+void Intervention::setDone(bool done) {
+    Intervention::done = done;
+}
+
+Revision::Revision(int *date, Toll *toll) : Intervention(date, toll, RevisionIntervention) {}
+
+Repair::Repair(int *date, Toll *toll, int interventionType) : Intervention(date, toll,
                                                                                          interventionType) {}
 
-ElectronicRepair::ElectronicRepair(int *date, int duration, Toll *toll, int interventionType) : Repair(date, duration,
-                                                                                                       toll,
-                                                                                                       interventionType) {}
+ElectronicRepair::ElectronicRepair(int *date, Toll *toll) : Repair(date, toll, ElectronicIntervention) {}
 
-InformaticRepair::InformaticRepair(int *date, int duration, Toll *toll, int interventionType) : Repair(date, duration,
-                                                                                                       toll,
-                                                                                                       interventionType) {}
+InformaticRepair::InformaticRepair(int *date, Toll *toll) : Repair(date, toll, InformaticIntervention) {}
 
 InvalidInterventionDate::InvalidInterventionDate(int date[3]) {}
 
 InvalidInterventionType::InvalidInterventionType(int type) {}
+
+void InterventionTree::insert(Intervention inter) {
+    interventions.insert(inter);
+}
+
+Intervention InterventionTree::find(Intervention inter) {
+    return interventions.find(inter);
+}
+
+bool InterventionTree::remove(Intervention inter) {
+    return interventions.remove(inter);
+}
+
+const BST<Intervention> &InterventionTree::getInterventions() const {
+    return interventions;
+}

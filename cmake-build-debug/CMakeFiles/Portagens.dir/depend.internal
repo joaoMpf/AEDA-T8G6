@@ -22,6 +22,7 @@ CMakeFiles/Portagens.dir/highway.cpp.obj
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/sequentialSearch.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/toll.h
 CMakeFiles/Portagens.dir/intervention.cpp.obj
+ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/bst.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/employee.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/intervention.cpp
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/intervention.h
@@ -34,9 +35,11 @@ CMakeFiles/Portagens.dir/lane.cpp.obj
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/sequentialSearch.h
 CMakeFiles/Portagens.dir/main.cpp.obj
+ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/bst.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/client.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/employee.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/highway.h
+ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/intervention.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/main.cpp
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/menu.h
@@ -47,9 +50,11 @@ CMakeFiles/Portagens.dir/main.cpp.obj
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/trip.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/vehicle.h
 CMakeFiles/Portagens.dir/menu.cpp.obj
+ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/bst.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/client.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/employee.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/highway.h
+ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/intervention.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/menu.cpp
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/menu.h
@@ -60,9 +65,11 @@ CMakeFiles/Portagens.dir/menu.cpp.obj
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/trip.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/vehicle.h
 CMakeFiles/Portagens.dir/systemMonitor.cpp.obj
+ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/bst.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/client.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/employee.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/highway.h
+ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/intervention.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/sequentialSearch.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/systemMonitor.cpp
@@ -72,6 +79,7 @@ CMakeFiles/Portagens.dir/systemMonitor.cpp.obj
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/trip.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/vehicle.h
 CMakeFiles/Portagens.dir/technician.cpp.obj
+ C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/bst.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/employee.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/intervention.h
  C:/Users/Pedro Figueiredo/Desktop/FEUP/2 Ano/AEDA/AEDA-T8G6/lane.h

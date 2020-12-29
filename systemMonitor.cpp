@@ -1115,3 +1115,54 @@ Employee *SystemMonitor::getEmployee(int ssNumber) {
         return nullptr;
     return employees[i];
 }
+
+void SystemMonitor::scheduleIntervention(Toll *toll, InterventionType type) {
+    Time* time = new Time();
+    int date[3];
+    date[0] = time->getDay();
+    date[1] = time->getMonth();
+    date[2] = time->getYear();
+    switch(type)
+    {
+        case RevisionIntervention:
+            interventions.insert(Revision(date, toll));
+            break;
+        case ElectronicIntervention:
+            interventions.insert(ElectronicRepair(date,toll));
+            break;
+        case InformaticIntervention:
+            interventions.insert(InformaticRepair(date,toll));
+            break;
+        default: break;
+    }
+}
+
+void SystemMonitor::completeIntervention(Intervention *intervention, double duration) {
+    Intervention findInter = interventions.find(*intervention);
+    if(findInter != *intervention)
+        throw(InterventionNotFound(intervention));
+    intervention->setDuration(duration); intervention->setDone(true);
+    if(!interventions.remove(findInter))
+        throw(InterventionNotFound(&findInter));
+    interventions.insert(*intervention);
+}
+
+
+vector<Intervention> SystemMonitor::getInterventionsNewestFirst() {
+    BSTItrIn<Intervention> it(interventions.getInterventions());
+    vector<Intervention> ret;
+    while(!it.isAtEnd()){
+        ret.push_back(it.retrieve());
+        it.advance();
+    }
+    return ret;
+}
+
+vector<Intervention> SystemMonitor::getInterventionsOldestFirst() {
+    vector<Intervention> aux = getInterventionsNewestFirst(), ret;
+    for(vector<Intervention>::reverse_iterator it = aux.rbegin(); it != aux.rend(); it++)
+    {
+        ret.push_back(*it);
+    }
+    return ret;
+}

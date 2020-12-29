@@ -8,6 +8,8 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include "bst.h"
+#include "intervention.h"
 
 using namespace std;
 
@@ -23,7 +25,7 @@ private:
     vector<Employee *> employees;
     vector<Client *> clients;
     vector<Vehicle *> vehicles;
-
+    InterventionTree interventions;
 public:
     ///Returns pointer to Vehicle with this license plate
     ///
@@ -333,6 +335,15 @@ public:
     void removeEmployeeLane(Employee *employee);
 
     void addVehicle(Vehicle *vehicle);
+
+    void scheduleIntervention(Toll *toll, InterventionType type);
+
+    void completeIntervention(Intervention *intervention, double duration);
+
+    vector<Intervention> getInterventionsNewestFirst();
+
+    vector<Intervention> getInterventionsOldestFirst();
+
 };
 
 ///Thrown when an input is cancelled
