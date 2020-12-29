@@ -1,7 +1,3 @@
-//
-// Created by Pedro Figueiredo on 26/12/2020.
-//
-
 #ifndef PORTAGENS_TECHNICIAN_H
 #define PORTAGENS_TECHNICIAN_H
 
@@ -15,11 +11,17 @@ enum TechnicianSpecialty{
 
 class Technician {
     ///Uses emumerate TechnicianSpecialty
-    TechnicianSpecialty specialty;
+    int specialty;
     ///Vector of pointers to previous Interventions
     vector<Intervention*> previousInterventions;
     ///Performance is the average repair time in hours
-    int performance;
+    double performance;
+public:
+    Technician(){}
+    Technician(int type):specialty(type){}
+    int getSpecialty() const {return specialty;}
+    void addIntervention(Intervention* intervention1);
+    double getPerformance(){return performance;}
 };
 
 class RevisionTechnician: public Technician{
