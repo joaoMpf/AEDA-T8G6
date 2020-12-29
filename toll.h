@@ -7,9 +7,9 @@
 #include <cstdio>
 #include "lane.h"
 #include "algorithm"
-
+#include "technician.h"
 using namespace std;
-
+typedef priority_queue<Technician> TechnicianQueue;
 ///Contains info about a Toll, such as name, location, position, price and lanes
 ///
 ///Parent of InToll and OutToll
@@ -28,6 +28,8 @@ protected:
     int position; // this is the position within the highway ex: position = 0km, or 15km, etc
     ///Price corresponds to the distance between the beginning of Highway until current toll
     double price;
+    ///Technicians associated to this toll
+    TechnicianQueue technicians;
 
 public:
     ///Creates Toll with undefined private attributes
@@ -146,6 +148,12 @@ public:
     istream &loadFromFile(istream &is);
 
     virtual Lane *loadLaneFromFile(istream &istream) { return nullptr; };
+
+    int getPosition();
+
+    Technician getTechnician(int technicianSpecialty);
+
+    void addTechnician(Technician technician1);
 };
 
 ///Entry Toll

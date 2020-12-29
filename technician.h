@@ -2,7 +2,6 @@
 #define PORTAGENS_TECHNICIAN_H
 
 
-#include "intervention.h"
 enum TechnicianSpecialty{
     RevisionTechnician = 0,
     EletronicTechnician = 1,
@@ -12,16 +11,16 @@ enum TechnicianSpecialty{
 class Technician {
     ///Uses emumerate TechnicianSpecialty
     int specialty;
-    ///Vector of pointers to previous Interventions
-    vector<Intervention*> previousInterventions;
     ///Performance is the average repair time in hours
     double performance;
+    int interventionCount;
 public:
     Technician(){}
     Technician(int type):specialty(type){}
     int getSpecialty() const {return specialty;}
-    void addIntervention(Intervention* intervention1);
     double getPerformance(){return performance;}
+    void addIntervention(int time);
+    bool operator<(const Technician o1) const;
 };
 
 class RevisionTechnician: public Technician{

@@ -4,7 +4,6 @@
 
 #ifndef PORTAGENS_INTERVENTION_H
 #define PORTAGENS_INTERVENTION_H
-
 #include "toll.h"
 #include "bst.h"
 

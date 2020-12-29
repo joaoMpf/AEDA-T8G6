@@ -12,7 +12,11 @@ InformaticTechnician::InformaticTechnician() {}
 
 InvalidTechnicianType::InvalidTechnicianType(int type) {}
 
-void Technician::addIntervention(Intervention *intervention1) {
-    performance=(previousInterventions.size()*performance+intervention1->getDuration())/(previousInterventions.size()+1);
-    previousInterventions.push_back(intervention1);
+void Technician::addIntervention(int time) {
+    performance=((performance*interventionCount)+time)/(interventionCount+1);
+    interventionCount++;
+}
+
+bool Technician::operator<(const Technician o1) const {
+    return performance<o1.performance;
 }

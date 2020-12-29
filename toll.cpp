@@ -175,6 +175,49 @@ void Toll::setPrice(double d) {
     Toll::price = d;
 }
 
+int Toll::getPosition() {
+    return position;
+}
+void Toll::addTechnician(Technician technician1){
+    Technician technician;
+    vector<Technician> temp;
+    while(!technicians.empty()){
+        technician=technicians.top();
+        technicians.pop();
+        if(technician1.getPerformance()<technician.getPerformance()){
+            technicians.push(technician1);
+            for(auto x:temp){
+                technicians.push(x);
+            }
+            return;
+        }
+        temp.push_back(technician);
+    }
+    technicians.push(technician1);
+    for(auto x:temp){
+        technicians.push(x);
+    }
+}
+Technician Toll::getTechnician(int technicianSpecialty) {
+    Technician technician(-1);
+    vector<Technician> temp;
+    while(!technicians.empty()){
+        technician=technicians.top();
+        technicians.pop();
+        if(technicians.top().getSpecialty()==technicianSpecialty){
+            for(auto x:temp){
+                technicians.push(x);
+            }
+            return technician;
+        }
+        temp.push_back(technician);
+    }
+    for(auto x:temp) {
+        technicians.push(x);
+    }
+    return technician;
+}
+
 Toll::Toll() = default;
 
 
