@@ -1116,25 +1116,31 @@ Employee *SystemMonitor::getEmployee(int ssNumber) {
     return employees[i];
 }
 
-void SystemMonitor::scheduleIntervention(Toll *toll, InterventionType type) {
+Intervention* SystemMonitor::scheduleIntervention(Toll *toll, int type) {
     Time* time = new Time();
     int date[3];
     date[0] = time->getDay();
     date[1] = time->getMonth();
     date[2] = time->getYear();
-    switch(type)
+
+    if(type == RevisionIntervention)
     {
-        case RevisionIntervention:
-            interventions.insert(Revision(date, toll));
-            break;
-        case ElectronicIntervention:
-            interventions.insert(ElectronicRepair(date,toll));
-            break;
-        case InformaticIntervention:
-            interventions.insert(InformaticRepair(date,toll));
-            break;
-        default: break;
+        Revision r(date, toll);
+        interventions.insert(r);
+        return &r;
     }
+    else if(type == ElectronicIntervention)
+    {
+        ElectronicRepair er(date,toll);
+        interventions.insert(er);
+        return &er;
+    }
+    else if(type == InformaticIntervention){
+        InformaticRepair ir(date, toll);
+        interventions.insert(ir);
+        return &ir;
+    }
+    else throw(InvalidInterventionType(type));
 }
 
 void SystemMonitor::completeIntervention(Intervention *intervention, double duration) {

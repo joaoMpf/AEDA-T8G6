@@ -336,7 +336,7 @@ public:
 
     void addVehicle(Vehicle *vehicle);
 
-    void scheduleIntervention(Toll *toll, InterventionType type);
+    Intervention* scheduleIntervention(Toll *toll, int type);
 
     void completeIntervention(Intervention *intervention, double duration);
 

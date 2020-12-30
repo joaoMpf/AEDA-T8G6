@@ -494,6 +494,7 @@ void menu::managerManageToll(Highway *highway) {
 }
 
 void menu::repairToll(Highway *pHighway, Toll *pToll) {
+    double duration = 2;
     while (true) {
         cout << "\nTOLL REPAIR MENU:\n\n";
         cout << "\nCHOOSE THE TYPE OF REPAIR:\n"
@@ -504,9 +505,8 @@ void menu::repairToll(Highway *pHighway, Toll *pToll) {
         int choice=SystemMonitor::getNumberInput();
         if(choice>0&&choice<4) {
             pHighway->repair(choice, pToll);
-            systemMonitor->scheduleIntervention(pToll, (InterventionType) choice);
-            Intervention intervention(new Time(), pToll, (InterventionType) choice);
-            systemMonitor->completeIntervention(&intervention);
+            Intervention* i = systemMonitor->scheduleIntervention(pToll, choice);
+            systemMonitor->completeIntervention(i, duration);
         }
         else if(choice==0){
             return;
