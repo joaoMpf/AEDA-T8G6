@@ -109,3 +109,7 @@ void Client::setVehicles(const vector<Vehicle *> &vehicles) {
 
 Client::Client() {}
 
+int Client::getNif() const {
+    return nif;
+}
+

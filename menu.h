@@ -124,7 +124,10 @@ public:
     ///4 - VIEW EMPLOYEE LIST\n
     void manageEmployees();
 
+    void manageClients();
 
+    void searchActiveClients();
+  
     void repairToll(Highway *pHighway, Toll *pToll);
 };
 

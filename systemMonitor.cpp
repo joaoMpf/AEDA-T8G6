@@ -11,7 +11,7 @@ int SystemMonitor::findEmployee(const Employee *employee) {
 Vehicle *SystemMonitor::findVehicleClients(const string &licensePlate) {
     int pos;
     if (!clients.empty())
-        for (auto & client : clients) {
+        for (auto &client : clients) {
             pos = sequentialSearch(client->getVehicles(), new Vehicle(licensePlate));
             if (pos != -1)
                 return client->getVehicles()[pos];
@@ -32,11 +32,14 @@ void SystemMonitor::save() {
     string vehiclesFileName = "vehicles.txt";
     string employeesFileName = "employees.txt";
     string clientsFileName = "clients.txt";
+    string activeClientsFileName = "activeClients.txt";
     string tollsFileName = "tolls.txt";
 
     saveVectorToFile(tollsFileName, highways);
     saveVectorToFile(employeesFileName, employees);
 
+    vector<Client *> activeClientsVec = getActiveClientsVector();
+    saveVectorToFile(activeClientsFileName, activeClientsVec);
     saveVectorToFile(clientsFileName, clients);
     saveVectorToFile(vehiclesFileName, vehicles);
 }
@@ -59,11 +62,16 @@ void SystemMonitor::load() {
     string vehiclesFileName = "vehicles.txt";
     string employeesFileName = "employees.txt";
     string clientsFileName = "clients.txt";
+    string activeClientsFileName = "activeClients.txt";
     string tollsFileName = "tolls.txt";
 
     loadVectorFromFile(vehiclesFileName, vehicles);
     loadVectorFromFile(clientsFileName, clients);
     finishLoadingClients();
+
+    vector<Client *> activeClientsVec;
+    loadVectorFromFile(activeClientsFileName, activeClientsVec);
+    addActiveClientsVector(activeClientsVec);
 
     loadVectorFromFile(employeesFileName, employees);
     loadVectorFromFile(tollsFileName, highways);
@@ -108,7 +116,7 @@ string SystemMonitor::licensePlateInput() {
     while (true) {
 
         cin >> licensePlate;
-        for (char & i : licensePlate) i = toupper(i);
+        for (char &i : licensePlate) i = toupper(i);
         if (licensePlate == "0") return "0";
         if (licensePlate.length() == 8 && licensePlate[2] == '-' && licensePlate[5] == '-') {
             return licensePlate;
@@ -263,8 +271,8 @@ Client *SystemMonitor::createNewClient() {
     int nif;
 
     try {
-        name = getName();
-        nif = getNif();
+        name = getNewName();
+        nif = getNewNif();
     }
     catch (ConfirmationExitException &exception) {
         ConfirmationExitException::showMessage();
@@ -276,7 +284,7 @@ Client *SystemMonitor::createNewClient() {
     return client;
 }
 
-int SystemMonitor::getNif() {
+int SystemMonitor::getNewNif() {
     int nif;
 
     while (true) {
@@ -291,7 +299,7 @@ int SystemMonitor::getNif() {
     return nif;
 }
 
-string SystemMonitor::getName() {
+string SystemMonitor::getNewName() {
     string name;
 
     while (true) {
@@ -451,13 +459,13 @@ void SystemMonitor::showCostsTrip(const Trip *pTrip) const {
 
 void SystemMonitor::changeNIF(Client *client) {
 
-    int newNif = getNif();
+    int newNif = getNewNif();
     client->changeNIF(newNif);
 
 }
 
 void SystemMonitor::changeName(Client *client) {
-    string newName = getName();
+    string newName = getNewName();
     client->changeName(newName);
 
 }
@@ -809,6 +817,52 @@ void SystemMonitor::printEmployeesNumbered() {
     }
 }
 
+void SystemMonitor::printAllActiveClientsNumbered() {
+    int i = 1;
+    for (const auto &client : activeClients) {
+        cout << i << ": " << client->getName() << endl;
+        cout << "NIF: " << client->getNif() << endl;
+        cout << "NUMBER OF VEHICLES: " << client->getVehicles().size() << endl << endl;
+        i++;
+    }
+}
+
+void SystemMonitor::printActiveClientsNumberedByNIF(int nif) {
+    int i = 1;
+    for (const auto &client : activeClients) {
+        if (client->getNif() == nif) {
+            cout << i << ": " << client->getName() << endl;
+            cout << "NIF: " << client->getNif() << endl;
+            cout << "NUMBER OF VEHICLES: " << client->getVehicles().size() << endl << endl;
+            i++;
+        }
+    }
+}
+
+void SystemMonitor::printActiveClientsNumberedByName(const string &name) {
+    int i = 1;
+    for (const auto &client : activeClients) {
+        if (client->getName() == name) {
+            cout << i << ": " << client->getName() << endl;
+            cout << "NIF: " << client->getNif() << endl;
+            cout << "NUMBER OF VEHICLES: " << client->getVehicles().size() << endl << endl;
+            i++;
+        }
+    }
+}
+
+void SystemMonitor::printActiveClientsNumberedByNumVehciles(int numVehicles) {
+    int i = 1;
+    for (const auto &client : activeClients) {
+        if (client->getVehicles().size() == numVehicles) {
+            cout << i << ": " << client->getName() << endl;
+            cout << "NIF: " << client->getNif() << endl;
+            cout << "NUMBER OF VEHICLES: " << client->getVehicles().size() << endl << endl;
+            i++;
+        }
+    }
+}
+
 Employee *SystemMonitor::selectEmployee() {
     printEmployeesNumbered();
     int i;
@@ -1055,26 +1109,29 @@ void SystemMonitor::viewLastEmployees(Toll *pToll) {
             cout << "LANE " << cnt << ": ";
             cout << "NOT A MANUAL EXIT LANE\n\n";
         }
-
     }
-
 }
 
 void SystemMonitor::finishLoadingClients() {
-    if (!clients.empty())
+    HashTableClient loadActiveClients;
+    if (!clients.empty()) {
         for (auto &client : clients) {
             if (!client->getVehicles().empty()) {
                 vector<Vehicle *> vecVehicles;
                 for (auto &vehic : client->getVehicles()) {
                     Vehicle *vehicle = getVehicle(vehic->getLicensePlate());
                     delete vehic;
-                    if (vehicle != nullptr)
+                    if (vehicle != nullptr) {
                         vecVehicles.push_back(vehicle);
-                    else cout << "Error loading client vehicle!\n";
+                        if (!vehicle->getTrips().empty())
+                            loadActiveClients.insert(client);
+                    } else cout << "Error loading client vehicle!\n";
                 }
                 client->setVehicles(vecVehicles);
             }
         }
+    }
+    setActiveClients(loadActiveClients);
 }
 
 void SystemMonitor::finishLoadingLanes() {
@@ -1114,6 +1171,74 @@ Employee *SystemMonitor::getEmployee(int ssNumber) {
     if (i == -1)
         return nullptr;
     return employees[i];
+}
+
+const HashTableClient &SystemMonitor::getActiveClients() const {
+    return activeClients;
+}
+
+void SystemMonitor::setActiveClients(const HashTableClient &activeClients) {
+    SystemMonitor::activeClients = activeClients;
+}
+
+void SystemMonitor::viewAllActiveClients() {
+    printAllActiveClientsNumbered();
+    int i;
+    while (true) {
+        cout << "PRESS 0 TO LEAVE\n";
+        cin >> i;
+        if (i == 0) return;
+    }
+}
+
+void SystemMonitor::searchActiveClientsByName() {
+    string name;
+    try {
+        name = getNewName();
+    } catch (ConfirmationExitException &exception) {
+        ConfirmationExitException::showMessage();
+        return;
+    }
+    printActiveClientsNumberedByName(name);
+}
+
+void SystemMonitor::searchActiveClientsByNIF() {
+    int nif;
+    try {
+        nif = getNewNif();
+    } catch (ConfirmationExitException &exception) {
+        ConfirmationExitException::showMessage();
+        return;
+    }
+    printActiveClientsNumberedByNIF(nif);
+}
+
+void SystemMonitor::searchActiveClientsByNumVehicles() {
+    int numVehicles;
+    cout << "ENTER NUMBER OF VEHICLES\n";
+    try {
+        numVehicles = getNumberInput() - '0';
+    } catch (ConfirmationExitException &exception) {
+        ConfirmationExitException::showMessage();
+        return;
+    }
+    printActiveClientsNumberedByNumVehciles(numVehicles);
+}
+
+vector<Client *> SystemMonitor::getActiveClientsVector() const {
+    vector<Client *> activeClientsVec;
+    for (const auto &client : activeClients) {
+        Client *pClient = new Client();
+        *pClient = *client;
+        activeClientsVec.push_back(pClient);
+    }
+    return activeClientsVec;
+}
+
+void SystemMonitor::addActiveClientsVector(vector<Client *> activeClientsVec) {
+    for (auto &pClient : activeClientsVec) {
+        activeClients.insert(pClient);
+    }
 }
 
 Intervention* SystemMonitor::scheduleIntervention(Toll *toll, int type) {

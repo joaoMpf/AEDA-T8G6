@@ -116,6 +116,11 @@ public:
     ///
     /// \param vehicles
     void setVehicles(const vector<Vehicle *> &vehicles);
+
+    ///Returns Client's nif
+    ///
+    /// \return Client's nif
+    int getNif() const;
 };
 
 

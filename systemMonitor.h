@@ -10,6 +10,23 @@
 #include <vector>
 #include "bst.h"
 #include "intervention.h"
+#include <unordered_set>
+
+// ----------------------------------------------------------
+
+struct ClientHash {
+    //TODO
+    int operator()(const Client *client) const {
+        return client->getNif();
+    }
+
+    //TODO
+    bool operator()(const Client *client1, const Client *client2) const {
+        return client1->getNif() == client2->getNif();
+    }
+};
+
+typedef unordered_set<Client *, ClientHash, ClientHash> HashTableClient;
 
 using namespace std;
 
@@ -21,9 +38,10 @@ using namespace std;
 /// @see Vehicle
 class SystemMonitor {
 private:
-    vector<Highway* > highways;
+    vector<Highway *> highways;
     vector<Employee *> employees;
     vector<Client *> clients;
+    HashTableClient activeClients;
     vector<Vehicle *> vehicles;
     InterventionTree interventions;
 public:
@@ -32,7 +50,7 @@ public:
     /// \param licensePlate
     /// \return pointer to Vehicle with this license plate
     /// @note this function calls sequentialSearch(const vector<Comparable *> &v, const Comparable *x)
-    Vehicle *findVehicleClients(const string& licensePlate);
+    Vehicle *findVehicleClients(const string &licensePlate);
 
     ///Read from file and loads information onto the various classes
     ///
@@ -47,21 +65,21 @@ public:
     ///Initiates SystemMonitor
     ///
     ///Calls load()
-    SystemMonitor(){
+    SystemMonitor() {
         load();
     };
 
     ///Closes SystemMonitor
     ///
     ///Calls save()
-    ~SystemMonitor(){
+    ~SystemMonitor() {
         save();
     };
 
     ///Returns vector of pointers to Highway
     ///
     /// \return vector of pointers to Highway
-    vector<Highway* > getHighways();
+    vector<Highway *> getHighways();
 
     Employee *getEmployee(int ssNumber);
 
@@ -69,7 +87,7 @@ public:
     ///
     /// \param cemployee
     /// \return position of Employee, if  found, else, -1
-    int findEmployee(const Employee* cemployee);
+    int findEmployee(const Employee *cemployee);
 
     ///Searches for Client in clients vector
     ///
@@ -88,13 +106,13 @@ public:
     ///
     /// \param i index
     /// \return pointer to Highway at index in in highways vector
-    Highway* getHighwayAt(int i);
+    Highway *getHighwayAt(int i);
 
     ///Returns pointer to Vehicle with this license plate
     ///
     /// \param licensePlate
     /// \return Returns pointer to Vehicle with this license plate
-    Vehicle* getVehicle(const string& licensePlate);
+    Vehicle *getVehicle(const string &licensePlate);
 
     ///Removes pointer to Vehicle from vehicles
     static void removeVehicle(Client *client);
@@ -118,7 +136,7 @@ public:
     ///Adds pointer to Highway to highways vector
     ///
     /// \param highway pointer to Highway
-    void addHighway(Highway* highway);
+    void addHighway(Highway *highway);
 
     ///Allows for license plate input
     ///
@@ -143,7 +161,7 @@ public:
     ///Category Input Menu
     ///
     /// \return category
-    static int categoryInput() ;
+    static int categoryInput();
 
     ///ViaVerde Input Menu
     static bool viaVerdeInput();
@@ -165,17 +183,17 @@ public:
     ///Requests confirmation from user
     ///
     /// \return true if confirmed, false otherwise
-    static bool confirmation() ;
+    static bool confirmation();
 
     ///Name Input
     ///
     /// \return name
-    static string getName() ;
+    static string getNewName();
 
     ///NIF Input
     ///
     /// \return NIF
-    int getNif();
+    int getNewNif();
 
     /// Finds Vehicle with this license plate
     ///
@@ -230,7 +248,7 @@ public:
     int selectHighway();
 
     ///Allows Manager to Add Toll to Highway
-    void managerAddToll(Highway *phighway,bool exit);
+    void managerAddToll(Highway *phighway, bool exit);
 
     ///Shows Highway Tolls
     static void viewHighwayTolls(Highway *phighway);
@@ -242,14 +260,14 @@ public:
     ///
     /// \param pHighway pointer to Highway
     /// \return pointer to chosen Highway
-    static Toll* selectToll(Highway *pHighway);
+    static Toll *selectToll(Highway *pHighway);
 
     ///Allows Manager to add a Lane to Toll
     ///
     /// \param pToll
     /// \param viaVerde specifies type of Toll to be added
     ///@note if viaVerde is true, then the adde Lane will be a ViaVerdeLane
-    void managerAddLane(Toll *pToll,bool viaVerde);
+    void managerAddLane(Toll *pToll, bool viaVerde);
 
     ///Prints Employees Numbered
     ///
@@ -318,13 +336,13 @@ public:
 
     void showCostsVehicle(Vehicle *pVehicle) const;
 
-    static string getTollNameInput() ;
+    static string getTollNameInput();
 
-    static string getTollLocationInput() ;
+    static string getTollLocationInput();
 
-    static int getTollPositionInput() ;
+    static int getTollPositionInput();
 
-    static double getTollPriceInput() ;
+    static double getTollPriceInput();
 
     void addNormalExitLane(Toll *pToll);
 
@@ -336,6 +354,30 @@ public:
 
     void addVehicle(Vehicle *vehicle);
 
+    vector<Client *> getActiveClientsVector() const;
+
+    void addActiveClientsVector(vector<Client *> activeClientsVec);
+
+    const HashTableClient &getActiveClients() const;
+
+    void setActiveClients(const HashTableClient &activeClients);
+
+    void viewAllActiveClients();
+
+    void printAllActiveClientsNumbered();
+
+    void searchActiveClientsByName();
+
+    void printActiveClientsNumberedByNIF(int nif);
+
+    void printActiveClientsNumberedByNumVehciles(int numVehicles);
+
+    void printActiveClientsNumberedByName(const string &name);
+
+    void searchActiveClientsByNIF();
+
+    void searchActiveClientsByNumVehicles();
+
     Intervention* scheduleIntervention(Toll *toll, int type);
 
     void completeIntervention(Intervention *intervention, double duration);
@@ -343,7 +385,6 @@ public:
     vector<Intervention> getInterventionsNewestFirst();
 
     vector<Intervention> getInterventionsOldestFirst();
-
 };
 
 ///Thrown when an input is cancelled
