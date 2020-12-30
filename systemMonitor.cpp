@@ -64,6 +64,7 @@ void SystemMonitor::load() {
     string clientsFileName = "clients.txt";
     string activeClientsFileName = "activeClients.txt";
     string tollsFileName = "tolls.txt";
+    string interventionsFileName = "interventions.txt";
 
     loadVectorFromFile(vehiclesFileName, vehicles);
     loadVectorFromFile(clientsFileName, clients);
@@ -76,6 +77,48 @@ void SystemMonitor::load() {
     loadVectorFromFile(employeesFileName, employees);
     loadVectorFromFile(tollsFileName, highways);
     finishLoadingLanes();
+
+}
+
+
+
+Toll* SystemMonitor::findTollInSystem(Toll* toll){
+    vector<Highway*>::const_iterator highIt;
+    vector<Toll*>::const_iterator tollIt;
+    for(highIt = highways.begin(); highIt != highways.end(); highIt++)
+    {
+        for(tollIt = (*highIt)->getTolls().begin(); tollIt != (*highIt)->getTolls().end(); tollIt++)
+        {
+            if((*tollIt)->getName() == toll->getName())
+                return (*tollIt);
+        }
+    }
+    return NULL;
+}
+
+istream &operator>>(istream &is, Intervention &intervention) {
+    int date[3], type; double duration; bool done; string tollName;
+    is >> date[0] >> date[1] >> date[2] >> duration >> tollName >>type >> done;
+    intervention.setDate(date);
+    intervention.setDuration(duration);
+    intervention.setType(type);
+    intervention.setDone(done);
+    intervention.setTollName(tollName);
+    return is;
+}
+
+void SystemMonitor::loadInterventionsBST(string &fileName) {
+    ifstream file(fileName);
+    if (file.is_open()) {
+        Intervention *newElement = new Intervention();
+        while (file >> *newElement) {
+            newElement->setToll(findTollInSystem(newElement->getToll()));
+            interventions.insert(*newElement);
+            newElement = new Intervention();
+        }
+        delete newElement;
+    } else cout << ("Not able to open " + fileName + " file");
+    file.close();
 }
 
 template<class T>

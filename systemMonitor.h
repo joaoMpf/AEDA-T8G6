@@ -322,6 +322,10 @@ public:
     template<class T>
     void loadVectorFromFile(string &vectorFileName, vector<T *> &vec);
 
+    void loadInterventionsBST(string &fileName);
+
+    Toll* findTollInSystem(Toll* toll);
+
     ///Finishes Loading Clients
     void finishLoadingClients();
 
@@ -385,6 +389,8 @@ public:
     vector<Intervention> getInterventionsNewestFirst();
 
     vector<Intervention> getInterventionsOldestFirst();
+
+    //friend Intervention;
 };
 
 ///Thrown when an input is cancelled

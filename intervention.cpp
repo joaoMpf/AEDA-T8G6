@@ -39,6 +39,33 @@ void Intervention::setDone(bool done) {
     Intervention::done = done;
 }
 
+
+void Intervention::setType(int type) {
+    Intervention::type = type;
+}
+
+void Intervention::setTollName(string name) {
+    toll->setName(name);
+}
+
+void Intervention::setDate(int date[3]) {
+    *Intervention::date = *date;
+}
+ostream &operator<<(ostream &os, const Intervention &intervention) {
+    os << intervention.date[0] << " " << intervention.date[1] << "" << intervention.date[2] <<" "<< intervention.duration
+    <<" "<< intervention.toll->getName() <<" "<< intervention.type << " " << intervention.done;
+    return os;
+}
+
+void Intervention::setToll(Toll *toll) {
+    Intervention::toll = toll;
+}
+
+Toll *Intervention::getToll() const {
+    return toll;
+}
+
+
 Revision::Revision(int *date, Toll *toll) : Intervention(date, toll, RevisionIntervention) {}
 
 Repair::Repair(int *date, Toll *toll, int interventionType) : Intervention(date, toll,

@@ -4,8 +4,11 @@
 
 #ifndef PORTAGENS_INTERVENTION_H
 #define PORTAGENS_INTERVENTION_H
+
+#include <ostream>
 #include "toll.h"
 #include "bst.h"
+//#include "systemMonitor.h"
 
 enum InterventionType{
     RevisionIntervention = 0,
@@ -22,22 +25,44 @@ private:
     ///Pointer to Toll
     Toll* toll;
     ///Uses enumerate InterventionType
-    InterventionType type;
-
+    int type;
+    ///True if the Intervention has been completed, false otherwise
     bool done;
 public:
+    ///Returns the duration of the intervention
     int getDuration() const;
+    ///Sets the duration of the intervention
     void setDuration(int duration);
-
+    ///Sets the boolean done to chosen value
     void setDone(bool done);
 
+    void setType(int type);
+
+    void setDate(int date[3]);
+
+    void setTollName(string name);
+
+    void setToll(Toll *toll);
+
+    Toll *getToll() const;
+
+    ///Default Constructor
     Intervention(){};
-
+    ///Constructor sets duration to 0 and done to false, when an Intervention is created
     Intervention(int *date, Toll *toll, int type);
-
+    ///Two Interventions are considered equal if their date, toll and type are the same
     bool operator==(const Intervention &rhs) const;
+    ///Two Interventions are different if they are not equal @see bool Intervention::operator!=(const Intervention &rhs) const
     bool operator!=(const Intervention &rhs) const;
+    ///Less Than operator used in the BST
+    ///
+    ///Allows the Interventions to be order by date, then by toll and, if needed, by the type
     bool operator<(const Intervention &rhs) const;
+
+    friend ostream &operator<<(ostream &os, const Intervention &intervention);
+
+    friend istream &operator>>(istream &is, const Intervention &intervention);
+
 };
 
 
