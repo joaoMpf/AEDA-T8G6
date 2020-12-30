@@ -433,6 +433,7 @@ void menu::managerManageToll(Highway *highway) {
                  << "4 - REMOVE LANE\n"
                  << "5 - VIEW EXIT LANES AND PAST EMPLOYEES\n"
                  << "6 - VIEW TOLL PAST EMPLOYEES\n"
+                 << "7 - REPAIR MENU\n"
                  << "0 - GO BACK\n";
         } else {
             cout << "\nENTRY-TOLL MANAGER MENU:\n\n";
@@ -441,6 +442,7 @@ void menu::managerManageToll(Highway *highway) {
                  << "2 - ADD VIA VERDE LANE\n"
                  << "3 - REMOVE LANE\n"
                  << "4 - VIEW ENTRY LANES\n"
+                 << "5 - REPAIR MENU\n"
                  << "0 - GO BACK\n";
         }
         if (!toll->isExitToll()) {
@@ -456,6 +458,9 @@ void menu::managerManageToll(Highway *highway) {
                     break;
                 case '4':
                     toll->viewLanes();
+                    break;
+                case '5':
+                    repairToll(highway, toll);
                     break;
                 case '0':
                     return;
@@ -482,11 +487,38 @@ void menu::managerManageToll(Highway *highway) {
                 case '6':
                     SystemMonitor::viewLastEmployees(toll);
                     break;
+                case '7':
+                    repairToll(highway, toll);
+                    break;
                 case '0':
                     return;
                 default:
                     cout << "\nPlease enter another number\n";
             }
+        }
+    }
+}
+
+void menu::repairToll(Highway *pHighway, Toll *pToll) {
+    double duration = 2;
+    while (true) {
+        cout << "\nTOLL REPAIR MENU:\n\n";
+        cout << "\nCHOOSE THE TYPE OF REPAIR:\n"
+             << "1 - REVISION\n"
+             << "2 - ELECTRONIC REPAIR\n"
+             << "3 - INFORMATIC REPAIR\n"
+             << "0 - GO BACK\n";
+        int choice=SystemMonitor::getNumberInput();
+        if(choice>0&&choice<4) {
+            pHighway->repair(choice, pToll);
+            Intervention* i = systemMonitor->scheduleIntervention(pToll, choice);
+            systemMonitor->completeIntervention(i, duration);
+        }
+        else if(choice==0){
+            return;
+        }
+        else{
+            cout << "\nPlease a valid number\n";
         }
     }
 }

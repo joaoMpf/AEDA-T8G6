@@ -1,12 +1,7 @@
-//
-// Created by Pedro Figueiredo on 26/12/2020.
-//
-
 #ifndef PORTAGENS_TECHNICIAN_H
 #define PORTAGENS_TECHNICIAN_H
 
 
-#include "intervention.h"
 enum TechnicianSpecialty{
     RevisionTechnician = 0,
     EletronicTechnician = 1,
@@ -15,11 +10,17 @@ enum TechnicianSpecialty{
 
 class Technician {
     ///Uses emumerate TechnicianSpecialty
-    TechnicianSpecialty specialty;
-    ///Vector of pointers to previous Interventions
-    vector<Intervention*> previousInterventions;
+    int specialty;
     ///Performance is the average repair time in hours
-    int performance;
+    double performance;
+    int interventionCount;
+public:
+    Technician(){}
+    Technician(int type):specialty(type){}
+    int getSpecialty() const {return specialty;}
+    double getPerformance(){return performance;}
+    void addIntervention(int time);
+    bool operator<(const Technician o1) const;
 };
 
 class RevisionTechnician: public Technician{

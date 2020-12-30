@@ -54,6 +54,12 @@ public:
     /// \return Second
     int getSecond() const;
 
+    int getDay() const;
+
+    int getMonth() const;
+
+    int getYear() const;
+
     ///Sets time to h:m:s
     ///
     /// \param h hour

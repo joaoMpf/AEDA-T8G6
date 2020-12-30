@@ -1240,3 +1240,60 @@ void SystemMonitor::addActiveClientsVector(vector<Client *> activeClientsVec) {
         activeClients.insert(pClient);
     }
 }
+
+Intervention* SystemMonitor::scheduleIntervention(Toll *toll, int type) {
+    Time* time = new Time();
+    int date[3];
+    date[0] = time->getDay();
+    date[1] = time->getMonth();
+    date[2] = time->getYear();
+
+    if(type == RevisionIntervention)
+    {
+        Revision r(date, toll);
+        interventions.insert(r);
+        return &r;
+    }
+    else if(type == ElectronicIntervention)
+    {
+        ElectronicRepair er(date,toll);
+        interventions.insert(er);
+        return &er;
+    }
+    else if(type == InformaticIntervention){
+        InformaticRepair ir(date, toll);
+        interventions.insert(ir);
+        return &ir;
+    }
+    else throw(InvalidInterventionType(type));
+}
+
+void SystemMonitor::completeIntervention(Intervention *intervention, double duration) {
+    Intervention findInter = interventions.find(*intervention);
+    if(findInter != *intervention)
+        throw(InterventionNotFound(intervention));
+    intervention->setDuration(duration); intervention->setDone(true);
+    if(!interventions.remove(findInter))
+        throw(InterventionNotFound(&findInter));
+    interventions.insert(*intervention);
+}
+
+
+vector<Intervention> SystemMonitor::getInterventionsNewestFirst() {
+    BSTItrIn<Intervention> it(interventions.getInterventions());
+    vector<Intervention> ret;
+    while(!it.isAtEnd()){
+        ret.push_back(it.retrieve());
+        it.advance();
+    }
+    return ret;
+}
+
+vector<Intervention> SystemMonitor::getInterventionsOldestFirst() {
+    vector<Intervention> aux = getInterventionsNewestFirst(), ret;
+    for(vector<Intervention>::reverse_iterator it = aux.rbegin(); it != aux.rend(); it++)
+    {
+        ret.push_back(*it);
+    }
+    return ret;
+}

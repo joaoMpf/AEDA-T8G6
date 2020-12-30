@@ -8,6 +8,8 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include "bst.h"
+#include "intervention.h"
 #include <unordered_set>
 
 // ----------------------------------------------------------
@@ -24,9 +26,7 @@ struct ClientHash {
     }
 };
 
-
 typedef unordered_set<Client *, ClientHash, ClientHash> HashTableClient;
-
 
 using namespace std;
 
@@ -43,7 +43,7 @@ private:
     vector<Client *> clients;
     HashTableClient activeClients;
     vector<Vehicle *> vehicles;
-
+    InterventionTree interventions;
 public:
     ///Returns pointer to Vehicle with this license plate
     ///
@@ -377,6 +377,14 @@ public:
     void searchActiveClientsByNIF();
 
     void searchActiveClientsByNumVehicles();
+
+    Intervention* scheduleIntervention(Toll *toll, int type);
+
+    void completeIntervention(Intervention *intervention, double duration);
+
+    vector<Intervention> getInterventionsNewestFirst();
+
+    vector<Intervention> getInterventionsOldestFirst();
 };
 
 ///Thrown when an input is cancelled

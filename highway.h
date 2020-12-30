@@ -89,6 +89,10 @@ public:
     /// \param highway
     /// \return istream with Highway's name, number of Tolls and info of each Toll
     friend istream &operator>>(istream &is, Highway &highway);
+
+    void repair(int i, Toll *pToll);
+
+    Technician getClosestTechnician(int i, Toll *pToll);
 };
 
 

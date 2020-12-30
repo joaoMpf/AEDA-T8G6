@@ -127,6 +127,8 @@ public:
     void manageClients();
 
     void searchActiveClients();
+  
+    void repairToll(Highway *pHighway, Toll *pToll);
 };
 
 enum main_menu {

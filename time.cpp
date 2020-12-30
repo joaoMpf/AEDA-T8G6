@@ -75,3 +75,15 @@ void Time::setMinute(int minute1) {
 void Time::setSecond(int second1) {
     Time::second = second1;
 }
+
+int Time::getDay() const {
+    return day;
+}
+
+int Time::getMonth() const {
+    return month;
+}
+
+int Time::getYear() const {
+    return year;
+}
