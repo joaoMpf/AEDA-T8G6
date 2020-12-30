@@ -71,7 +71,7 @@ void SystemMonitor::load() {
 
     vector<Client *> activeClientsVec;
     loadVectorFromFile(activeClientsFileName, activeClientsVec);
-    setActiveClientsFromVector(activeClientsVec);
+    addActiveClientsVector(activeClientsVec);
 
     loadVectorFromFile(employeesFileName, employees);
     loadVectorFromFile(tollsFileName, highways);
@@ -1109,9 +1109,7 @@ void SystemMonitor::viewLastEmployees(Toll *pToll) {
             cout << "LANE " << cnt << ": ";
             cout << "NOT A MANUAL EXIT LANE\n\n";
         }
-
     }
-
 }
 
 void SystemMonitor::finishLoadingClients() {
@@ -1237,10 +1235,8 @@ vector<Client *> SystemMonitor::getActiveClientsVector() const {
     return activeClientsVec;
 }
 
-void SystemMonitor::setActiveClientsFromVector(vector<Client *> activeClientsVec) {
-    HashTableClient newActiveClients;
+void SystemMonitor::addActiveClientsVector(vector<Client *> activeClientsVec) {
     for (auto &pClient : activeClientsVec) {
-        newActiveClients.insert(pClient);
+        activeClients.insert(pClient);
     }
-    setActiveClients(newActiveClients);
 }

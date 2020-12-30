@@ -356,7 +356,7 @@ public:
 
     vector<Client *> getActiveClientsVector() const;
 
-    void setActiveClientsFromVector(vector<Client *> activeClientsVec);
+    void addActiveClientsVector(vector<Client *> activeClientsVec);
 
     const HashTableClient &getActiveClients() const;
 
