@@ -34,6 +34,7 @@ void SystemMonitor::save() {
     string clientsFileName = "clients.txt";
     string activeClientsFileName = "activeClients.txt";
     string tollsFileName = "tolls.txt";
+    string interventionsFileName = "interventions.txt";
 
     saveVectorToFile(tollsFileName, highways);
     saveVectorToFile(employeesFileName, employees);
@@ -42,6 +43,8 @@ void SystemMonitor::save() {
     saveVectorToFile(activeClientsFileName, activeClientsVec);
     saveVectorToFile(clientsFileName, clients);
     saveVectorToFile(vehiclesFileName, vehicles);
+
+    saveInterventionsBST(interventionsFileName);
 }
 
 template<class T>
@@ -55,6 +58,20 @@ void SystemMonitor::saveVectorToFile(const string &vectorFileName, vector<T *> &
         }
     else if (!file.is_open()) throw invalid_argument("Not able to open " + vectorFileName + " file");
 
+    file.close();
+}
+
+void SystemMonitor::saveInterventionsBST(string &fileName){
+    vector<Intervention> interventionsV; vector<Intervention>::const_iterator it;
+    ofstream file(fileName);
+    if (!interventionsV.empty() && file.is_open())
+    for(it = interventionsV.begin(); it != interventionsV.end(); it++)
+    {
+        file << *it;
+        if (it != interventionsV.end() - 1)
+            file << endl;
+    }
+    else if (!file.is_open()) throw invalid_argument("Not able to open " + fileName + " file");
     file.close();
 }
 
@@ -78,6 +95,7 @@ void SystemMonitor::load() {
     loadVectorFromFile(tollsFileName, highways);
     finishLoadingLanes();
 
+    loadInterventionsBST(interventionsFileName);
 }
 
 

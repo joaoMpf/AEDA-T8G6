@@ -110,6 +110,7 @@ class InterventionTree {
     BST<Intervention> interventions;
 public:
     InterventionTree(): interventions(Intervention()){};
+    bool isEmpty();
     void insert(Intervention inter);
     Intervention find(Intervention inter);
     bool remove(Intervention inter);

@@ -94,3 +94,7 @@ bool InterventionTree::remove(Intervention inter) {
 const BST<Intervention> &InterventionTree::getInterventions() const {
     return interventions;
 }
+
+bool InterventionTree::isEmpty() {
+    return interventions.isEmpty();
+}

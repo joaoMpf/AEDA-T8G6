@@ -323,6 +323,7 @@ public:
     void loadVectorFromFile(string &vectorFileName, vector<T *> &vec);
 
     void loadInterventionsBST(string &fileName);
+    void saveInterventionsBST(string &fileName);
 
     Toll* findTollInSystem(Toll* toll);
 
