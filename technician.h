@@ -1,6 +1,7 @@
 #ifndef PORTAGENS_TECHNICIAN_H
 #define PORTAGENS_TECHNICIAN_H
-
+using namespace std;
+#include "iostream"
 
 enum TechnicianSpecialty{
     RevisionTechnician = 0,
@@ -17,10 +18,15 @@ class Technician {
 public:
     Technician(){}
     Technician(int type):specialty(type){}
+    void setSpecialty(int spec);
+    void setInterventionCount(int iC);
+    void setPerformance(double p);
     int getSpecialty() const {return specialty;}
     double getPerformance(){return performance;}
     void addIntervention(int time);
     bool operator<(const Technician o1) const;
+    friend ostream &operator<<(ostream &os, const Technician &technician);
+    friend istream &operator>>(istream &is,Technician &technician);
 };
 
 class RevisionTechnician: public Technician{
