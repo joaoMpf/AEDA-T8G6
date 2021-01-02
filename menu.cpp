@@ -516,8 +516,8 @@ void menu::repairToll(Highway *pHighway, Toll *pToll) {
         cin >> choice;
         if(choice>0&&choice<4) {
             if(pHighway->repair(choice-1, pToll)) {
-                /*Intervention *i = systemMonitor->scheduleIntervention(pToll, choice);
-                systemMonitor->completeIntervention(i, duration);*/
+                Intervention *i = systemMonitor->scheduleIntervention(pToll, choice);
+                systemMonitor->completeIntervention(i, duration);
                 return;
             }
             return;

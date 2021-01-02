@@ -1310,20 +1310,20 @@ Intervention* SystemMonitor::scheduleIntervention(Toll *toll, int type) {
 
     if(type == RevisionIntervention)
     {
-        Revision r(date, toll);
-        interventions.insert(r);
-        return &r;
+        Revision* r = new Revision(date, toll);
+        interventions.insert(*r);
+        return r;
     }
     else if(type == ElectronicIntervention)
     {
-        ElectronicRepair er(date,toll);
-        interventions.insert(er);
-        return &er;
+        ElectronicRepair* er = new ElectronicRepair(date,toll);
+        interventions.insert(*er);
+        return er;
     }
     else if(type == InformaticIntervention){
-        InformaticRepair ir(date, toll);
-        interventions.insert(ir);
-        return &ir;
+        InformaticRepair* ir = new InformaticRepair(date, toll);
+        interventions.insert(*ir);
+        return ir;
     }
     else throw(InvalidInterventionType(type));
 }
