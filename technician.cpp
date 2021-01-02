@@ -23,7 +23,6 @@ bool Technician::operator<(const Technician o1) const {
 
 ostream &operator<<(ostream &os, const Technician &technician) {
     os<<technician.specialty<<" "<<technician.interventionCount<<" "<<technician.performance;
-    delete &technician;
     return os;
 }
 void Technician::setSpecialty(int spec) {specialty=spec;}

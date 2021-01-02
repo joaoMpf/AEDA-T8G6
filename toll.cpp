@@ -129,10 +129,11 @@ ostream &operator<<(ostream &os,Toll &toll) {
             os<<endl;
     }
     while(!toll.technicians.empty()){
-        os<<toll.technicians.top()<<" ";
+        os<<toll.technicians.top();
         toll.technicians.pop();
+        if(!toll.technicians.empty())
+            os<<endl;
     }
-
     delete &toll;
     return os;
 }
@@ -288,4 +289,5 @@ Lane *OutToll::loadLaneFromFile(istream &is) {
         is >> *normalExitLane;
         return normalExitLane;
     }
+
 }
