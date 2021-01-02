@@ -13,7 +13,7 @@ InformaticTechnician::InformaticTechnician() {}
 InvalidTechnicianType::InvalidTechnicianType(int type) {}
 
 void Technician::addIntervention(int time) {
-    performance=((performance*interventionCount)+time)/(interventionCount+1);
+    performance = ((performance * interventionCount) + time) / (interventionCount + 1);
     interventionCount++;
 }
 

@@ -13,8 +13,8 @@ class Technician {
     ///Uses emumerate TechnicianSpecialty
     int specialty;
     ///Performance is the average repair time in hours
-    double performance;
-    int interventionCount;
+    double performance=0;
+    int interventionCount=0;
 public:
     Technician(){}
     Technician(int type):specialty(type){}

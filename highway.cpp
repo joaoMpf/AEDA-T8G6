@@ -104,22 +104,19 @@ int Highway::getTollsSize(bool exit) {
 void Highway::setName(const string &name1) {
     Highway::name = name1;
 }
-void Highway::repair(int i,Toll* pToll) {
+int Highway::repair(int i,Toll* pToll) {
     Technician technicianOnCall=pToll->getTechnician(i);
     if(technicianOnCall.getSpecialty()==-1){
         technicianOnCall=getClosestTechnician(i,pToll);
         if(technicianOnCall.getSpecialty()==-1){
             cout<<"THERE IS NO TECHNICIAN WITH THAT SPECIALTY.";
-            return;
+            return 0;
         }
     }
-    /****
-     Intervention newIntervention;
-     faz a intervention
-     adiciona a nova intervention
-     technicianOnCall.addIntervention(newIntervention);
-     ****/
-    return;
+    else{
+        pToll->updateTechnician(technicianOnCall);
+    }
+    return 1;
 }
 
 Technician Highway::getClosestTechnician(int i, Toll *pToll) {

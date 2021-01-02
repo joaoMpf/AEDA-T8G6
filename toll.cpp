@@ -115,9 +115,9 @@ void Toll::viewLanes() const {
 
 }
 
-ostream &operator<<(ostream &os, const Toll &toll) {
+ostream &operator<<(ostream &os,Toll &toll) {
     os << toll.isExitToll() << " " << toll.name << " " << toll.location << " " << toll.lanes.size() << " "
-       << toll.position << " " << toll.price;
+       << toll.position << " " << toll.price<<" "<<toll.technicians.size();
     if (!toll.lanes.empty()) {
         os << endl;
         for (int i = 0; i < toll.lanes.size(); ++i) {
@@ -125,6 +125,12 @@ ostream &operator<<(ostream &os, const Toll &toll) {
             if (i < toll.lanes.size() - 1)
                 os << endl;
         }
+        if(!toll.technicians.empty())
+            os<<endl;
+    }
+    while(!toll.technicians.empty()){
+        os<<toll.technicians.top()<<" ";
+        toll.technicians.pop();
     }
 
     delete &toll;
@@ -140,8 +146,9 @@ istream &Toll::loadFromFile(istream &is) {
     string name1, location1;
     int numLanes, pos;
     double price1;
+    int sizeTechs;
     vector<Lane *> lanes1;
-    if (is >> name1>> location1 >> numLanes >> pos >> price1) {
+    if (is >> name1>> location1 >> numLanes >> pos >> price1>>sizeTechs) {
         lanes1.reserve(numLanes);
         for (int i = 0; i < numLanes; i++) {
             lanes1.push_back(loadLaneFromFile(is));
@@ -151,6 +158,11 @@ istream &Toll::loadFromFile(istream &is) {
         setLanes(lanes1);
         setPosition(pos);
         setPrice(price1);
+    }
+    if(sizeTechs>0) {
+        Technician tech;
+        is >> tech;
+        technicians.push(tech);
     }
     return is;
 }
@@ -178,25 +190,9 @@ void Toll::setPrice(double d) {
 int Toll::getPosition() {
     return position;
 }
-void Toll::addTechnician(Technician technician1){
-    Technician technician;
-    vector<Technician> temp;
-    while(!technicians.empty()){
-        technician=technicians.top();
-        technicians.pop();
-        if(technician1.getPerformance()<technician.getPerformance()){
-            technicians.push(technician1);
-            for(auto x:temp){
-                technicians.push(x);
-            }
-            return;
-        }
-        temp.push_back(technician);
-    }
-    technicians.push(technician1);
-    for(auto x:temp){
-        technicians.push(x);
-    }
+void Toll::addTechnician(int specialty){
+    Technician technician(specialty);
+    technicians.push(technician);
 }
 Technician Toll::getTechnician(int technicianSpecialty) {
     Technician technician(-1);
@@ -217,6 +213,15 @@ Technician Toll::getTechnician(int technicianSpecialty) {
     }
     return technician;
 }
+
+void Toll::techniciansPop() {
+    technicians.pop();
+}
+
+void Toll::updateTechnician(Technician tech) {
+    technicians.push(tech);
+}
+
 
 Toll::Toll() = default;
 

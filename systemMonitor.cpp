@@ -43,7 +43,6 @@ void SystemMonitor::save() {
     saveVectorToFile(activeClientsFileName, activeClientsVec);
     saveVectorToFile(clientsFileName, clients);
     saveVectorToFile(vehiclesFileName, vehicles);
-
     saveInterventionsBST(interventionsFileName);
 }
 
@@ -1357,4 +1356,27 @@ vector<Intervention> SystemMonitor::getInterventionsOldestFirst() {
         ret.push_back(*it);
     }
     return ret;
+}
+
+void SystemMonitor::addTech(Toll *pToll) {
+    cout<<"SELECT THE TECHNICIAN'S SPECIALTY:\n"
+        <<"1 - REVISION TECHNICIAN\n"
+        <<"2 - ELECTRONIC REPAIR TECHNICIAN\n"
+        <<"3 - INFORMATIC REPAIR TECHNICIAN\n"
+        <<"0 - GO BACK\n";
+
+    int choice;
+    cin>>choice;
+    while(1) {
+        if (choice > 0 && choice < 4) {
+            pToll->addTechnician(choice-1);
+            return;
+        }
+        else if(choice==0){
+            return;
+        }
+        else{
+            cout<<"ENTER A VALID OPTION\n";
+        }
+    }
 }

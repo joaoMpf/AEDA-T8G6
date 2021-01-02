@@ -1,9 +1,8 @@
 #include <stdio.h>
 
 #ifdef _WIN32
-inline int getchar_unlocked() { return _getchar_nolock(); }
+    inline int getchar_unlocked() { return _getchar_nolock(); }
 #endif
-
 #include "menu.h"
 #include <stdexcept>
 
@@ -434,6 +433,7 @@ void menu::managerManageToll(Highway *highway) {
                  << "5 - VIEW EXIT LANES AND PAST EMPLOYEES\n"
                  << "6 - VIEW TOLL PAST EMPLOYEES\n"
                  << "7 - REPAIR MENU\n"
+                 << "8 - ADD TECHNICIAN\n"
                  << "0 - GO BACK\n";
         } else {
             cout << "\nENTRY-TOLL MANAGER MENU:\n\n";
@@ -443,6 +443,7 @@ void menu::managerManageToll(Highway *highway) {
                  << "3 - REMOVE LANE\n"
                  << "4 - VIEW ENTRY LANES\n"
                  << "5 - REPAIR MENU\n"
+                 << "6 - ADD TECHNICIAN\n"
                  << "0 - GO BACK\n";
         }
         if (!toll->isExitToll()) {
@@ -462,6 +463,8 @@ void menu::managerManageToll(Highway *highway) {
                 case '5':
                     repairToll(highway, toll);
                     break;
+                case '6':
+                    systemMonitor->addTech(toll);
                 case '0':
                     return;
                 default:
@@ -490,6 +493,8 @@ void menu::managerManageToll(Highway *highway) {
                 case '7':
                     repairToll(highway, toll);
                     break;
+                case '8':
+                    systemMonitor->addTech(toll);
                 case '0':
                     return;
                 default:
@@ -509,11 +514,13 @@ void menu::repairToll(Highway *pHighway, Toll *pToll) {
              << "3 - INFORMATIC REPAIR\n"
              << "0 - GO BACK\n";
         cin >> choice;
-        //int choice=SystemMonitor::getNumberInput();
         if(choice>0&&choice<4) {
-            pHighway->repair(choice, pToll);
-            Intervention* i = systemMonitor->scheduleIntervention(pToll, choice);
-            systemMonitor->completeIntervention(i, duration);
+            if(pHighway->repair(choice-1, pToll)) {
+                /*Intervention *i = systemMonitor->scheduleIntervention(pToll, choice);
+                systemMonitor->completeIntervention(i, duration);*/
+                return;
+            }
+            return;
         }
         else if(choice==0){
             return;

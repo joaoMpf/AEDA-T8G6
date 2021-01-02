@@ -392,6 +392,7 @@ public:
     vector<Intervention> getInterventionsOldestFirst();
 
     //friend Intervention;
+    void addTech(Toll *pToll);
 };
 
 ///Thrown when an input is cancelled

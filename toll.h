@@ -34,7 +34,6 @@ protected:
 public:
     ///Creates Toll with undefined private attributes
     Toll();
-
     ///Creates a Toll with name, location, lanes, position and price\n
     ///lanes is a vector of pointers to Lane
     ///@see Lane
@@ -124,7 +123,7 @@ public:
     /// \param os ostream
     /// \param toll
     /// \return ostream with the Toll's type, name, location, number of lanes, position and price
-    friend ostream &operator<<(ostream &os, const Toll &toll);
+    friend ostream &operator<<(ostream &os, Toll &toll);
 
     ///Returns istream with Toll info
     ///
@@ -151,9 +150,13 @@ public:
 
     int getPosition();
 
+    void techniciansPop();
+
     Technician getTechnician(int technicianSpecialty);
 
-    void addTechnician(Technician technician1);
+    void addTechnician(int specialty);
+
+    void updateTechnician(Technician tech);
 };
 
 ///Entry Toll
