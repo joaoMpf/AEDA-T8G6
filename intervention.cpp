@@ -15,7 +15,7 @@ int Intervention::getDuration() const {
 }
 
 bool Intervention::operator==(const Intervention &rhs) const {
-    return date == rhs.date && toll == rhs.toll && type == rhs.type;
+    return date[0] == rhs.date[0] && date[1] == rhs.date[1] && date[2] == rhs.date[2] && toll == rhs.toll && type == rhs.type;
 }
 
 bool Intervention::operator<(const Intervention &rhs) const {

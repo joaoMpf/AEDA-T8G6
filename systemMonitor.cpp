@@ -61,7 +61,8 @@ void SystemMonitor::saveVectorToFile(const string &vectorFileName, vector<T *> &
 }
 
 void SystemMonitor::saveInterventionsBST(string &fileName){
-    vector<Intervention> interventionsV; vector<Intervention>::const_iterator it;
+    vector<Intervention> interventionsV = getInterventionsNewestFirst();
+    vector<Intervention>::const_iterator it;
     ofstream file(fileName);
     if (!interventionsV.empty() && file.is_open())
     for(it = interventionsV.begin(); it != interventionsV.end(); it++)
