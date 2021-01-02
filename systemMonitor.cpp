@@ -95,7 +95,7 @@ void SystemMonitor::load() {
     loadVectorFromFile(tollsFileName, highways);
     finishLoadingLanes();
 
-    loadInterventionsBST(interventionsFileName);
+    //loadInterventionsBST(interventionsFileName);
 }
 
 
