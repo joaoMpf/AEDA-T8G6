@@ -7,6 +7,7 @@
 
 #include <ostream>
 #include "toll.h"
+#include "intervention.h"
 
 
 ///Contains info about a highway
@@ -90,7 +91,9 @@ public:
     /// \return istream with Highway's name, number of Tolls and info of each Toll
     friend istream &operator>>(istream &is, Highway &highway);
 
-    int repair(int i, Toll *pToll);
+    int repair(int i, Toll *pToll, Intervention *pIntervention);
+
+    bool techExistsInHighway(int spec);
 
     Technician getClosestTechnician(int i, Toll *pToll);
 };

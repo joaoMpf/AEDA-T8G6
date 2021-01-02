@@ -157,6 +157,8 @@ public:
     void addTechnician(int specialty);
 
     void updateTechnician(Technician tech);
+
+    bool technicianExists(int spec);
 };
 
 ///Entry Toll

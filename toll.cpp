@@ -222,6 +222,21 @@ void Toll::updateTechnician(Technician tech) {
     technicians.push(tech);
 }
 
+bool Toll::technicianExists(int spec) {
+    vector<Technician> temp;
+    while(!technicians.empty()){
+        if(technicians.top().getSpecialty()==spec){
+            for(auto x:temp){
+                technicians.push(x);
+            }
+            return true;
+        }
+        temp.push_back(technicians.top());
+        technicians.pop();
+    }
+    return false;
+}
+
 
 Toll::Toll() = default;
 
@@ -263,7 +278,6 @@ OutToll::OutToll() = default;
 
 Lane *OutToll::loadLaneFromFile(istream &is) {
     bool viaVerde;
-
     is >> viaVerde;
     if (viaVerde) {
         auto *viaVerdeLane = new ViaVerdeLane();
