@@ -506,13 +506,13 @@ void menu::managerManageToll(Highway *highway) {
 
 void menu::repairToll(Highway *pHighway, Toll *pToll) {
     double duration; int choice;
+    cout << "\nTOLL REPAIR MENU:\n\n";
+    cout << "\nCHOOSE THE TYPE OF REPAIR:\n"
+         << "1 - REVISION\n"
+         << "2 - ELECTRONIC REPAIR\n"
+         << "3 - INFORMATIC REPAIR\n"
+         << "0 - GO BACK\n";
     while (true) {
-        cout << "\nTOLL REPAIR MENU:\n\n";
-        cout << "\nCHOOSE THE TYPE OF REPAIR:\n"
-             << "1 - REVISION\n"
-             << "2 - ELECTRONIC REPAIR\n"
-             << "3 - INFORMATIC REPAIR\n"
-             << "0 - GO BACK\n";
         cin >> choice;
         if(choice>0&&choice<4) {
             if(pHighway->techExistsInHighway(choice-1)) {
@@ -532,14 +532,13 @@ void menu::repairToll(Highway *pHighway, Toll *pToll) {
                 pHighway->repair(choice - 1, pToll, i);
                 return;
             }
-
-            return;
+            else cout <<"NO TECHNICIAN WITH THAT SPECIALTY IS AVAILABLE\n";
         }
         else if(choice==0){
             return;
         }
         else{
-            cout << "\nPlease a valid number\n";
+            cout << "\nPlease enter a valid number\n";
         }
     }
 }

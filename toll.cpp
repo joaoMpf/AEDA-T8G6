@@ -235,6 +235,9 @@ bool Toll::technicianExists(int spec) {
         temp.push_back(technicians.top());
         technicians.pop();
     }
+    for(auto x:temp){
+        technicians.push(x);
+    }
     return false;
 }
 
