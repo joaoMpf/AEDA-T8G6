@@ -215,10 +215,6 @@ Technician Toll::getTechnician(int technicianSpecialty) {
     return technician;
 }
 
-void Toll::techniciansPop() {
-    technicians.pop();
-}
-
 void Toll::updateTechnician(Technician tech) {
     technicians.push(tech);
 }

@@ -148,16 +148,29 @@ public:
 
     virtual Lane *loadLaneFromFile(istream &istream) { return nullptr; };
 
+    ///Returns the position of the toll
     int getPosition();
 
-    void techniciansPop();
-
+    ///Searches for and returns a technician
+    ///
+    /// \param technicianSpecialty
+    /// \return Technician object
     Technician getTechnician(int technicianSpecialty);
 
+    ///Adds a new technician to the toll's priority queue
+    ///
+    /// \param specialty of the technician
     void addTechnician(int specialty);
 
+    ///Adds a technician that already belongs to the toll after a repair
+    ///
+    /// \param Technician object with updated info
     void updateTechnician(Technician tech);
 
+    ///Checks if there is a technician with a given speciality
+    ///
+    /// \param speciality to search for
+    /// \return true if exists, false if not
     bool technicianExists(int spec);
 };
 
