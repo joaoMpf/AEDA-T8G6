@@ -36,6 +36,7 @@ void SystemMonitor::save() {
     string tollsFileName = "tolls.txt";
     string interventionsFileName = "interventions.txt";
 
+    saveInterventionsBST(interventionsFileName);
     saveVectorToFile(tollsFileName, highways);
     saveVectorToFile(employeesFileName, employees);
 
@@ -43,7 +44,6 @@ void SystemMonitor::save() {
     saveVectorToFile(activeClientsFileName, activeClientsVec);
     saveVectorToFile(clientsFileName, clients);
     saveVectorToFile(vehiclesFileName, vehicles);
-    saveInterventionsBST(interventionsFileName);
 }
 
 template<class T>
