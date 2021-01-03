@@ -104,6 +104,7 @@ int Highway::getTollsSize(bool exit) {
 void Highway::setName(const string &name1) {
     Highway::name = name1;
 }
+
 int Highway::repair(int i, Toll *pToll, Intervention *pIntervention) {
     Technician technicianOnCall=pToll->getTechnician(i);
     if(technicianOnCall.getSpecialty()==-1){

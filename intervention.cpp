@@ -4,7 +4,7 @@
 
 #include "intervention.h"
 
-Intervention::Intervention(int date[3], Toll *toll, int interventionType) : duration(0), toll(toll), type(type), done(false) {
+Intervention::Intervention(int date[3], Toll *ptoll, int interventionType) : duration(0), toll(ptoll), type(interventionType), done(false) {
     this->date[0] = date[0];
     this->date[1] = date[1];
     this->date[2] = date[2];
@@ -52,8 +52,8 @@ void Intervention::setDate(int date[3]) {
     *Intervention::date = *date;
 }
 ostream &operator<<(ostream &os, const Intervention &intervention) {
-    os << intervention.date[0] << " " << intervention.date[1] << "" << intervention.date[2] <<" "<< intervention.duration
-    <<" "<< intervention.toll->getName() <<" "<< intervention.type << " " << intervention.done;
+    os << intervention.date[0] << " " << intervention.date[1] << " " << intervention.date[2] << " " << intervention.duration
+    << " " << intervention.getToll()->getName() << " " << intervention.type << " " << intervention.done;
     return os;
 }
 
