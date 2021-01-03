@@ -95,7 +95,7 @@ void SystemMonitor::load() {
     loadVectorFromFile(tollsFileName, highways);
     finishLoadingLanes();
 
-    //loadInterventionsBST(interventionsFileName);
+    loadInterventionsBST(interventionsFileName);
 }
 
 
@@ -130,7 +130,8 @@ void SystemMonitor::loadInterventionsBST(string &fileName) {
     if (file.is_open()) {
         Intervention *newElement = new Intervention();
         while (file >> *newElement) {
-            newElement->setToll(findTollInSystem(newElement->getToll()));
+            Toll* toll = new Toll(); toll->setName(newElement->getTollName());
+            newElement->setToll(findTollInSystem(toll));
             interventions.insert(*newElement);
             newElement = new Intervention();
         }

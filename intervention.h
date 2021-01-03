@@ -28,6 +28,8 @@ private:
     int type;
     ///True if the Intervention has been completed, false otherwise
     bool done;
+
+    string tollName;
 public:
     ///Returns the duration of the intervention
     int getDuration() const;
@@ -41,6 +43,8 @@ public:
     void setDate(int date[3]);
 
     void setTollName(string name);
+
+    string getTollName();
 
     void setToll(Toll *toll);
 

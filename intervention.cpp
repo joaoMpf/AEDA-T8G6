@@ -45,7 +45,11 @@ void Intervention::setType(int type) {
 }
 
 void Intervention::setTollName(string name) {
-    toll->setName(name);
+    tollName = name;
+}
+
+string Intervention::getTollName() {
+    return tollName;
 }
 
 void Intervention::setDate(int date[3]) {
