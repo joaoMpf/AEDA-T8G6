@@ -36,6 +36,7 @@ void SystemMonitor::save() {
     string tollsFileName = "tolls.txt";
     string interventionsFileName = "interventions.txt";
 
+    saveInterventionsBST(interventionsFileName);
     saveVectorToFile(tollsFileName, highways);
     saveVectorToFile(employeesFileName, employees);
 
@@ -43,7 +44,6 @@ void SystemMonitor::save() {
     saveVectorToFile(activeClientsFileName, activeClientsVec);
     saveVectorToFile(clientsFileName, clients);
     saveVectorToFile(vehiclesFileName, vehicles);
-    saveInterventionsBST(interventionsFileName);
 }
 
 template<class T>
@@ -1308,7 +1308,9 @@ Intervention* SystemMonitor::scheduleIntervention(Toll *toll, int type) {
     date[0] = time->getDay();
     date[1] = time->getMonth();
     date[2] = time->getYear();
-
+    Intervention* i = new Intervention(date, toll, type);
+    interventions.insert(*i);
+    return i;
     if(type == RevisionIntervention)
     {
         Revision* r = new Revision(date, toll);
