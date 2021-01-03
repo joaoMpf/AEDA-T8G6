@@ -114,17 +114,6 @@ Toll* SystemMonitor::findTollInSystem(Toll* toll){
     return NULL;
 }
 
-istream &operator>>(istream &is, Intervention &intervention) {
-    int date[3], type; double duration; bool done; string tollName;
-    is >> date[0] >> date[1] >> date[2] >> duration >> tollName >>type >> done;
-    intervention.setDate(date);
-    intervention.setDuration(duration);
-    intervention.setType(type);
-    intervention.setDone(done);
-    intervention.setTollName(tollName);
-    return is;
-}
-
 void SystemMonitor::loadInterventionsBST(string &fileName) {
     ifstream file(fileName);
     if (file.is_open()) {

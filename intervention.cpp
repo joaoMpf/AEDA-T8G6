@@ -61,6 +61,17 @@ ostream &operator<<(ostream &os, const Intervention &intervention) {
     return os;
 }
 
+istream &operator>>(istream &is, Intervention &intervention) {
+    int date[3], type; double duration; bool done; string tollName;
+    is >> date[0] >> date[1] >> date[2] >> duration >> tollName >>type >> done;
+    intervention.setDate(date);
+    intervention.setDuration(duration);
+    intervention.setType(type);
+    intervention.setDone(done);
+    intervention.setTollName(tollName);
+    return is;
+}
+
 void Intervention::setToll(Toll *toll) {
     Intervention::toll = toll;
 }

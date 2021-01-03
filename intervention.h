@@ -65,7 +65,7 @@ public:
 
     friend ostream &operator<<(ostream &os, const Intervention &intervention);
 
-    friend istream &operator>>(istream &is, const Intervention &intervention);
+    friend istream &operator>>(istream &is, Intervention &intervention);
 
 };
 
